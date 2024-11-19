@@ -187,8 +187,140 @@ def game():
     event_happened(user_status)
 
 
+def make_board(level):
+    """
+    Make a new game board.
+
+    :param level: a positive, non-zero integer representing character's current level
+    :precondition: level is greater than 0
+    :postcondition: returns board for the given level
+    :return: board for the given level
+
+    >>> make_board(1)
+    {(0, 0): 'Empty room', (0, 1): 'Empty room', (0, 2): 'Empty room', (0, 3): 'Empty room', (0, 4): 'Empty room',
+    (1, 1): 'Empty room', (1, 2): 'Empty room', (1, 3): 'Empty room', (1, 4): 'Empty room', (2, 1): 'Empty room',
+    (2, 2): 'Empty room', (2, 3): 'Empty room', (2, 4): 'Empty room', (3, 1): 'Empty room', (3, 2): 'Empty room',
+    (3, 3): 'Empty room', (3, 4): 'Empty room', (4, 1): 'Empty room', (4, 2): 'Empty room', (4, 3): 'Empty room',
+    (4, 4): 'Empty room', (5, 1): 'Empty room', (5, 2): 'Empty room', (5, 3): 'Empty room', (5, 4): 'Empty room',
+    (5, 5): 'Empty room'}
+    """
+    layout = []
+    if level == 1:
+        layout.append([True, True, True, True, True, False])
+        layout.append([False, True, True, True, True, False])
+        layout.append([False, True, True, True, True, False])
+        layout.append([False, True, True, True, True, False])
+        layout.append([False, True, True, True, True, False])
+        layout.append([False, True, True, True, True, True])
+    elif level == 2:
+        layout.append([True, False, False, False, False])
+        layout.append([True, True, True, True, True])
+        layout.append([True, True, True, True, True])
+        layout.append([True, True, True, True, True])
+        layout.append([True, True, True, True, True])
+        layout.append([True, True, True, True, True])
+        layout.append([True, True, True, True, True])
+        layout.append([False, False, False, False, True])
+    elif level == 3:
+        layout.append([False, False, False, False, True])
+        layout.append([True, True, True, True, True])
+        layout.append([True, True, True, True, True])
+        layout.append([True, True, True, True, True])
+        layout.append([True, True, True, True, True])
+        layout.append([True, True, True, True, True])
+        layout.append([True, True, True, True, True])
+        layout.append([True, True, True, True, True])
+        layout.append([True, True, True, True, True])
+        layout.append([True, False, False, False, False])
+    else:
+        print('Invalid level. Choose between 1, 2, or 3.')
+
+    board = {}
+    rows = len(layout)
+    columns = len(layout[0])
+
+    for i in range(rows):
+        for j in range(columns):
+            if layout[i][j]:
+                board[(i, j)] = 'Empty room'
+
+    return board
+
+
+def display_current_location(board, character):
+    """
+    Display character's current location.
+
+    :param board: a dictionary representing the game board
+    :param character: a dictionary including character's current location and other related details
+    :precondition: board is a dictionary where each key is a tuple representing coordinates (rows, columns),
+                    and each value is a short string description of the coordinates
+    :precondition: character is a dictionary including Current Location, Current EXP, Money, and Balls
+    :postcondition: prints the game board and character's current location with 'U'
+
+    >>> test_board = {(0, 0): 'Empty room', (0, 1): 'Empty room', (0, 2): 'Empty room', (0, 3): 'Empty room',
+    ... (0, 4): 'Empty room', (1, 1): 'Empty room', (1, 2): 'Empty room', (1, 3): 'Empty room', (1, 4): 'Empty room',
+    ... (2, 1): 'Empty room', (2, 2): 'Empty room', (2, 3): 'Empty room', (2, 4): 'Empty room', (3, 1): 'Empty room',
+    ... (3, 2): 'Empty room', (3, 3): 'Empty room', (3, 4): 'Empty room', (4, 1): 'Empty room', (4, 2): 'Empty room',
+    ... (4, 3): 'Empty room', (4, 4): 'Empty room', (5, 1): 'Empty room', (5, 2): 'Empty room', (5, 3): 'Empty room',
+    ... (5, 4): 'Empty room', (5, 5): 'Empty room'}
+    >>> test_character = {
+    ...     "Current Location": (1, 3),
+    ...     "Current EXP": 20,
+    ...     "Money": 10,
+    ...     "Balls": {
+    ...         'Charmander': {'Current HP': 20},
+    ...         'Pikachu': {'Current HP': 20},
+    ...         'Caterpie': {'Current HP': 20},
+    ...         'Pidove': {'Current HP': 20},
+    ...         'Slowpoke': {'Current HP': 20},
+    ...         'Horsea': {'Current HP': 20}
+    ...     }
+    ... }
+    >>> display_current_location(test_board, test_character)
+    [ ][ ][ ][ ][ ]
+       [ ][ ][U][ ]
+       [ ][ ][ ][ ]
+       [ ][ ][ ][ ]
+       [ ][ ][ ][ ]
+       [ ][ ][ ][ ][ ]
+    """
+    rows = max(pos[0] for pos in board.keys()) + 1
+    columns = max(pos[1] for pos in board.keys()) + 1
+
+    for i in range(rows):
+        row = ""
+        for j in range(columns):
+            if (i, j) in board:
+                if (i, j) == character["Current Location"]:
+                    row += "[U]"  # User's position
+                else:
+                    row += "[ ]"  # Empty room
+            else:
+                row += "   "  # No room
+        print(row)
+
+
 def main():
-    game()
+    """
+    Drive the program.
+    """
+    # game()
+    character = {
+        "Current Location": (5, 5),
+        "Current EXP": 20,
+        "Money": 10,
+        "Balls": {
+            'Charmander': {'Current HP': 20},
+            'Pikachu': {'Current HP': 20},
+            'Caterpie': {'Current HP': 20},
+            'Pidove': {'Current HP': 20},
+            'Slowpoke': {'Current HP': 20},
+            'Horsea': {'Current HP': 20}
+        }
+    }
+    board = make_board(1)
+    display_current_location(board, character)
 
 
 if __name__ == "__main__":
