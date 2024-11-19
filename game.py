@@ -256,7 +256,7 @@ def display_current_location(board, character):
     :param character: a dictionary including character's current location and other related details
     :precondition: board is a dictionary where each key is a tuple representing coordinates (rows, columns),
                     and each value is a short string description of the coordinates
-    :precondition: character is a dictionary including Current Location, Current EXP, Money, and Balls
+    :precondition: character is a dictionary including Current Location, Current Level, Current EXP, Money, and Balls
     :postcondition: prints the game board and character's current location with 'U'
 
     >>> test_board = {(0, 0): 'Empty room', (0, 1): 'Empty room', (0, 2): 'Empty room', (0, 3): 'Empty room',
@@ -332,6 +332,117 @@ def buy_portion():
             return change
 
 
+def battle_with_gym_leader(character):
+    """
+    Drive the battle with gym leader.
+
+    Give character a gym badge if they win, else do not.
+
+    :param character: a dictionary including character's current level and other related details
+    :precondition: character is a dictionary including Current Location, Current Level, Current EXP, Money, and Balls
+    :postcondition: return True if the battle wins else False
+    :return: True if the battle wins else False
+    """
+    gym_badges = {'Level 1': False, 'Level 2': False, 'Level 3': False}
+    is_gym_badge_earned = False
+    user_input = input("Encountered a gym! Enter y to challenge, n to quit: ")
+    if user_input == 'n':
+        return False
+    print("Gym Leader: Welcome to the gym! Here is one rule, you can't use potions to accurately assess your skills.")
+
+    gym_leader_pokemons = {
+        'Bulbasaur': {'type': 'grass', 'Current HP': 20},
+        'Squirtle': {'type': 'water', 'Current HP': 20},
+        'Pidgeotto': {'type': 'flying', 'Current HP': 20},
+        'Growlithe': {'type': 'fire', 'Current HP': 20},
+        'Raichu': {'type': 'electric', 'Current HP': 20}
+    }
+
+    pokemon_types = {
+        'Charmander': 'fire',
+        'Pikachu': 'electric',
+        'Caterpie': 'grass',
+        'Pidove': 'flying',
+        'Slowpoke': 'water',
+        'Horsea': 'water'
+    }
+
+    skills_of = {
+        'water': [
+            {'name': 'Tackle', 'damage': 3},
+            {'name': 'Water Gun', 'damage': 5},
+            {'name': 'Aqua Jet', 'damage': 7}
+        ],
+        'fire': [
+            {'name': 'Tackle', 'damage': 3},
+            {'name': 'Flamethrower', 'damage': 5},
+            {'name': 'Fire Punch', 'damage': 7}
+        ],
+        'grass': [
+            {'name': 'Tackle', 'damage': 3},
+            {'name': 'Seed Bomb', 'damage': 5},
+            {'name': 'Solar Beam', 'damage': 7}
+        ],
+        'electric': [
+            {'name': 'Tackle', 'damage': 3},
+            {'name': 'Thunderbolt', 'damage': 5},
+            {'name': 'Electro Ball', 'damage': 7}
+        ],
+        'flying': [
+            {'name': 'Pluck', 'damage': 3},
+            {'name': 'Gust', 'damage': 5},
+            {'name': 'Aerial Ace', 'damage': 7}
+        ]
+    }
+    # TODO: decompose, function name: choose_pokemon_to_challenge()
+    selected_pokemon = input(f"Choose a pokemon to challenge between {list(character['Balls'].keys())}: ").capitalize()
+
+    if selected_pokemon not in pokemon_types:
+        print("Invalid pokemon selection.")
+        return False
+
+    print(f"You have chosen {selected_pokemon}")
+
+    gym_leader_pokemon_name = random.choice(list(gym_leader_pokemons.keys()))
+    gym_leader_pokemon = gym_leader_pokemons[gym_leader_pokemon_name]
+    print(f"The Gym Leader has chosen {gym_leader_pokemon_name}!")
+
+    pokemon_type = pokemon_types[selected_pokemon]
+    skills_of_selected_pokemon = skills_of[pokemon_type]
+    skill_names = [skill['name'] for skill in skills_of_selected_pokemon]
+
+    # TODO: decompose, function name: choose_skill_to_challenge()
+    while character['Balls'][selected_pokemon]['Current HP'] > 0 and gym_leader_pokemon['Current HP'] > 0:
+        user_input = input(f"Choose a skill between {skill_names}: ")
+
+        selected_skill = next((skill for skill in skills_of_selected_pokemon if skill['name'] == user_input), None)
+
+        if selected_skill:
+            damage_to_gym_leader = selected_skill['damage']
+            gym_leader_pokemon['Current HP'] -= damage_to_gym_leader
+            print(f"You used {user_input}! It dealt {damage_to_gym_leader} damage.")
+            print(f"Gym Leader's {gym_leader_pokemon_name} HP: {max(gym_leader_pokemon['Current HP'], 0)}")
+        else:
+            print("Invalid skill selection. Try again.")
+            continue
+
+        if gym_leader_pokemon['Current HP'] > 0:
+            damage_from_gym_leader = random.choice([3, 5, 7])
+            character['Balls'][selected_pokemon]['Current HP'] -= damage_from_gym_leader
+            print(f"Gym Leader's {gym_leader_pokemon_name} attacked! You took {damage_from_gym_leader} damage.")
+            print(f"Your {selected_pokemon}'s HP: {max(character['Balls'][selected_pokemon]['Current HP'], 0)}")
+
+    # TODO: decompose, function name: result_of_battle()
+    if character['Balls'][selected_pokemon]['Current HP'] <= 0:
+        print(f"Your {selected_pokemon} fainted! You couldn't won the gym badge.")
+    elif gym_leader_pokemon['Current HP'] <= 0:
+        gym_badges[character['Current Level']] = True
+        is_gym_badge_earned = True
+        character['Current Level'] += 1
+        print(f"Gym leader's {gym_leader_pokemon_name} fainted. You won the gym badge!")
+    return is_gym_badge_earned
+
+
 def main():
     """
     Drive the program.
@@ -351,8 +462,9 @@ def main():
             'Horsea': {'Current HP': 20}
         }
     }
-    board = make_board(4)
+    board = make_board(character["Current Level"])
     display_current_location(board, character)
+    battle_with_gym_leader(character)
 
 
 if __name__ == "__main__":
