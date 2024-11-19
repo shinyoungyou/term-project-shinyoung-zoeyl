@@ -191,7 +191,7 @@ def make_board(level):
     """
     Make a new game board.
 
-    :param level: a positive, non-zero integer representing character's current level
+    :param level: an integer (1, 2, or 3) representing character's current level
     :precondition: level is greater than 0
     :postcondition: returns board for the given level
     :return: board for the given level
@@ -204,6 +204,8 @@ def make_board(level):
     (4, 4): 'Empty room', (5, 1): 'Empty room', (5, 2): 'Empty room', (5, 3): 'Empty room', (5, 4): 'Empty room',
     (5, 5): 'Empty room'}
     """
+    board = {}
+
     layout = []
     if level == 1:
         layout.append([True, True, True, True, True, False])
@@ -233,9 +235,8 @@ def make_board(level):
         layout.append([True, True, True, True, True])
         layout.append([True, False, False, False, False])
     else:
-        print('Invalid level. Choose between 1, 2, or 3.')
+        return board
 
-    board = {}
     rows = len(layout)
     columns = len(layout[0])
 
@@ -285,6 +286,9 @@ def display_current_location(board, character):
        [ ][ ][ ][ ]
        [ ][ ][ ][ ][ ]
     """
+    if board == {}:
+        return
+
     rows = max(pos[0] for pos in board.keys()) + 1
     columns = max(pos[1] for pos in board.keys()) + 1
 
@@ -301,6 +305,33 @@ def display_current_location(board, character):
         print(row)
 
 
+def buy_portion():
+    """
+    Calculate the change after a purchase.
+
+    :postcondition: returns the change after a purchase, or 0 if the user skips
+    :return: change after a purchase, or 0 if the user skips
+    """
+    price = 10
+    print(f"Encountered a store! The portion costs ${price}.")
+    while True:
+        user_input = input(f"Enter {price} or more to buy, or 0 to skip: ")
+        budget = int(user_input)
+        if budget == 0:
+            break
+            # print("You chose not to proceed with the purchase.")
+            # return budget
+
+        change = budget - price
+        if change < 0:
+            print("Invalid input.")
+            # or
+            # print("Insufficient funds. You can't buy this item.")
+        else:
+            print(f"Purchase successful! Your change is ${change}.")
+            return change
+
+
 def main():
     """
     Drive the program.
@@ -308,6 +339,7 @@ def main():
     # game()
     character = {
         "Current Location": (5, 5),
+        "Current Level": 1,
         "Current EXP": 20,
         "Money": 10,
         "Balls": {
@@ -319,7 +351,7 @@ def main():
             'Horsea': {'Current HP': 20}
         }
     }
-    board = make_board(1)
+    board = make_board(4)
     display_current_location(board, character)
 
 
