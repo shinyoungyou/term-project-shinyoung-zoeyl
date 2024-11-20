@@ -13,6 +13,8 @@ def make_character():
         print("\n{} is not included in starting pokemon".format(user_choice))
         user_choice = input("what pokemon would you like? ").capitalize()
     user_status['poke ball'] = {user_choice: starting_pokemon[user_choice]}
+    # Delete this line
+    user_status['poke ball']['Squirtle'] = starting_pokemon['Squirtle']
     return user_status
 
 
@@ -46,8 +48,23 @@ def fight(user_status, skills_of, player_pokemon, event_pokemon_info, event_poke
         return True
 
 
-def change_pokemon():
-    pass
+def change_pokemon(user_status, player_pokemon):
+    print("\nYour pokemons' status...")
+    for pokemon in user_status['poke ball'].keys():
+        print("{}(HP: {})".format(pokemon, user_status['poke ball'][pokemon]['currentHP']))
+    print("")
+    user_choice = input("what pokemon would you like to switch to (Entering Pokemon name)? ").capitalize()
+    while user_choice not in user_status['poke ball'].keys():
+        print("\n{} is not included in your poke balls".format(user_choice))
+        user_choice = input("what pokemon would you like (Entering Pokemon name)? ").capitalize()
+    while user_status['poke ball'][user_choice]['currentHP'] == 0:
+        print("\n{} has 0 HP, could you choose other pokemon?".format(user_choice))
+        user_choice = input("Please choose a pokemon again: ").capitalize()
+    print("\nGood job, %s! Come back!" % player_pokemon)
+    print("Go, %s" % user_choice)
+    print("{}(HP: {})\n".format(user_choice, user_status['poke ball'][user_choice]['currentHP']))
+
+    return user_choice
 
 
 def use_potion():
@@ -154,6 +171,8 @@ def event_happened(user_status):
 
             if user_choice == 1:
                 process_result = user_option[user_choice - 1](user_status, skills_of, player_pokemon, event_pokemon_info, event_pokemon)
+            elif user_choice == 2:
+                player_pokemon = user_option[user_choice - 1](user_status, player_pokemon)
 
             if process_result:
                 event_pokemon_skill = random.choice(skills_of[event_pokemon_info['type']])
@@ -447,7 +466,7 @@ def main():
     """
     Drive the program.
     """
-    # game()
+    game()
     character = {
         "Current Location": (5, 5),
         "Current Level": 1,
