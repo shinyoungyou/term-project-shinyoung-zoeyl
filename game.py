@@ -6,11 +6,11 @@ def make_character():
     starting_pokemon = {'Squirtle': {'type': 'water', 'currentHP': 20},
                         'Charmander': {'type': 'fire', 'currentHP': 20},
                         'Bulbasaur': {'type': 'grass', 'currentHP': 20}}
-    print("which pokemon would you like to go together?")
+    print("which pokemon would you like to go together?\n")
     print("Squirtle(Water) | Charmander(Fire) | Bulbasaur(Grass)")
     user_choice = input("Please type pokemon name: ").capitalize()
     while user_choice not in starting_pokemon:
-        print("{} is not included in starting pokemon".format(user_choice))
+        print("\n{} is not included in starting pokemon".format(user_choice))
         user_choice = input("what pokemon would you like? ").capitalize()
     user_status['poke ball'] = {user_choice: starting_pokemon[user_choice]}
     return user_status
@@ -22,6 +22,7 @@ def fight(user_status, skills_of, player_pokemon, event_pokemon_info, event_poke
     pokemon_type = user_status['poke ball'][player_pokemon]['type']
     skills_of_selected_pokemon = skills_of[pokemon_type]
     number = 1
+    print("")
     for skill in skills_of_selected_pokemon:
         print("{}. {}(damage range: {} ~ {})".format(number, skill['name'], skill['damage'][0], skill['damage'][1]))
         number += 1
@@ -30,19 +31,18 @@ def fight(user_status, skills_of, player_pokemon, event_pokemon_info, event_poke
         print("{} is not a valid skill choice".format(user_choice))
         user_choice = int(input("Please choose a valid skill (Entering number): "))
     if skill_result == 'hit':
-        print("{} hit!".format(skills_of_selected_pokemon[user_choice - 1]['name']))
+        print("\n{} hit!".format(skills_of_selected_pokemon[user_choice - 1]['name']))
         damage = random.randrange(skills_of_selected_pokemon[user_choice - 1]['damage'][0], skills_of_selected_pokemon[user_choice - 1]['damage'][1] + 1)
         event_pokemon_info['currentHP'] -= damage
     else:
-        print("{} missed!".format(skills_of_selected_pokemon[user_choice - 1]['name']))
-        return True
+        print("\n{} missed!".format(skills_of_selected_pokemon[user_choice - 1]['name']))
 
     if event_pokemon_info['currentHP'] <= 0:
         event_pokemon_info['currentHP'] = 20
         print("You defeated the %s" % event_pokemon)
         return False
     else:
-        print("{}(HP: {})".format(event_pokemon, event_pokemon_info['currentHP']))
+        print("{}(HP: {})\n".format(event_pokemon, event_pokemon_info['currentHP']))
         return True
 
 
@@ -86,10 +86,10 @@ def event_happened(user_status):
     event_pokemon_info = event_pokemon_collection[event_pokemon]
     if event_type:
         if event_type == "wildPokemon":
-            print("A wild {} appeared!(HP: {})".format(event_pokemon, event_pokemon_info['currentHP']))
+            print("\nA wild {} appeared!(HP: {})\n".format(event_pokemon, event_pokemon_info['currentHP']))
         else:
-            print("You encountered a %s!" % event_type)
-            print("{} sent out {}!(HP: {})".format(event_type, event_pokemon, event_pokemon_info['currentHP']))
+            print("\nYou encountered a %s!" % event_type)
+            print("{} sent out {}!(HP: {})\n".format(event_type, event_pokemon, event_pokemon_info['currentHP']))
 
         skills_of = {
             'water': [
@@ -132,7 +132,7 @@ def event_happened(user_status):
         while user_status['poke ball'][player_pokemon]['currentHP'] == 0:
             player_pokemon = random.choice(list(user_status['poke ball'].keys()))
         print("Go, %s!" % player_pokemon)
-        print("{}(HP: {})".format(player_pokemon, user_status['poke ball'][player_pokemon]['currentHP']))
+        print("{}(HP: {})\n".format(player_pokemon, user_status['poke ball'][player_pokemon]['currentHP']))
 
         process_result = True
         while process_result:
@@ -149,7 +149,7 @@ def event_happened(user_status):
 
             user_choice = int(input("What do you want to do (Entering number)? "))
             while user_choice == 0 or user_choice > len(user_option):
-                print("That is not option you can choose!")
+                print("\nThat is not option you can choose!")
                 user_choice = input("Please choose valid option(Entering number): ")
 
             if user_choice == 1:
@@ -166,7 +166,7 @@ def event_happened(user_status):
                     damage = 1.3
                 player_damage = (random.choice(
                     range(event_pokemon_skill['damage'][0], event_pokemon_skill['damage'][1] + 1)) * damage)
-                print("{} used {}!".format(event_pokemon, event_pokemon_skill['name']))
+                print("{} used {}!\n".format(event_pokemon, event_pokemon_skill['name']))
                 if skill_result == 'hit':
                     print("{} hit!".format(event_pokemon_skill['name']))
                     user_status['poke ball'][player_pokemon]['currentHP'] -= player_damage
@@ -179,7 +179,7 @@ def event_happened(user_status):
                     print("{} fainted!".format(player_pokemon))
                     process_result = False
                 else:
-                    print("{}(HP: {})".format(player_pokemon, user_status['poke ball'][player_pokemon]['currentHP']))
+                    print("{}(HP: {})\n".format(player_pokemon, user_status['poke ball'][player_pokemon]['currentHP']))
 
 
 def game():
