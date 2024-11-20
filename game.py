@@ -67,8 +67,28 @@ def change_pokemon(user_status, player_pokemon):
     return user_choice
 
 
-def use_potion():
-    pass
+# Should consider max currentHP depends on level
+def use_potion(user_status, player_pokemon):
+    if user_status['potion'] == 0:
+        print("\nYou have no potion!\n")
+    elif user_status['poke ball'][player_pokemon]['currentHP'] == 20:
+        print(f"\n{player_pokemon} has full HP!\n")
+    else:
+        print("\nYou have {} potion(s)!".format(user_status['potion']))
+        print(f"{player_pokemon} has {user_status['poke ball'][player_pokemon]['currentHP']}.")
+        user_answer = input("Would you like to use a potion (y/n)? ").lower()
+        while user_answer not in ['y', 'n']:
+            print("\n{} is not a valid option".format(user_answer))
+            user_answer = input("Please choose a valid option (y/n): ").lower()
+        if user_answer == 'y':
+            if user_status['poke ball'][player_pokemon]['currentHP'] >= 15:
+                user_status['poke ball'][player_pokemon]['currentHP'] = 20
+            else:
+                user_status['poke ball'][player_pokemon]['currentHP'] += 5
+            user_status['potion'] -= 1
+            print("\n{} restored HP!".format(player_pokemon))
+        print(f"{player_pokemon} (HP: {user_status['poke ball'][player_pokemon]['currentHP']})")
+        print("{} potion(s) left!".format(user_status['potion']))
 
 
 def throw_poke_ball():
@@ -173,6 +193,8 @@ def event_happened(user_status):
                 process_result = user_option[user_choice - 1](user_status, skills_of, player_pokemon, event_pokemon_info, event_pokemon)
             elif user_choice == 2:
                 player_pokemon = user_option[user_choice - 1](user_status, player_pokemon)
+            elif user_choice == 3:
+                user_option[user_choice - 1](user_status, player_pokemon)
 
             if process_result:
                 event_pokemon_skill = random.choice(skills_of[event_pokemon_info['type']])
