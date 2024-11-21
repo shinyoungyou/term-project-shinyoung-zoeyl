@@ -260,6 +260,15 @@ def event_happened(user_status):
                     print(f"{player_pokemon}(HP: {user_status['poke ball'][player_pokemon]['currentHP']})\n")
 
 
+def get_user_choice():
+    print("1. Up \n 2. Down \n 3. Left \n 4. Right")
+    user_choice = int(input("Which direction would you like to go (Entering number)? "))
+    while user_choice not in range(1, 5):
+        print("\nPlease, choose a valid direction!")
+        user_choice = int(input("What direction would you like to go (Entering number)? "))
+    return user_choice
+
+
 def game():
     user_status = make_character()
     event_happened(user_status)
@@ -526,7 +535,7 @@ def main():
     Drive the program.
     """
     game()
-    character = {
+    character = {# user location data type must be changed!!!
         "Current Location": (5, 5),
         "Current Level": 1,
         "Current EXP": 20,
