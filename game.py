@@ -269,6 +269,29 @@ def get_user_choice():
     return user_choice
 
 
+def validate_move(board, user_status, direction):
+    user_row = user_status['Current Location'][0]
+    user_col = user_status['Current Location'][1]
+
+    if direction == 1:
+        user_col -= 1
+    elif direction == 2:
+        user_col += 1
+    elif direction == 3:
+        user_row -= 1
+    else:
+        user_row += 1
+
+    if (user_row, user_col) in board:
+        return True
+    else:
+        return False
+
+
+def move_character(user_status, direction):
+    pass
+
+
 def game():
     user_status = make_character()
     event_happened(user_status)
