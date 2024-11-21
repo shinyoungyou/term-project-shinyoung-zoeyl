@@ -13,8 +13,7 @@ def make_character():
         print("\n{} is not included in starting pokemon".format(user_choice))
         user_choice = input("what pokemon would you like? ").capitalize()
     user_status['poke ball'] = {user_choice: starting_pokemon[user_choice]}
-    # Delete this line
-    user_status['poke ball']['Squirtle'] = starting_pokemon['Squirtle']
+    user_status['starting pokemon'] = user_choice
     return user_status
 
 
@@ -91,8 +90,41 @@ def use_potion(user_status, player_pokemon):
         print("{} potion(s) left!".format(user_status['potion']))
 
 
-def throw_poke_ball():
-    pass
+def throw_poke_ball(user_status, event_pokemon, event_pokemon_info):
+    if event_pokemon_info['currentHP'] <= 5:
+        if len(user_status['poke ball']) == 6:
+            print("")
+            user_choice = input("You can only carry up to 6 Pokémon. Would you like to release one (y/n)? ").lower()
+            while user_choice not in ['y', 'n']:
+                print("\n{} is not a valid option".format(user_choice))
+                user_choice = input("Please choose a valid option (y/n): ").lower()
+            if user_choice == 'y':
+                print("")
+                for pokemon in user_status['poke ball'].keys():
+                    print("{}(HP: {})".format(pokemon, user_status['poke ball'][pokemon]['currentHP']))
+                print("You can't choose the starting pokemon!")
+                user_choice_pokemon = input("what pokemon would you release (Entering pokemon name)? ").capitalize()
+                while user_choice_pokemon not in user_status['poke ball'].keys() or user_choice_pokemon == user_status['starting pokemon']:
+                    print("\n{} can't be chosen!".format(user_choice_pokemon))
+                    user_choice_pokemon = input("Please choose a pokemon that is in your poke ball except your starting pokemon "
+                                                + "(Entering pokemon name): ").capitalize()
+                del user_status['poke ball'][user_choice_pokemon]
+                print("\nGoodbye, {}".format(user_choice_pokemon))
+                user_status['poke ball'][event_pokemon] = {'type': event_pokemon_info['type'], 'currentHP': 10}
+                print("\nGotcha! {} was caught!".format(event_pokemon))
+                return False
+            else:
+                print("\n{} broke free!".format(event_pokemon))
+                return False
+        else:
+            user_status['poke ball'][event_pokemon] = {'type': event_pokemon_info['type'], 'currentHP': 10}
+            print("\nGotcha! {} was caught!".format(event_pokemon))
+            return False
+    else:
+        print("\nShoot! It was so close, too!")
+        # when event pokémon ran away, it's false because event is done
+        result = random.choice([True, False])
+        return result
 
 
 def event_happened(user_status):
@@ -195,6 +227,11 @@ def event_happened(user_status):
                 player_pokemon = user_option[user_choice - 1](user_status, player_pokemon)
             elif user_choice == 3:
                 user_option[user_choice - 1](user_status, player_pokemon)
+            elif user_choice == 4:
+                process_result = user_option[user_choice - 1](user_status, event_pokemon, event_pokemon_info)
+            else:
+                print(f"\nYou escaped from {event_pokemon}!")
+                process_result = False
 
             if process_result:
                 event_pokemon_skill = random.choice(skills_of[event_pokemon_info['type']])
