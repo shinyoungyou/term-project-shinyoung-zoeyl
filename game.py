@@ -258,6 +258,7 @@ def event_happened(user_status):
                     process_result = False
                 else:
                     print(f"{player_pokemon}(HP: {user_status['poke ball'][player_pokemon]['currentHP']})\n")
+                    # After completing battle, should recover the event pokemon HP
 
 
 def get_user_choice():
@@ -289,7 +290,14 @@ def validate_move(board, user_status, direction):
 
 
 def move_character(user_status, direction):
-    pass
+    if direction == 1:
+        user_status['Current Location'][1] -= 1
+    elif direction == 2:
+        user_status['Current Location'][1] += 1
+    elif direction == 3:
+        user_status['Current Location'][0] -= 1
+    else:
+        user_status['Current Location'][0] += 1
 
 
 def game():
