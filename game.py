@@ -203,9 +203,13 @@ def throw_poke_ball(character, event_pokemon, event_pokemon_info):
         return result
 
 
-def event_occurred(character):
+def set_event_type():
     event_collection = ("wildPokemon", "Team Rocket", "Strange trainer", False)
-    event_type = random.choice(event_collection)
+    return random.choices(event_collection, weights=[4, 3, 4, 2], k=1)[0]
+
+
+def event_occurred(character):
+    event_type = set_event_type()
     event_pokemon_collection = {'Pichu': {'type': 'electric', 'currentHP': 20},
                                 'Shinx': {'type': 'electric', 'currentHP': 20},
                                 'Mareep': {'type': 'electric', 'currentHP': 20},
