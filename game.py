@@ -222,6 +222,48 @@ def take_out_pokemon(character):
     return player_pokemon
 
 
+def get_skill_of():
+    skills_of = {
+        'water': [
+            {'name': 'Tackle', 'damage': (1, 3)},
+            {'name': 'Water Gun', 'damage': (4, 5)},
+            {'name': 'Aqua Jet', 'damage': (6, 7)}
+        ],
+        'fire': [
+            {'name': 'Tackle', 'damage': (1, 3)},
+            {'name': 'Flamethrower', 'damage': (4, 5)},
+            {'name': 'Fire Punch', 'damage': (6, 7)}
+        ],
+        'grass': [
+            {'name': 'Tackle', 'damage': (1, 3)},
+            {'name': 'Seed Bomb', 'damage': (4, 5)},
+            {'name': 'Solar Beam', 'damage': (6, 7)}
+        ],
+        'electric': [
+            {'name': 'Tackle', 'damage': (1, 3)},
+            {'name': 'Thunderbolt', 'damage': (4, 5)},
+            {'name': 'Electro Ball', 'damage': (6, 7)}
+        ],
+        'flying': [
+            {'name': 'Pluck', 'damage': (1, 3)},
+            {'name': 'Gust', 'damage': (4, 5)},
+            {'name': 'Aerial Ace', 'damage': (6, 7)}
+        ],
+        'ice': [
+            {'name': 'Tackle', 'damage': (1, 3)},
+            {'name': 'Blizzard', 'damage': (4, 5)},
+            {'name': 'Ice Fang', 'damage': (6, 7)}
+        ],
+        'rock': [
+            {'name': 'Tackle', 'damage': (1, 3)},
+            {'name': 'Rock Throw', 'damage': (4, 5)},
+            {'name': 'Rock Tomb', 'damage': (6, 7)}
+        ]
+    }
+
+    return skills_of
+
+
 def event_occurred(character):
     event_type = set_event_type()
     process_result = True
@@ -235,45 +277,6 @@ def event_occurred(character):
             print(f"{event_type} sent out {event_pokemon_info[0]}!(HP: {event_pokemon_info[1]['currentHP']})\n")
 
         user_pokemon = take_out_pokemon(character)
-
-
-        skills_of = {
-            'water': [
-                {'name': 'Tackle', 'damage': (1, 3)},
-                {'name': 'Water Gun', 'damage': (4, 5)},
-                {'name': 'Aqua Jet', 'damage': (6, 7)}
-            ],
-            'fire': [
-                {'name': 'Tackle', 'damage': (1, 3)},
-                {'name': 'Flamethrower', 'damage': (4, 5)},
-                {'name': 'Fire Punch', 'damage': (6, 7)}
-            ],
-            'grass': [
-                {'name': 'Tackle', 'damage': (1, 3)},
-                {'name': 'Seed Bomb', 'damage': (4, 5)},
-                {'name': 'Solar Beam', 'damage': (6, 7)}
-            ],
-            'electric': [
-                {'name': 'Tackle', 'damage': (1, 3)},
-                {'name': 'Thunderbolt', 'damage': (4, 5)},
-                {'name': 'Electro Ball', 'damage': (6, 7)}
-            ],
-            'flying': [
-                {'name': 'Pluck', 'damage': (1, 3)},
-                {'name': 'Gust', 'damage': (4, 5)},
-                {'name': 'Aerial Ace', 'damage': (6, 7)}
-            ],
-            'ice': [
-                {'name': 'Tackle', 'damage': (1, 3)},
-                {'name': 'Blizzard', 'damage': (4, 5)},
-                {'name': 'Ice Fang', 'damage': (6, 7)}
-            ],
-            'rock': [
-                {'name': 'Tackle', 'damage': (1, 3)},
-                {'name': 'Rock Throw', 'damage': (4, 5)},
-                {'name': 'Rock Tomb', 'damage': (6, 7)}
-            ]
-        }
 
         process_result = True
         while process_result:
