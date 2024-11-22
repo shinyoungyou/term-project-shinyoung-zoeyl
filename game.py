@@ -208,29 +208,17 @@ def set_event_type():
     return random.choices(event_collection, weights=[4, 3, 4, 2], k=1)[0]
 
 
+def get_event_pokemon(character):
+    event_pokemon_collection = event_pokemon(character['User Level'])
+    return random.choices(list(event_pokemon_collection.keys()), k=1)[0]
+
+
 def event_occurred(character):
     event_type = set_event_type()
-    event_pokemon_collection = {'Pichu': {'type': 'electric', 'currentHP': 20},
-                                'Shinx': {'type': 'electric', 'currentHP': 20},
-                                'Mareep': {'type': 'electric', 'currentHP': 20},
-                                'Caterpie': {'type': 'grass', 'currentHP': 20},
-                                'Weedle': {'type': 'grass', 'currentHP': 20},
-                                'Treecko': {'type': 'grass', 'currentHP': 20},
-                                'Pidgey': {'type': 'flying', 'currentHP': 20},
-                                'Pidove': {'type': 'flying', 'currentHP': 20},
-                                'Slowpoke': {'type': 'water', 'currentHP': 20},
-                                'Horsea': {'type': 'water', 'currentHP': 20},
-                                'Mudkip': {'type': 'water', 'currentHP': 20},
-                                'Cyndaquil': {'type': 'fire', 'currentHP': 20},
-                                'Totodile': {'type': 'fire', 'currentHP': 20},
-                                'Magby': {'type': 'fire', 'currentHP': 20},
-                                'Swinub': {'type': 'ice', 'currentHP': 20},
-                                'Spheal': {'type': 'ice', 'currentHP': 20},
-                                'Vanillite': {'type': 'ice', 'currentHP': 20},
-                                'Geodude': {'type': 'rock', 'currentHP': 20},
-                                'Aron': {'type': 'rock', 'currentHP': 20},
-                                'Roggenrola': {'type': 'rock', 'currentHP': 20}}
+    process_result = True
 
+    if event_type:
+        event_pokemon = get_event_pokemon(character)
     event_pokemon = random.choice(list(event_pokemon_collection.keys()))
     event_pokemon_info = event_pokemon_collection[event_pokemon]
     if event_type:
