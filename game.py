@@ -221,7 +221,7 @@ def take_out_pokemon(character):
     return player_pokemon
 
 
-def get_skill_of():
+def get_skill_of(pokemon_type):
     skills_of = {
         'water': [
             {'name': 'Tackle', 'damage': (1, 3)},
@@ -260,7 +260,7 @@ def get_skill_of():
         ]
     }
 
-    return skills_of
+    return skills_of[type]
 
 
 def event_occurred(character):
@@ -280,7 +280,6 @@ def event_occurred(character):
         while process_result:
             print(f"{user_pokemon}(HP: {character['Poke Ball'][user_pokemon]['currentHP']})\n")
 
-        process_result = True
         while process_result:
             user_option = [fight, change_pokemon, use_potion]
             if event_type == "wildPokemon":
