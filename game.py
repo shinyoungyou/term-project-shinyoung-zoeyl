@@ -210,23 +210,20 @@ def set_event_type():
 
 def get_event_pokemon(character):
     event_pokemon_collection = event_pokemon(character['User Level'])
-    return random.choices(list(event_pokemon_collection.keys()), k=1)[0]
-
+    return random.choices(list(event_pokemon_collection.items()), k=1)[0]
 
 def event_occurred(character):
     event_type = set_event_type()
     process_result = True
 
     if event_type:
-        event_pokemon = get_event_pokemon(character)
-    event_pokemon = random.choice(list(event_pokemon_collection.keys()))
-    event_pokemon_info = event_pokemon_collection[event_pokemon]
-    if event_type:
+        event_pokemon_info = get_event_pokemon(character)
         if event_type == "wildPokemon":
-            print(f"\nA wild {event_pokemon} appeared!(HP: {event_pokemon_info['currentHP']})\n")
+            print(f"\nA wild {event_pokemon_info[0]} appeared!(HP: {event_pokemon_info[1]['currentHP']})\n")
         else:
             print(f"\nYou encountered a {event_type}!")
-            print(f"{event_type} sent out {event_pokemon}!(HP: {event_pokemon_info['currentHP']})\n")
+            print(f"{event_type} sent out {event_pokemon_info[0]}!(HP: {event_pokemon_info[1]['currentHP']})\n")
+
 
         skills_of = {
             'water': [
