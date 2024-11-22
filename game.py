@@ -17,6 +17,79 @@ def make_character():
     return user_status
 
 
+def event_pokemon(user_level):
+    level1_pokemon = {'Pichu': {'type': 'electric', 'currentHP': 20},
+                      'Shinx': {'type': 'electric', 'currentHP': 20},
+                      'Mareep': {'type': 'electric', 'currentHP': 20},
+                      'Caterpie': {'type': 'grass', 'currentHP': 20},
+                      'Weedle': {'type': 'grass', 'currentHP': 20},
+                      'Treecko': {'type': 'grass', 'currentHP': 20},
+                      'Pidgey': {'type': 'flying', 'currentHP': 20},
+                      'Pidove': {'type': 'flying', 'currentHP': 20},
+                      'Slowpoke': {'type': 'water', 'currentHP': 20},
+                      'Horsea': {'type': 'water', 'currentHP': 20},
+                      'Mudkip': {'type': 'water', 'currentHP': 20},
+                      'Cyndaquil': {'type': 'fire', 'currentHP': 20},
+                      'Totodile': {'type': 'fire', 'currentHP': 20},
+                      'Magby': {'type': 'fire', 'currentHP': 20},
+                      'Swinub': {'type': 'ice', 'currentHP': 20},
+                      'Spheal': {'type': 'ice', 'currentHP': 20},
+                      'Vanillite': {'type': 'ice', 'currentHP': 20},
+                      'Geodude': {'type': 'rock', 'currentHP': 20},
+                      'Aron': {'type': 'rock', 'currentHP': 20},
+                      'Roggenrola': {'type': 'rock', 'currentHP': 20}}
+
+    level2_pokemon = {'Pikachu': {'type': 'electric', 'currentHP': 40},
+                      'Luxio': {'type': 'electric', 'currentHP': 40},
+                      'Flaaffy': {'type': 'electric', 'currentHP': 40},
+                      'Metapod': {'type': 'grass', 'currentHP': 40},
+                      'Kakuna': {'type': 'grass', 'currentHP': 40},
+                      'Grovyle': {'type': 'grass', 'currentHP': 40},
+                      'Pidgeotto': {'type': 'flying', 'currentHP': 40},
+                      'Tranquill': {'type': 'flying', 'currentHP': 40},
+                      'Slowbro': {'type': 'water', 'currentHP': 40},
+                      'Seadra': {'type': 'water', 'currentHP': 40},
+                      'Marshtomp': {'type': 'water', 'currentHP': 40},
+                      'Quilava': {'type': 'fire', 'currentHP': 40},
+                      'Croconaq': {'type': 'fire', 'currentHP': 40},
+                      'Magmar': {'type': 'fire', 'currentHP': 40},
+                      'Piloswine': {'type': 'ice', 'currentHP': 40},
+                      'Sealeo': {'type': 'ice', 'currentHP': 40},
+                      'Vanillish': {'type': 'ice', 'currentHP': 40},
+                      'Graveler': {'type': 'rock', 'currentHP': 40},
+                      'Lairon': {'type': 'rock', 'currentHP': 40},
+                      'Boldore': {'type': 'rock', 'currentHP': 40}}
+
+    level3_pokemon = {'Raichu': {'type': 'electric', 'currentHP': 70},
+                      'Luxray': {'type': 'electric', 'currentHP': 70},
+                      'Ampharos': {'type': 'electric', 'currentHP': 70},
+                      'Butterfree': {'type': 'grass', 'currentHP': 70},
+                      'Beedrill': {'type': 'grass', 'currentHP': 70},
+                      'Sceptile': {'type': 'grass', 'currentHP': 70},
+                      'Pidgeot': {'type': 'flying', 'currentHP': 70},
+                      'Pidove': {'type': 'flying', 'currentHP': 70},
+                      'Slowking': {'type': 'water', 'currentHP': 70},
+                      'Kingdra': {'type': 'water', 'currentHP': 70},
+                      'Swampert': {'type': 'water', 'currentHP': 70},
+                      'Typhlosion': {'type': 'fire', 'currentHP': 70},
+                      'Reraligatr': {'type': 'fire', 'currentHP': 70},
+                      'Magmortar': {'type': 'fire', 'currentHP': 70},
+                      'Mamoswine': {'type': 'ice', 'currentHP': 70},
+                      'Walrein': {'type': 'ice', 'currentHP': 70},
+                      'Vanilluxe': {'type': 'ice', 'currentHP': 70},
+                      'Golem': {'type': 'rock', 'currentHP': 70},
+                      'Aggron': {'type': 'rock', 'currentHP': 70},
+                      'Gigalith': {'type': 'rock', 'currentHP': 70}}
+    current_user_level = level1_pokemon
+
+    if user_level == 2:
+        current_user_level = level2_pokemon
+    elif user_level == 3:
+        current_user_level = level3_pokemon
+
+    return current_user_level
+
+
 def fight(user_status, skills_of, player_pokemon, event_pokemon_info, event_pokemon):
     possible_cases = ('hit', 'missed')
     skill_result = random.choice(possible_cases)
@@ -33,7 +106,8 @@ def fight(user_status, skills_of, player_pokemon, event_pokemon_info, event_poke
         user_choice = int(input("Please choose a valid skill (Entering number): "))
     if skill_result == 'hit':
         print("\n{} hit!".format(skills_of_selected_pokemon[user_choice - 1]['name']))
-        damage = random.randrange(skills_of_selected_pokemon[user_choice - 1]['damage'][0], skills_of_selected_pokemon[user_choice - 1]['damage'][1] + 1)
+        damage = random.randrange(skills_of_selected_pokemon[user_choice - 1]['damage'][0],
+                                  skills_of_selected_pokemon[user_choice - 1]['damage'][1] + 1)
         event_pokemon_info['currentHP'] -= damage
     else:
         print(f"\n{skills_of_selected_pokemon[user_choice - 1]['name']} missed!")
@@ -104,10 +178,12 @@ def throw_poke_ball(user_status, event_pokemon, event_pokemon_info):
                     print(f"{pokemon}(HP: {user_status['poke ball'][pokemon]['currentHP']})")
                 print("You can't choose the starting pokemon!")
                 user_choice_pokemon = input("what pokemon would you release (Entering pokemon name)? ").capitalize()
-                while user_choice_pokemon not in user_status['poke ball'].keys() or user_choice_pokemon == user_status['starting pokemon']:
+                while user_choice_pokemon not in user_status['poke ball'].keys() or user_choice_pokemon == user_status[
+                    'starting pokemon']:
                     print("\n{} can't be chosen!".format(user_choice_pokemon))
-                    user_choice_pokemon = input("Please choose a pokemon that is in your poke ball except your starting pokemon "
-                                                + "(Entering pokemon name): ").capitalize()
+                    user_choice_pokemon = input(
+                        "Please choose a pokemon that is in your poke ball except your starting pokemon "
+                        + "(Entering pokemon name): ").capitalize()
                 del user_status['poke ball'][user_choice_pokemon]
                 print(f"\nGoodbye, {user_choice_pokemon}")
                 user_status['poke ball'][event_pokemon] = {'type': event_pokemon_info['type'], 'currentHP': 10}
@@ -222,7 +298,8 @@ def event_happened(user_status):
                 user_choice = input("Please choose valid option(Entering number): ")
 
             if user_choice == 1:
-                process_result = user_option[user_choice - 1](user_status, skills_of, player_pokemon, event_pokemon_info, event_pokemon)
+                process_result = user_option[user_choice - 1](user_status, skills_of, player_pokemon,
+                                                              event_pokemon_info, event_pokemon)
             elif user_choice == 2:
                 player_pokemon = user_option[user_choice - 1](user_status, player_pokemon)
             elif user_choice == 3:
