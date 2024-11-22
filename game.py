@@ -10,10 +10,10 @@ def make_character():
     print("Squirtle(Water) | Charmander(Fire) | Bulbasaur(Grass)")
     user_choice = input("Please type pokemon name: ").capitalize()
     while user_choice not in starting_pokemon:
-        print(f"\n{user_choice} is not included in starting pokemon")
+        print(f"\n{user_choice} is not included in Starting pokemon")
         user_choice = input("what pokemon would you like? ").capitalize()
-    character['poke ball'] = {user_choice: starting_pokemon[user_choice]}
-    character['starting pokemon'] = user_choice
+    character['Poke Ball'] = {user_choice: starting_pokemon[user_choice]}
+    character['Starting Pokemon'] = user_choice
     return character
 
 
@@ -93,7 +93,7 @@ def event_pokemon(user_level):
 def fight(character, skills_of, player_pokemon, event_pokemon_info, event_pokemon):
     possible_cases = ('hit', 'missed')
     skill_result = random.choice(possible_cases)
-    pokemon_type = character['poke ball'][player_pokemon]['type']
+    pokemon_type = character['Poke Ball'][player_pokemon]['type']
     skills_of_selected_pokemon = skills_of[pokemon_type]
     number = 1
     print("")
@@ -123,19 +123,19 @@ def fight(character, skills_of, player_pokemon, event_pokemon_info, event_pokemo
 
 def change_pokemon(character, player_pokemon):
     print("\nYour pokemons' status...")
-    for pokemon in character['poke ball'].keys():
-        print(f"{pokemon}(HP: {character['poke ball'][pokemon]['currentHP']})")
+    for pokemon in character['Poke Ball'].keys():
+        print(f"{pokemon}(HP: {character['Poke Ball'][pokemon]['currentHP']})")
     print("")
     user_choice = input("what pokemon would you like to switch to (Entering Pokemon name)? ").capitalize()
-    while user_choice not in character['poke ball'].keys():
-        print(f"\n{user_choice} is not included in your poke balls")
+    while user_choice not in character['Poke Ball'].keys():
+        print(f"\n{user_choice} is not included in your Poke Balls")
         user_choice = input("what pokemon would you like (Entering Pokemon name)? ").capitalize()
-    while character['poke ball'][user_choice]['currentHP'] == 0:
+    while character['Poke Ball'][user_choice]['currentHP'] == 0:
         print(f"\n{user_choice} has 0 HP, could you choose other pokemon?")
         user_choice = input("Please choose a pokemon again: ").capitalize()
     print(f"\nGood job, {player_pokemon}! Come back!")
     print(f"Go, {user_choice}")
-    print(f"{user_choice}(HP: {character['poke ball'][user_choice]['currentHP']})\n")
+    print(f"{user_choice}(HP: {character['Poke Ball'][user_choice]['currentHP']})\n")
 
     return user_choice
 
@@ -144,29 +144,29 @@ def change_pokemon(character, player_pokemon):
 def use_potion(character, player_pokemon):
     if character['potion'] == 0:
         print("\nYou have no potion!\n")
-    elif character['poke ball'][player_pokemon]['currentHP'] == 20:
+    elif character['Poke Ball'][player_pokemon]['currentHP'] == 20:
         print(f"\n{player_pokemon} has full HP!\n")
     else:
         print(f"\nYou have {character['potion']} potion(s)!")
-        print(f"{player_pokemon} has {character['poke ball'][player_pokemon]['currentHP']}.")
+        print(f"{player_pokemon} has {character['Poke Ball'][player_pokemon]['currentHP']}.")
         user_answer = input("Would you like to use a potion (y/n)? ").lower()
         while user_answer not in ['y', 'n']:
             print(f"\n{user_answer} is not a valid option")
             user_answer = input("Please choose a valid option (y/n): ").lower()
         if user_answer == 'y':
-            if character['poke ball'][player_pokemon]['currentHP'] >= 15:
-                character['poke ball'][player_pokemon]['currentHP'] = 20
+            if character['Poke Ball'][player_pokemon]['currentHP'] >= 15:
+                character['Poke Ball'][player_pokemon]['currentHP'] = 20
             else:
-                character['poke ball'][player_pokemon]['currentHP'] += 5
+                character['Poke Ball'][player_pokemon]['currentHP'] += 5
             character['potion'] -= 1
             print(f"\n{player_pokemon} restored HP!")
-        print(f"{player_pokemon} (HP: {character['poke ball'][player_pokemon]['currentHP']})")
+        print(f"{player_pokemon} (HP: {character['Poke Ball'][player_pokemon]['currentHP']})")
         print(f"{character['potion']} potion(s) left!")
 
 
 def throw_poke_ball(character, event_pokemon, event_pokemon_info):
     if event_pokemon_info['currentHP'] <= 5:
-        if len(character['poke ball']) == 6:
+        if len(character['Poke Ball']) == 6:
             print("")
             user_choice = input("You can only carry up to 6 Pokémon. Would you like to release one (y/n)? ").lower()
             while user_choice not in ['y', 'n']:
@@ -174,26 +174,26 @@ def throw_poke_ball(character, event_pokemon, event_pokemon_info):
                 user_choice = input("Please choose a valid option (y/n): ").lower()
             if user_choice == 'y':
                 print("")
-                for pokemon in character['poke ball'].keys():
-                    print(f"{pokemon}(HP: {character['poke ball'][pokemon]['currentHP']})")
-                print("You can't choose the starting pokemon!")
+                for pokemon in character['Poke Ball'].keys():
+                    print(f"{pokemon}(HP: {character['Poke Ball'][pokemon]['currentHP']})")
+                print("You can't choose the Starting Pokemon!")
                 user_choice_pokemon = input("what pokemon would you release (Entering pokemon name)? ").capitalize()
-                while user_choice_pokemon not in character['poke ball'].keys() or user_choice_pokemon == character[
-                    'starting pokemon']:
+                while user_choice_pokemon not in character['Poke Ball'].keys() or user_choice_pokemon == character[
+                    'Starting Pokemon']:
                     print("\n{} can't be chosen!".format(user_choice_pokemon))
                     user_choice_pokemon = input(
-                        "Please choose a pokemon that is in your poke ball except your starting pokemon "
+                        "Please choose a pokemon that is in your Poke Ball except your Starting Pokemon "
                         + "(Entering pokemon name): ").capitalize()
-                del character['poke ball'][user_choice_pokemon]
+                del character['Poke Ball'][user_choice_pokemon]
                 print(f"\nGoodbye, {user_choice_pokemon}")
-                character['poke ball'][event_pokemon] = {'type': event_pokemon_info['type'], 'currentHP': 10}
+                character['Poke Ball'][event_pokemon] = {'type': event_pokemon_info['type'], 'currentHP': 10}
                 print(f"\nGotcha! {event_pokemon} was caught!")
                 return False
             else:
                 print(f"\n{event_pokemon} broke free!")
                 return False
         else:
-            character['poke ball'][event_pokemon] = {'type': event_pokemon_info['type'], 'currentHP': 10}
+            character['Poke Ball'][event_pokemon] = {'type': event_pokemon_info['type'], 'currentHP': 10}
             print(f"\nGotcha! {event_pokemon} was caught!")
             return False
     else:
@@ -212,6 +212,16 @@ def get_event_pokemon(character):
     event_pokemon_collection = event_pokemon(character['User Level'])
     return random.choices(list(event_pokemon_collection.items()), k=1)[0]
 
+
+def take_out_pokemon(character):
+    player_pokemon = random.choice(list(character['Poke Ball'].keys()))
+    while character['Poke Ball'][player_pokemon]['currentHP'] == 0:
+        player_pokemon = random.choice(list(character['Poke Ball'].keys()))
+    print(f"Go, {player_pokemon}!")
+    print(f"{player_pokemon}(HP: {character['Poke Ball'][player_pokemon]['currentHP']})\n")
+    return player_pokemon
+
+
 def event_occurred(character):
     event_type = set_event_type()
     process_result = True
@@ -223,6 +233,8 @@ def event_occurred(character):
         else:
             print(f"\nYou encountered a {event_type}!")
             print(f"{event_type} sent out {event_pokemon_info[0]}!(HP: {event_pokemon_info[1]['currentHP']})\n")
+
+        user_pokemon = take_out_pokemon(character)
 
 
         skills_of = {
@@ -262,11 +274,6 @@ def event_occurred(character):
                 {'name': 'Rock Tomb', 'damage': (6, 7)}
             ]
         }
-        player_pokemon = random.choice(list(character['poke ball'].keys()))
-        while character['poke ball'][player_pokemon]['currentHP'] == 0:
-            player_pokemon = random.choice(list(character['poke ball'].keys()))
-        print(f"Go, {player_pokemon}!")
-        print(f"{player_pokemon}(HP: {character['poke ball'][player_pokemon]['currentHP']})\n")
 
         process_result = True
         while process_result:
@@ -313,17 +320,17 @@ def event_occurred(character):
                 print(f"{event_pokemon} used {event_pokemon_skill['name']}!\n")
                 if skill_result == 'hit':
                     print(f"{event_pokemon_skill['name']} hit!")
-                    character['poke ball'][player_pokemon]['currentHP'] -= player_damage
+                    character['Poke Ball'][player_pokemon]['currentHP'] -= player_damage
                     print(f"{player_pokemon} took {player_damage} damage!")
                 else:
                     print(f"{event_pokemon_skill['name']} missed!")
 
-                if character['poke ball'][player_pokemon]['currentHP'] <= 0:
-                    character['poke ball'][player_pokemon]['currentHP'] = 0
+                if character['Poke Ball'][player_pokemon]['currentHP'] <= 0:
+                    character['Poke Ball'][player_pokemon]['currentHP'] = 0
                     print(f"{player_pokemon} fainted!")
                     process_result = False
                 else:
-                    print(f"{player_pokemon}(HP: {character['poke ball'][player_pokemon]['currentHP']})\n")
+                    print(f"{player_pokemon}(HP: {character['Poke Ball'][player_pokemon]['currentHP']})\n")
                     # After completing battle, should recover the event pokemon HP
 
 
