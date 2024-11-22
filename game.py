@@ -203,7 +203,7 @@ def throw_poke_ball(character, event_pokemon, event_pokemon_info):
         return result
 
 
-def event_happened(character):
+def event_occurred(character):
     event_collection = ("wildPokemon", "Team Rocket", "Strange trainer", False)
     event_type = random.choice(event_collection)
     event_pokemon_collection = {'Pichu': {'type': 'electric', 'currentHP': 20},
@@ -379,7 +379,7 @@ def move_character(character, direction):
 
 def game():
     character = make_character()
-    event_happened(character)
+    event_occurred(character)
 
 
 def make_board(level):
