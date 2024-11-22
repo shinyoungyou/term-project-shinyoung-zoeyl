@@ -2,7 +2,7 @@ import random
 
 
 def make_character():
-    user_status = {'money': 30, 'user level': 1, 'potion': 0, 'X-coordinate': 0, 'Y-coordinate': 0}
+    user_status = {'Money': 30, 'User Level': 1, 'Potion': 0, 'Current Location': (0, 0)}
     starting_pokemon = {'Squirtle': {'type': 'water', 'currentHP': 20},
                         'Charmander': {'type': 'fire', 'currentHP': 20},
                         'Bulbasaur': {'type': 'grass', 'currentHP': 20}}
@@ -566,23 +566,6 @@ def main():
     Drive the program.
     """
     game()
-    character = {# user location data type must be changed!!!
-        "Current Location": (5, 5),
-        "Current Level": 1,
-        "Current EXP": 20,
-        "Money": 10,
-        "Balls": {
-            'Charmander': {'Current HP': 20},
-            'Pikachu': {'Current HP': 20},
-            'Caterpie': {'Current HP': 20},
-            'Pidove': {'Current HP': 20},
-            'Slowpoke': {'Current HP': 20},
-            'Horsea': {'Current HP': 20}
-        }
-    }
-    board = make_board(character["Current Level"])
-    display_current_location(board, character)
-    battle_with_gym_leader(character)
 
 
 if __name__ == "__main__":
