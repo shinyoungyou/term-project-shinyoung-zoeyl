@@ -218,7 +218,6 @@ def take_out_pokemon(character):
     while character['Poke Ball'][player_pokemon]['currentHP'] == 0:
         player_pokemon = random.choice(list(character['Poke Ball'].keys()))
     print(f"Go, {player_pokemon}!")
-    print(f"{player_pokemon}(HP: {character['Poke Ball'][player_pokemon]['currentHP']})\n")
     return player_pokemon
 
 
@@ -277,6 +276,9 @@ def event_occurred(character):
             print(f"{event_type} sent out {event_pokemon_info[0]}!(HP: {event_pokemon_info[1]['currentHP']})\n")
 
         user_pokemon = take_out_pokemon(character)
+
+        while process_result:
+            print(f"{user_pokemon}(HP: {character['Poke Ball'][user_pokemon]['currentHP']})\n")
 
         process_result = True
         while process_result:
