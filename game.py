@@ -2,7 +2,7 @@ import random
 
 
 def make_character():
-    user_status = {'Money': 30, 'User Level': 1, 'Potion': 0, 'Current Location': (0, 0)}
+    character = {'Money': 30, 'User Level': 1, 'Potion': 0, 'Current Location': (0, 0)}
     starting_pokemon = {'Squirtle': {'type': 'water', 'currentHP': 20},
                         'Charmander': {'type': 'fire', 'currentHP': 20},
                         'Bulbasaur': {'type': 'grass', 'currentHP': 20}}
@@ -12,9 +12,9 @@ def make_character():
     while user_choice not in starting_pokemon:
         print(f"\n{user_choice} is not included in starting pokemon")
         user_choice = input("what pokemon would you like? ").capitalize()
-    user_status['poke ball'] = {user_choice: starting_pokemon[user_choice]}
-    user_status['starting pokemon'] = user_choice
-    return user_status
+    character['poke ball'] = {user_choice: starting_pokemon[user_choice]}
+    character['starting pokemon'] = user_choice
+    return character
 
 
 def event_pokemon(user_level):
@@ -90,10 +90,10 @@ def event_pokemon(user_level):
     return current_user_level
 
 
-def fight(user_status, skills_of, player_pokemon, event_pokemon_info, event_pokemon):
+def fight(character, skills_of, player_pokemon, event_pokemon_info, event_pokemon):
     possible_cases = ('hit', 'missed')
     skill_result = random.choice(possible_cases)
-    pokemon_type = user_status['poke ball'][player_pokemon]['type']
+    pokemon_type = character['poke ball'][player_pokemon]['type']
     skills_of_selected_pokemon = skills_of[pokemon_type]
     number = 1
     print("")
@@ -121,52 +121,52 @@ def fight(user_status, skills_of, player_pokemon, event_pokemon_info, event_poke
         return True
 
 
-def change_pokemon(user_status, player_pokemon):
+def change_pokemon(character, player_pokemon):
     print("\nYour pokemons' status...")
-    for pokemon in user_status['poke ball'].keys():
-        print(f"{pokemon}(HP: {user_status['poke ball'][pokemon]['currentHP']})")
+    for pokemon in character['poke ball'].keys():
+        print(f"{pokemon}(HP: {character['poke ball'][pokemon]['currentHP']})")
     print("")
     user_choice = input("what pokemon would you like to switch to (Entering Pokemon name)? ").capitalize()
-    while user_choice not in user_status['poke ball'].keys():
+    while user_choice not in character['poke ball'].keys():
         print(f"\n{user_choice} is not included in your poke balls")
         user_choice = input("what pokemon would you like (Entering Pokemon name)? ").capitalize()
-    while user_status['poke ball'][user_choice]['currentHP'] == 0:
+    while character['poke ball'][user_choice]['currentHP'] == 0:
         print(f"\n{user_choice} has 0 HP, could you choose other pokemon?")
         user_choice = input("Please choose a pokemon again: ").capitalize()
     print(f"\nGood job, {player_pokemon}! Come back!")
     print(f"Go, {user_choice}")
-    print(f"{user_choice}(HP: {user_status['poke ball'][user_choice]['currentHP']})\n")
+    print(f"{user_choice}(HP: {character['poke ball'][user_choice]['currentHP']})\n")
 
     return user_choice
 
 
 # Should consider max currentHP depends on level
-def use_potion(user_status, player_pokemon):
-    if user_status['potion'] == 0:
+def use_potion(character, player_pokemon):
+    if character['potion'] == 0:
         print("\nYou have no potion!\n")
-    elif user_status['poke ball'][player_pokemon]['currentHP'] == 20:
+    elif character['poke ball'][player_pokemon]['currentHP'] == 20:
         print(f"\n{player_pokemon} has full HP!\n")
     else:
-        print(f"\nYou have {user_status['potion']} potion(s)!")
-        print(f"{player_pokemon} has {user_status['poke ball'][player_pokemon]['currentHP']}.")
+        print(f"\nYou have {character['potion']} potion(s)!")
+        print(f"{player_pokemon} has {character['poke ball'][player_pokemon]['currentHP']}.")
         user_answer = input("Would you like to use a potion (y/n)? ").lower()
         while user_answer not in ['y', 'n']:
             print(f"\n{user_answer} is not a valid option")
             user_answer = input("Please choose a valid option (y/n): ").lower()
         if user_answer == 'y':
-            if user_status['poke ball'][player_pokemon]['currentHP'] >= 15:
-                user_status['poke ball'][player_pokemon]['currentHP'] = 20
+            if character['poke ball'][player_pokemon]['currentHP'] >= 15:
+                character['poke ball'][player_pokemon]['currentHP'] = 20
             else:
-                user_status['poke ball'][player_pokemon]['currentHP'] += 5
-            user_status['potion'] -= 1
+                character['poke ball'][player_pokemon]['currentHP'] += 5
+            character['potion'] -= 1
             print(f"\n{player_pokemon} restored HP!")
-        print(f"{player_pokemon} (HP: {user_status['poke ball'][player_pokemon]['currentHP']})")
-        print(f"{user_status['potion']} potion(s) left!")
+        print(f"{player_pokemon} (HP: {character['poke ball'][player_pokemon]['currentHP']})")
+        print(f"{character['potion']} potion(s) left!")
 
 
-def throw_poke_ball(user_status, event_pokemon, event_pokemon_info):
+def throw_poke_ball(character, event_pokemon, event_pokemon_info):
     if event_pokemon_info['currentHP'] <= 5:
-        if len(user_status['poke ball']) == 6:
+        if len(character['poke ball']) == 6:
             print("")
             user_choice = input("You can only carry up to 6 Pokémon. Would you like to release one (y/n)? ").lower()
             while user_choice not in ['y', 'n']:
@@ -174,26 +174,26 @@ def throw_poke_ball(user_status, event_pokemon, event_pokemon_info):
                 user_choice = input("Please choose a valid option (y/n): ").lower()
             if user_choice == 'y':
                 print("")
-                for pokemon in user_status['poke ball'].keys():
-                    print(f"{pokemon}(HP: {user_status['poke ball'][pokemon]['currentHP']})")
+                for pokemon in character['poke ball'].keys():
+                    print(f"{pokemon}(HP: {character['poke ball'][pokemon]['currentHP']})")
                 print("You can't choose the starting pokemon!")
                 user_choice_pokemon = input("what pokemon would you release (Entering pokemon name)? ").capitalize()
-                while user_choice_pokemon not in user_status['poke ball'].keys() or user_choice_pokemon == user_status[
+                while user_choice_pokemon not in character['poke ball'].keys() or user_choice_pokemon == character[
                     'starting pokemon']:
                     print("\n{} can't be chosen!".format(user_choice_pokemon))
                     user_choice_pokemon = input(
                         "Please choose a pokemon that is in your poke ball except your starting pokemon "
                         + "(Entering pokemon name): ").capitalize()
-                del user_status['poke ball'][user_choice_pokemon]
+                del character['poke ball'][user_choice_pokemon]
                 print(f"\nGoodbye, {user_choice_pokemon}")
-                user_status['poke ball'][event_pokemon] = {'type': event_pokemon_info['type'], 'currentHP': 10}
+                character['poke ball'][event_pokemon] = {'type': event_pokemon_info['type'], 'currentHP': 10}
                 print(f"\nGotcha! {event_pokemon} was caught!")
                 return False
             else:
                 print(f"\n{event_pokemon} broke free!")
                 return False
         else:
-            user_status['poke ball'][event_pokemon] = {'type': event_pokemon_info['type'], 'currentHP': 10}
+            character['poke ball'][event_pokemon] = {'type': event_pokemon_info['type'], 'currentHP': 10}
             print(f"\nGotcha! {event_pokemon} was caught!")
             return False
     else:
@@ -203,7 +203,7 @@ def throw_poke_ball(user_status, event_pokemon, event_pokemon_info):
         return result
 
 
-def event_happened(user_status):
+def event_happened(character):
     event_collection = ("wildPokemon", "Team Rocket", "Strange trainer", False)
     event_type = random.choice(event_collection)
     event_pokemon_collection = {'Pichu': {'type': 'electric', 'currentHP': 20},
@@ -273,11 +273,11 @@ def event_happened(user_status):
                 {'name': 'Rock Tomb', 'damage': (6, 7)}
             ]
         }
-        player_pokemon = random.choice(list(user_status['poke ball'].keys()))
-        while user_status['poke ball'][player_pokemon]['currentHP'] == 0:
-            player_pokemon = random.choice(list(user_status['poke ball'].keys()))
+        player_pokemon = random.choice(list(character['poke ball'].keys()))
+        while character['poke ball'][player_pokemon]['currentHP'] == 0:
+            player_pokemon = random.choice(list(character['poke ball'].keys()))
         print(f"Go, {player_pokemon}!")
-        print(f"{player_pokemon}(HP: {user_status['poke ball'][player_pokemon]['currentHP']})\n")
+        print(f"{player_pokemon}(HP: {character['poke ball'][player_pokemon]['currentHP']})\n")
 
         process_result = True
         while process_result:
@@ -298,14 +298,14 @@ def event_happened(user_status):
                 user_choice = input("Please choose valid option(Entering number): ")
 
             if user_choice == 1:
-                process_result = user_option[user_choice - 1](user_status, skills_of, player_pokemon,
+                process_result = user_option[user_choice - 1](character, skills_of, player_pokemon,
                                                               event_pokemon_info, event_pokemon)
             elif user_choice == 2:
-                player_pokemon = user_option[user_choice - 1](user_status, player_pokemon)
+                player_pokemon = user_option[user_choice - 1](character, player_pokemon)
             elif user_choice == 3:
-                user_option[user_choice - 1](user_status, player_pokemon)
+                user_option[user_choice - 1](character, player_pokemon)
             elif user_choice == 4:
-                process_result = user_option[user_choice - 1](user_status, event_pokemon, event_pokemon_info)
+                process_result = user_option[user_choice - 1](character, event_pokemon, event_pokemon_info)
             else:
                 print(f"\nYou escaped from {event_pokemon}!")
                 process_result = False
@@ -324,17 +324,17 @@ def event_happened(user_status):
                 print(f"{event_pokemon} used {event_pokemon_skill['name']}!\n")
                 if skill_result == 'hit':
                     print(f"{event_pokemon_skill['name']} hit!")
-                    user_status['poke ball'][player_pokemon]['currentHP'] -= player_damage
+                    character['poke ball'][player_pokemon]['currentHP'] -= player_damage
                     print(f"{player_pokemon} took {player_damage} damage!")
                 else:
                     print(f"{event_pokemon_skill['name']} missed!")
 
-                if user_status['poke ball'][player_pokemon]['currentHP'] <= 0:
-                    user_status['poke ball'][player_pokemon]['currentHP'] = 0
+                if character['poke ball'][player_pokemon]['currentHP'] <= 0:
+                    character['poke ball'][player_pokemon]['currentHP'] = 0
                     print(f"{player_pokemon} fainted!")
                     process_result = False
                 else:
-                    print(f"{player_pokemon}(HP: {user_status['poke ball'][player_pokemon]['currentHP']})\n")
+                    print(f"{player_pokemon}(HP: {character['poke ball'][player_pokemon]['currentHP']})\n")
                     # After completing battle, should recover the event pokemon HP
 
 
@@ -347,9 +347,9 @@ def get_user_choice():
     return user_choice
 
 
-def validate_move(board, user_status, direction):
-    user_row = user_status['Current Location'][0]
-    user_col = user_status['Current Location'][1]
+def validate_move(board, character, direction):
+    user_row = character['Current Location'][0]
+    user_col = character['Current Location'][1]
 
     if direction == 1:
         user_col -= 1
@@ -366,20 +366,20 @@ def validate_move(board, user_status, direction):
         return False
 
 
-def move_character(user_status, direction):
+def move_character(character, direction):
     if direction == 1:
-        user_status['Current Location'][1] -= 1
+        character['Current Location'][1] -= 1
     elif direction == 2:
-        user_status['Current Location'][1] += 1
+        character['Current Location'][1] += 1
     elif direction == 3:
-        user_status['Current Location'][0] -= 1
+        character['Current Location'][0] -= 1
     else:
-        user_status['Current Location'][0] += 1
+        character['Current Location'][0] += 1
 
 
 def game():
-    user_status = make_character()
-    event_happened(user_status)
+    character = make_character()
+    event_happened(character)
 
 
 def make_board(level):
