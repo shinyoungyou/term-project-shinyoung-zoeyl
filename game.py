@@ -263,6 +263,25 @@ def get_skill_of(pokemon_type):
     return skills_of[type]
 
 
+def select_event_option(event_type):
+    user_option = [fight, change_pokemon, use_potion]
+    if event_type == 'wildPokemon':
+        user_option.extend([throw_poke_ball, "Run"])
+
+    for print_option in range(len(user_option)):
+        if print_option == 4:
+            print(f"{print_option + 1}. {user_option[print_option]}")
+        else:
+            print(f"{print_option + 1}. {user_option[print_option].__name__.replace("_", " ").title()}")
+
+    user_choice = int(input("What do you want to do (Entering number)? "))
+    while user_choice <= 0 or user_choice > len(user_option):
+        print("\nThat is not option you can choose!")
+        user_choice = input("Please choose valid option(Entering number): ")
+
+    return user_choice
+
+
 def event_occurred(character):
     event_type = set_event_type()
     process_result = True
@@ -280,22 +299,8 @@ def event_occurred(character):
         while process_result:
             print(f"{user_pokemon}(HP: {character['Poke Ball'][user_pokemon]['currentHP']})\n")
 
-        while process_result:
-            user_option = [fight, change_pokemon, use_potion]
-            if event_type == "wildPokemon":
-                user_option.append(throw_poke_ball)
-                user_option.append("Run")
+        user_choose = select_event_option(event_type)
 
-            for print_option in range(len(user_option)):
-                if print_option == 4:
-                    print(f"{print_option + 1}. {user_option[print_option]}")
-                else:
-                    print(f"{print_option + 1}. {user_option[print_option].__name__.replace("_", " ").title()}")
-
-            user_choice = int(input("What do you want to do (Entering number)? "))
-            while user_choice == 0 or user_choice > len(user_option):
-                print("\nThat is not option you can choose!")
-                user_choice = input("Please choose valid option(Entering number): ")
 
             if user_choice == 1:
                 process_result = user_option[user_choice - 1](character, skills_of, player_pokemon,
