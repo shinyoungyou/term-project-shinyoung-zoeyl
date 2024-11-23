@@ -179,8 +179,8 @@ def check_potion(character, player_pokemon):
 
 def use_potion(character, player_pokemon):
     if check_potion(character, player_pokemon):
-        print(f"\nYou have {character['Potion']} potion(s)!")
-        print(f"{player_pokemon} has {character['Poke Ball'][player_pokemon]['currentHP']}.")
+        print(f"\nYou have {character['Potion']} potion(s)!\n{player_pokemon} has "
+              f"{character['Poke Ball'][player_pokemon]['currentHP']}.")
         user_answer = input("Would you like to use a potion (y/n)? ").lower()
         while user_answer not in ['y', 'n']:
             print(f"\n{user_answer} is not a valid option")
@@ -191,9 +191,8 @@ def use_potion(character, player_pokemon):
             else:
                 character['Poke Ball'][player_pokemon]['currentHP'] += 5
             character['potion'] -= 1
-            print(f"\n{player_pokemon} restored HP!")
-            print(f"{player_pokemon} (HP: {character['Poke Ball'][player_pokemon]['currentHP']})")
-            print(f"{character['potion']} potion(s) left!")
+            print(f"\n{player_pokemon} restored HP!\n{player_pokemon} "
+                  f"(HP: {character['Poke Ball'][player_pokemon]['currentHP']}\n{character['potion']} potion(s) left!")
 
 
 
