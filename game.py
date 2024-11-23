@@ -1,4 +1,5 @@
 import random
+import copy
 
 
 def make_character():
@@ -126,10 +127,10 @@ def skill_result(user_pokemon_skill, skill_collection, event_pokemon_info, chara
 
     if event_pokemon_info['currentHP'] <= 0:
         event_pokemon_info['currentHP'] = level_maximum_hp(character)
-        print(f"You defeated the {event_pokemon_info[0]}")
+        print(f"You defeated the {event_pokemon_info[0][0]}")
         return False
     else:
-        print(f"{event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
+        print(f"{event_pokemon_info[0][0]}(HP: {event_pokemon_info[0][1]['currentHP']})\n")
         return True
 
 
@@ -195,16 +196,35 @@ def use_potion(character, player_pokemon):
                   f"(HP: {character['Poke Ball'][player_pokemon]['currentHP']}\n{character['potion']} potion(s) left!")
 
 
+def select_release_pokemon(character, event_pokemon_info):
+    print("\nYou have...")
+    for pokemon in character['Poke Ball'].keys():
+        print(f"{pokemon}(HP: {character['Poke Ball'][pokemon]['currentHP']})")
+    print("You can't choose the Starting Pokemon!")
+    user_choice_pokemon = input("what pokemon would you release (Entering pokemon name)? ").capitalize()
+    while (user_choice_pokemon not in character['Poke Ball'].keys() or user_choice_pokemon
+           == character['Starting Pokemon']):
+        print(f"\n{user_choice_pokemon} can't be chosen!")
+        user_choice_pokemon = input(
+            "Please choose a pokemon that is in your Poke Ball except your Starting Pokemon "
+            + "(Entering pokemon name): ").capitalize()
+        del character['Poke Ball'][user_choice_pokemon]
+        print(f"\nGoodbye, {user_choice_pokemon}")
+        character['Poke Ball'][event_pokemon_info[0][0]] = {'type': event_pokemon_info[0][1]['type'],
+                                                            'currentHP': level_maximum_hp(character) / 2}
+        print(f"\nGotcha! {event_pokemon_info[0][0]} was caught!")
+
 
 def throw_poke_ball(event_pokemon_info, character):
-    return True
-    # if event_pokemon_info['currentHP'] <= 5:
-    #     if len(character['Poke Ball']) == 6:
-    #         print("")
-    #         user_choice = input("You can only carry up to 6 Pokémon. Would you like to release one (y/n)? ").lower()
-    #         while user_choice not in ['y', 'n']:
-    #             print(f"\n{user_choice} is not a valid option")
-    #             user_choice = input("Please choose a valid option (y/n): ").lower()
+    if event_pokemon_info[0][1]['currentHP'] <= 5:
+        if len(character['Poke Ball']) == 6:
+            user_choice = input("\nYou can only carry up to 6 Pokémon. Would you like to release one (y/n)? ").lower()
+            while user_choice not in ['y', 'n']:
+                print(f"\n{user_choice} is not a valid option")
+                user_choice = input("Please choose a valid option (y/n): ").lower()
+            if user_choice == 'y':
+                select_release_pokemon(character, event_pokemon_info)
+
     #         if user_choice == 'y':
     #             print("")
     #             for pokemon in character['Poke Ball'].keys():
@@ -243,7 +263,7 @@ def set_event_type():
 
 def get_event_pokemon(character):
     event_pokemon_collection = event_pokemon(character['User Level'])
-    return random.choices(list(event_pokemon_collection.items()), k=1)[0]
+    return random.choices(list(copy.deepcopy(event_pokemon_collection.items())), k=1)
 
 
 def take_out_pokemon(character):
@@ -297,7 +317,7 @@ def get_skill_of(pokemon_type):
 
 
 def select_event_option(event_type):
-    user_option = [fight, change_pokemon, use_potion] # change list type to dictionary
+    user_option = [fight, change_pokemon, use_potion]  # change list type to dictionary
     if event_type == 'wildPokemon':
         user_option.extend([throw_poke_ball, "Run"])
 
@@ -332,10 +352,10 @@ def event_occurred(character):
     if event_type:
         event_pokemon_info = get_event_pokemon(character)
         if event_type == "wildPokemon":
-            print(f"\nA wild {event_pokemon_info[0]} appeared!(HP: {event_pokemon_info[1]['currentHP']})\n")
+            print(f"\nA wild {event_pokemon_info[0][0]} appeared!(HP: {event_pokemon_info[0][1]['currentHP']})\n")
         else:
             print(f"\nYou encountered a {event_type}!")
-            print(f"{event_type} sent out {event_pokemon_info[0]}!(HP: {event_pokemon_info[1]['currentHP']})\n")
+            print(f"{event_type} sent out {event_pokemon_info[0][0]}!(HP: {event_pokemon_info[0][1]['currentHP']})\n")
 
         user_pokemon = take_out_pokemon(character)
 
