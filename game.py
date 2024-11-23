@@ -178,28 +178,23 @@ def check_potion(character, player_pokemon):
 
 
 def use_potion(character, player_pokemon):
-    pass
-    # if check_potion(character, player_pokemon):
-    # if character['potion'] == 0:
-    #     print("\nYou have no potion!\n")
-    # elif character['Poke Ball'][player_pokemon]['currentHP'] == 20:
-    #     print(f"\n{player_pokemon} has full HP!\n")
-    # else:
-    #     print(f"\nYou have {character['potion']} potion(s)!")
-    #     print(f"{player_pokemon} has {character['Poke Ball'][player_pokemon]['currentHP']}.")
-    #     user_answer = input("Would you like to use a potion (y/n)? ").lower()
-    #     while user_answer not in ['y', 'n']:
-    #         print(f"\n{user_answer} is not a valid option")
-    #         user_answer = input("Please choose a valid option (y/n): ").lower()
-    #     if user_answer == 'y':
-    #         if character['Poke Ball'][player_pokemon]['currentHP'] >= 15:
-    #             character['Poke Ball'][player_pokemon]['currentHP'] = 20
-    #         else:
-    #             character['Poke Ball'][player_pokemon]['currentHP'] += 5
-    #         character['potion'] -= 1
-    #         print(f"\n{player_pokemon} restored HP!")
-    #     print(f"{player_pokemon} (HP: {character['Poke Ball'][player_pokemon]['currentHP']})")
-    #     print(f"{character['potion']} potion(s) left!")
+    if check_potion(character, player_pokemon):
+        print(f"\nYou have {character['Potion']} potion(s)!")
+        print(f"{player_pokemon} has {character['Poke Ball'][player_pokemon]['currentHP']}.")
+        user_answer = input("Would you like to use a potion (y/n)? ").lower()
+        while user_answer not in ['y', 'n']:
+            print(f"\n{user_answer} is not a valid option")
+            user_answer = input("Please choose a valid option (y/n): ").lower()
+        if user_answer == 'y':
+            if character['Poke Ball'][player_pokemon]['currentHP'] >= 15:
+                character['Poke Ball'][player_pokemon]['currentHP'] = level_maximum_hp(character)
+            else:
+                character['Poke Ball'][player_pokemon]['currentHP'] += 5
+            character['potion'] -= 1
+            print(f"\n{player_pokemon} restored HP!")
+            print(f"{player_pokemon} (HP: {character['Poke Ball'][player_pokemon]['currentHP']})")
+            print(f"{character['potion']} potion(s) left!")
+
 
 
 def throw_poke_ball(event_pokemon_info, character):
