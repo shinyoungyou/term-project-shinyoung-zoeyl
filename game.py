@@ -103,9 +103,14 @@ def choose_skill_to_challenge(skill_collection):
     return user_choice
 
 
+def get_possibility():
+    return random.choices([True, False], weights=[3, 1], k=1)[0]
+
+
 def fight(user_pokemon, event_pokemon_info, character):
     skill_collection = get_skill_of(character['Poke Ball'][user_pokemon]['type'])
     user_pokemon_skill = choose_skill_to_challenge(skill_collection)
+    skill_accuracy = get_possibility()
 
     return True
     # possible_cases = ('hit', 'missed')
@@ -281,7 +286,7 @@ def get_skill_of(pokemon_type):
 
 
 def select_event_option(event_type):
-    user_option = [fight, change_pokemon, use_potion]
+    user_option = [fight, change_pokemon, use_potion] # change list type to dictionary
     if event_type == 'wildPokemon':
         user_option.extend([throw_poke_ball, "Run"])
 
