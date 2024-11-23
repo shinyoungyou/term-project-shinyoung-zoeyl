@@ -166,9 +166,20 @@ def change_pokemon(character, player_pokemon):
     return player_pokemon
 
 
-# Should consider max currentHP depends on level
+def check_potion(character, player_pokemon):
+    validation = False
+    if character['Potion'] == 0:
+        print("\nYou don't have any potion!\n")
+    elif character['Poke Ball'][player_pokemon]['currentHP'] == level_maximum_hp(character):
+        print(f"\n{player_pokemon} has full HP!\n")
+    else:
+        validation = True
+    return validation
+
+
 def use_potion(character, player_pokemon):
     pass
+    # if check_potion(character, player_pokemon):
     # if character['potion'] == 0:
     #     print("\nYou have no potion!\n")
     # elif character['Poke Ball'][player_pokemon]['currentHP'] == 20:
