@@ -90,7 +90,23 @@ def event_pokemon(user_level):
     return current_user_level
 
 
-def fight(user_pokemon, event_pokemon_info):
+def choose_skill_to_challenge(skill_collection):
+    number = 1
+    print("")
+    for skill in skill_collection:
+        print(f"\n{number}. {skill['name']}(damage range: {skill['damage'][0]} ~ {skill['damage'][1]})")
+        number += 1
+    user_choice = int(input("Which skill would you like to use (Entering number)? "))
+    while user_choice not in range(1, 4):
+        print(f"{user_choice} is not a valid skill choice")
+        user_choice = int(input("Please choose a valid skill (Entering number): "))
+    return user_choice
+
+
+def fight(user_pokemon, event_pokemon_info, character):
+    skill_collection = get_skill_of(character['Poke Ball'][user_pokemon]['type'])
+    user_pokemon_skill = choose_skill_to_challenge(skill_collection)
+
     return True
     # possible_cases = ('hit', 'missed')
     # skill_result = random.choice(possible_cases)
@@ -98,9 +114,6 @@ def fight(user_pokemon, event_pokemon_info):
     # skills_of_selected_pokemon = skills_of[pokemon_type]
     # number = 1
     # print("")
-    # for skill in skills_of_selected_pokemon:
-    #     print(f"{number}. {skill['name']}(damage range: {skill['damage'][0]} ~ {skill['damage'][1]})")
-    #     number += 1
     # user_choice = int(input("Which skill would you like to use (Entering number)? "))
     # while user_choice not in range(1, 4):
     #     print(f"{user_choice} is not a valid skill choice")
@@ -288,7 +301,7 @@ def select_event_option(event_type):
 
 def proceed_event_option(user_choice, user_pokemon, character, event_pokemon_info):
     if user_choice == fight:
-        process_result = fight(user_pokemon, event_pokemon_info)
+        process_result = fight(user_pokemon, event_pokemon_info, character)
     elif user_choice == throw_poke_ball:
         process_result = throw_poke_ball(event_pokemon_info, character)
     else:
