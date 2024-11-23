@@ -96,10 +96,10 @@ def choose_skill_to_challenge(skill_collection):
     for skill in skill_collection:
         print(f"\n{number}. {skill['name']}(damage range: {skill['damage'][0]} ~ {skill['damage'][1]})")
         number += 1
-    user_choice = int(input("Which skill would you like to use (Entering number)? "))
-    while user_choice not in range(1, 4):
+    user_choice = input("Which skill would you like to use (Entering skill name)? ").capitalize()
+    while user_choice not in skill_collection.keys():
         print(f"{user_choice} is not a valid skill choice")
-        user_choice = int(input("Please choose a valid skill (Entering number): "))
+        user_choice = input("Please choose a valid skill (Entering skill name): ").capitalize()
     return user_choice
 
 
@@ -107,37 +107,41 @@ def get_possibility():
     return random.choices([True, False], weights=[3, 1], k=1)[0]
 
 
+def level_maximum_hp(character):
+    if character['User Level'] == 1:
+        maximum_hp = 20
+    elif character['User Level'] == 2:
+        maximum_hp = 40
+    else:
+        maximum_hp = 70
+    return maximum_hp
+
+
+def skill_result(user_pokemon_skill, skill_collection, event_pokemon_info, character):
+    print(f"\n{user_pokemon_skill} hit!")
+
+    damage = random.randrange(skill_collection[user_pokemon_skill]['damage'][0],
+                              skill_collection[user_pokemon_skill]['damage'][1] + 1)
+    event_pokemon_info['currentHP'] -= damage
+
+    if event_pokemon_info['currentHP'] <= 0:
+        event_pokemon_info['currentHP'] = level_maximum_hp(character)
+        print(f"You defeated the {event_pokemon_info[0]}")
+        return False
+    else:
+        print(f"{event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
+        return True
+
+
 def fight(user_pokemon, event_pokemon_info, character):
     skill_collection = get_skill_of(character['Poke Ball'][user_pokemon]['type'])
     user_pokemon_skill = choose_skill_to_challenge(skill_collection)
     skill_accuracy = get_possibility()
-
-    return True
-    # possible_cases = ('hit', 'missed')
-    # skill_result = random.choice(possible_cases)
-    # pokemon_type = character['Poke Ball'][player_pokemon]['type']
-    # skills_of_selected_pokemon = skills_of[pokemon_type]
-    # number = 1
-    # print("")
-    # user_choice = int(input("Which skill would you like to use (Entering number)? "))
-    # while user_choice not in range(1, 4):
-    #     print(f"{user_choice} is not a valid skill choice")
-    #     user_choice = int(input("Please choose a valid skill (Entering number): "))
-    # if skill_result == 'hit':
-    #     print("\n{} hit!".format(skills_of_selected_pokemon[user_choice - 1]['name']))
-    #     damage = random.randrange(skills_of_selected_pokemon[user_choice - 1]['damage'][0],
-    #                               skills_of_selected_pokemon[user_choice - 1]['damage'][1] + 1)
-    #     event_pokemon_info['currentHP'] -= damage
-    # else:
-    #     print(f"\n{skills_of_selected_pokemon[user_choice - 1]['name']} missed!")
-    #
-    # if event_pokemon_info['currentHP'] <= 0:
-    #     event_pokemon_info['currentHP'] = 20
-    #     print("You defeated the %s" % event_pokemon)
-    #     return False
-    # else:
-    #     print(f"{event_pokemon}(HP: {event_pokemon_info['currentHP']})\n")
-    #     return True
+    if skill_accuracy:
+        return skill_result(user_pokemon_skill, skill_collection, event_pokemon_info, character)
+    else:
+        print(f"\n{user_pokemon_skill} missed!")
+        return True
 
 
 def change_pokemon(character, player_pokemon):
