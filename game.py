@@ -127,10 +127,10 @@ def skill_result(user_pokemon_skill, skill_collection, event_pokemon_info, chara
 
     if event_pokemon_info['currentHP'] <= 0:
         event_pokemon_info['currentHP'] = level_maximum_hp(character)
-        print(f"You defeated the {event_pokemon_info[0][0]}")
+        print(f"You defeated the {event_pokemon_info[0]}")
         return False
     else:
-        print(f"{event_pokemon_info[0][0]}(HP: {event_pokemon_info[0][1]['currentHP']})\n")
+        print(f"{event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
         return True
 
 
@@ -214,7 +214,7 @@ def select_release_pokemon(character, event_pokemon_info):
 
 def throw_poke_ball(event_pokemon_info, character):
     process_result = False
-    if event_pokemon_info[0][1]['currentHP'] <= 5:
+    if event_pokemon_info[1]['currentHP'] <= 5:
         if len(character['Poke Ball']) == 6:
             user_choice = input("\nYou can only carry up to 6 Pokémon. Would you like to release one (y/n)? ").lower()
             while user_choice not in ['y', 'n']:
@@ -223,10 +223,10 @@ def throw_poke_ball(event_pokemon_info, character):
             if user_choice == 'y':
                 select_release_pokemon(character, event_pokemon_info)
             else:
-                print(f"\n{event_pokemon_info[0][0]} broke free!")
-        character['Poke Ball'][event_pokemon_info[0][0]] = {'type': event_pokemon_info[0][1]['type'],
+                print(f"\n{event_pokemon_info[0]} broke free!")
+        character['Poke Ball'][event_pokemon_info[0]] = {'type': event_pokemon_info[1]['type'],
                                                             'currentHP': level_maximum_hp(character) / 2}
-        print(f"\nGotcha! {event_pokemon_info[0][0]} was caught!")
+        print(f"\nGotcha! {event_pokemon_info[0]} was caught!")
     else:
         print("\nShoot! It was so close, too!")
         process_result = get_possibility()
@@ -240,7 +240,7 @@ def set_event_type():
 
 def get_event_pokemon(character):
     event_pokemon_collection = event_pokemon(character['User Level'])
-    return random.choices(list(copy.deepcopy(event_pokemon_collection.items())), k=1)
+    return random.choices(list(copy.deepcopy(event_pokemon_collection.items())), k=1)[0]
 
 
 def take_out_pokemon(character):
@@ -318,9 +318,26 @@ def proceed_event_option(user_choice, user_pokemon, character, event_pokemon_inf
     elif user_choice == throw_poke_ball:
         process_result = throw_poke_ball(event_pokemon_info, character)
     else:
-        print(f"\nYou escaped from {event_pokemon_info[0][0]}!")
+        print(f"\nYou escaped from {event_pokemon_info[0]}!")
         process_result = False
     return process_result
+
+
+def set_times(event_type, character):
+    if event_type == 'Team Rocket' or character['User Level'] == 3:
+        times = 1.5
+    elif event_type == 'Strange trainer' or character['User Level'] == 2:
+        times = 1.3
+    else:
+        times = 1
+    return times
+
+
+def get_attacked(event_pokemon_info, event_type, character):
+    pass
+    # skill_collection = get_skill_of(event_pokemon_info[1]['Type'])
+    # event_pokemon_skill = random.choices(list(skill_collection.items()), k=1)[0]
+    # damage = set_times(event_type, character)
 
 
 def event_occurred(character):
@@ -330,10 +347,10 @@ def event_occurred(character):
     if event_type:
         event_pokemon_info = get_event_pokemon(character)
         if event_type == "wildPokemon":
-            print(f"\nA wild {event_pokemon_info[0][0]} appeared!(HP: {event_pokemon_info[0][1]['currentHP']})\n")
+            print(f"\nA wild {event_pokemon_info[0]} appeared!(HP: {event_pokemon_info[1]['currentHP']})\n")
         else:
             print(f"\nYou encountered a {event_type}!")
-            print(f"{event_type} sent out {event_pokemon_info[0][0]}!(HP: {event_pokemon_info[0][1]['currentHP']})\n")
+            print(f"{event_type} sent out {event_pokemon_info[0]}!(HP: {event_pokemon_info[1]['currentHP']})\n")
 
         user_pokemon = take_out_pokemon(character)
 
@@ -350,7 +367,7 @@ def event_occurred(character):
                 process_result = proceed_event_option(user_choice, user_pokemon, character, event_pokemon_info)
 
             if process_result:
-                process_result = get_attacked()
+                process_result = get_attacked(event_pokemon_info, event_type, character)
 
             #     event_pokemon_skill = random.choice(skills_of[event_pokemon_info['type']])
             #     possible_cases = ('hit', 'missed')
