@@ -333,6 +333,16 @@ def set_times(event_type=None, character=None):
     return times
 
 
+def check_status(character, user_pokemon):
+    if character['Poke Ball'][user_pokemon]['currentHP'] <= 0:
+        character['Poke Ball'][user_pokemon]['currentHP'] = 0
+        print(f"{user_pokemon} fainted!")
+        status = False
+    else:
+        status = True
+    return status
+
+
 def get_attacked(event_pokemon_info, event_type, character, user_pokemon):
     skill_collection = get_skill_of(event_pokemon_info[1]['Type'])
     event_pokemon_skill = random.choices(list(skill_collection.items()), k=1)[0]
@@ -346,9 +356,8 @@ def get_attacked(event_pokemon_info, event_type, character, user_pokemon):
         print(f"{user_pokemon} took {damage} damage!")
     else:
         print(f"{event_pokemon_skill['name']} missed!")
-    process_result = check_status()
+    process_result = check_status(character, user_pokemon)
     return process_result
-
 
 
 def event_occurred(character):
@@ -379,22 +388,6 @@ def event_occurred(character):
 
             if process_result:
                 process_result = get_attacked(event_pokemon_info, event_type, character, user_pokemon)
-
-            #     print(f"{event_pokemon} used {event_pokemon_skill['name']}!\n")
-            #     if skill_result == 'hit':
-            #         print(f"{event_pokemon_skill['name']} hit!")
-            #         character['Poke Ball'][player_pokemon]['currentHP'] -= player_damage
-            #         print(f"{player_pokemon} took {player_damage} damage!")
-            #     else:
-            #         print(f"{event_pokemon_skill['name']} missed!")
-            #
-            #     if character['Poke Ball'][player_pokemon]['currentHP'] <= 0:
-            #         character['Poke Ball'][player_pokemon]['currentHP'] = 0
-            #         print(f"{player_pokemon} fainted!")
-            #         process_result = False
-            #     else:
-            #         print(f"{player_pokemon}(HP: {character['Poke Ball'][player_pokemon]['currentHP']})\n")
-            #         # After completing battle, should recover the event pokemon HP
 
 
 def get_user_choice():
