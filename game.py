@@ -318,6 +318,7 @@ def proceed_event_option(user_choice, user_pokemon, character, event_pokemon_inf
     elif user_choice == throw_poke_ball:
         process_result = throw_poke_ball(event_pokemon_info, character)
     else:
+        print(f"\nYou escaped from {event_pokemon_info[0][0]}!")
         process_result = False
     return process_result
 
