@@ -347,22 +347,11 @@ def event_occurred(character):
             elif user_choice == use_potion:
                 use_potion(character, user_pokemon)
             else:
-                proceed_event_option(user_choice, user_pokemon, character, event_pokemon_info)
+                process_result = proceed_event_option(user_choice, user_pokemon, character, event_pokemon_info)
 
-            # if user_choice == 1:
-            #     process_result = user_option[user_choice - 1](character, skills_of, player_pokemon,
-            #                                                   event_pokemon_info, event_pokemon)
-            # elif user_choice == 2:
-            #     player_pokemon = user_option[user_choice - 1](character, player_pokemon)
-            # elif user_choice == 3:
-            #     user_option[user_choice - 1](character, player_pokemon)
-            # elif user_choice == 4:
-            #     process_result = user_option[user_choice - 1](character, event_pokemon, event_pokemon_info)
-            # else:
-            #     print(f"\nYou escaped from {event_pokemon}!")
-            #     process_result = False
-            #
-            # if process_result:
+            if process_result:
+                process_result = get_attacked()
+
             #     event_pokemon_skill = random.choice(skills_of[event_pokemon_info['type']])
             #     possible_cases = ('hit', 'missed')
             #     skill_result = random.choice(possible_cases)
