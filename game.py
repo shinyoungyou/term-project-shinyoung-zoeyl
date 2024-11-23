@@ -210,12 +210,10 @@ def select_release_pokemon(character, event_pokemon_info):
             + "(Entering pokemon name): ").capitalize()
         del character['Poke Ball'][user_choice_pokemon]
         print(f"\nGoodbye, {user_choice_pokemon}")
-        character['Poke Ball'][event_pokemon_info[0][0]] = {'type': event_pokemon_info[0][1]['type'],
-                                                            'currentHP': level_maximum_hp(character) / 2}
-        print(f"\nGotcha! {event_pokemon_info[0][0]} was caught!")
 
 
 def throw_poke_ball(event_pokemon_info, character):
+    process_result = False
     if event_pokemon_info[0][1]['currentHP'] <= 5:
         if len(character['Poke Ball']) == 6:
             user_choice = input("\nYou can only carry up to 6 Pokémon. Would you like to release one (y/n)? ").lower()
@@ -224,36 +222,15 @@ def throw_poke_ball(event_pokemon_info, character):
                 user_choice = input("Please choose a valid option (y/n): ").lower()
             if user_choice == 'y':
                 select_release_pokemon(character, event_pokemon_info)
-
-    #         if user_choice == 'y':
-    #             print("")
-    #             for pokemon in character['Poke Ball'].keys():
-    #                 print(f"{pokemon}(HP: {character['Poke Ball'][pokemon]['currentHP']})")
-    #             print("You can't choose the Starting Pokemon!")
-    #             user_choice_pokemon = input("what pokemon would you release (Entering pokemon name)? ").capitalize()
-    #             while user_choice_pokemon not in character['Poke Ball'].keys() or user_choice_pokemon == character[
-    #                 'Starting Pokemon']:
-    #                 print("\n{} can't be chosen!".format(user_choice_pokemon))
-    #                 user_choice_pokemon = input(
-    #                     "Please choose a pokemon that is in your Poke Ball except your Starting Pokemon "
-    #                     + "(Entering pokemon name): ").capitalize()
-    #             del character['Poke Ball'][user_choice_pokemon]
-    #             print(f"\nGoodbye, {user_choice_pokemon}")
-    #             character['Poke Ball'][event_pokemon] = {'type': event_pokemon_info['type'], 'currentHP': 10}
-    #             print(f"\nGotcha! {event_pokemon} was caught!")
-    #             return False
-    #         else:
-    #             print(f"\n{event_pokemon} broke free!")
-    #             return False
-    #     else:
-    #         character['Poke Ball'][event_pokemon] = {'type': event_pokemon_info['type'], 'currentHP': 10}
-    #         print(f"\nGotcha! {event_pokemon} was caught!")
-    #         return False
-    # else:
-    #     print("\nShoot! It was so close, too!")
-    #     # when event pokémon ran away, it's false because event is done
-    #     result = random.choice([True, False])
-    #     return result
+            else:
+                print(f"\n{event_pokemon_info[0][0]} broke free!")
+        character['Poke Ball'][event_pokemon_info[0][0]] = {'type': event_pokemon_info[0][1]['type'],
+                                                            'currentHP': level_maximum_hp(character) / 2}
+        print(f"\nGotcha! {event_pokemon_info[0][0]} was caught!")
+    else:
+        print("\nShoot! It was so close, too!")
+        process_result = get_possibility()
+    return process_result
 
 
 def set_event_type():
