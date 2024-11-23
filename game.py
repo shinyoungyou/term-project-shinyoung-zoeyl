@@ -597,14 +597,6 @@ def in_the_gym(character):
         return False
     print("Gym Leader: Welcome to the gym! Here is one rule, you can't use potions to accurately assess your skills.")
 
-    gym_leader_pokemons = [
-        {'name': 'Bulbasaur', 'type': 'grass', 'Current HP': 20},
-        {'name': 'Squirtle', 'type': 'water', 'Current HP': 20},
-        {'name': 'Pidgeotto', 'type': 'flying', 'Current HP': 20},
-        {'name': 'Growlithe', 'type': 'fire', 'Current HP': 20},
-        {'name': 'Raichu', 'type': 'electric', 'Current HP': 20},
-    ]
-
     pokemon_types = {
         'Charmander': 'fire',
         'Pikachu': 'electric',
@@ -616,7 +608,7 @@ def in_the_gym(character):
 
     selected_pokemon = choose_pokemon_to_challenge(character, pokemon_types)
 
-    gym_leader_pokemon = generate_gym_leader_pokemon(gym_leader_pokemons)
+    gym_leader_pokemon = generate_gym_leader_pokemon()
 
     # TODO: decompose, function name: choose_skills()
     pokemon_type = pokemon_types[selected_pokemon]
@@ -666,10 +658,15 @@ def choose_pokemon_to_challenge(character, pokemon_types):
     return selected_pokemon
 
 
-def generate_gym_leader_pokemon(gym_leader_pokemons):
-    gym_leader_pokemon = random.choice(gym_leader_pokemons)
-    print(f"The Gym Leader has chosen {gym_leader_pokemon['name']}!")
-    return gym_leader_pokemon
+def generate_gym_leader_pokemon():
+    gym_leader_pokemons = [
+        {'name': 'Bulbasaur', 'type': 'grass', 'Current HP': 20},
+        {'name': 'Squirtle', 'type': 'water', 'Current HP': 20},
+        {'name': 'Pidgeotto', 'type': 'flying', 'Current HP': 20},
+        {'name': 'Growlithe', 'type': 'fire', 'Current HP': 20},
+        {'name': 'Raichu', 'type': 'electric', 'Current HP': 20},
+    ]
+    return random.choice(gym_leader_pokemons)
 
 
 def main():
