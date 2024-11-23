@@ -323,7 +323,7 @@ def proceed_event_option(user_choice, user_pokemon, character, event_pokemon_inf
     return process_result
 
 
-def set_times(event_type, character):
+def set_times(event_type=None, character=None):
     if event_type == 'Team Rocket' or character['User Level'] == 3:
         times = 1.5
     elif event_type == 'Strange trainer' or character['User Level'] == 2:
@@ -333,11 +333,22 @@ def set_times(event_type, character):
     return times
 
 
-def get_attacked(event_pokemon_info, event_type, character):
-    pass
-    # skill_collection = get_skill_of(event_pokemon_info[1]['Type'])
-    # event_pokemon_skill = random.choices(list(skill_collection.items()), k=1)[0]
-    # damage = set_times(event_type, character)
+def get_attacked(event_pokemon_info, event_type, character, user_pokemon):
+    skill_collection = get_skill_of(event_pokemon_info[1]['Type'])
+    event_pokemon_skill = random.choices(list(skill_collection.items()), k=1)[0]
+    damage = set_times(event_type)
+    damage *= random.choice(range(event_pokemon_skill['damage'][0], event_pokemon_skill['damage'][1] + 1))
+    skill_accuracy = get_possibility()
+    print(f"{event_pokemon_info[0]} used {event_pokemon_skill['name']}!\n")
+    if skill_accuracy:
+        print(f"{event_pokemon_skill['name']} hit!")
+        character['Poke Ball'][user_pokemon]['currentHP'] -= damage
+        print(f"{user_pokemon} took {damage} damage!")
+    else:
+        print(f"{event_pokemon_skill['name']} missed!")
+    process_result = check_status()
+    return process_result
+
 
 
 def event_occurred(character):
@@ -367,18 +378,8 @@ def event_occurred(character):
                 process_result = proceed_event_option(user_choice, user_pokemon, character, event_pokemon_info)
 
             if process_result:
-                process_result = get_attacked(event_pokemon_info, event_type, character)
+                process_result = get_attacked(event_pokemon_info, event_type, character, user_pokemon)
 
-            #     event_pokemon_skill = random.choice(skills_of[event_pokemon_info['type']])
-            #     possible_cases = ('hit', 'missed')
-            #     skill_result = random.choice(possible_cases)
-            #     damage = 1
-            #     if event_type == "Team Rocket":
-            #         damage = 1.5
-            #     elif event_type == "Strange trainer":
-            #         damage = 1.3
-            #     player_damage = (random.choice(
-            #         range(event_pokemon_skill['damage'][0], event_pokemon_skill['damage'][1] + 1)) * damage)
             #     print(f"{event_pokemon} used {event_pokemon_skill['name']}!\n")
             #     if skill_result == 'hit':
             #         print(f"{event_pokemon_skill['name']} hit!")
