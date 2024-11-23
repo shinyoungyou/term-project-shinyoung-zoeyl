@@ -145,23 +145,25 @@ def fight(user_pokemon, event_pokemon_info, character):
 
 
 def change_pokemon(character, player_pokemon):
-    return True
-    # print("\nYour pokemons' status...")
-    # for pokemon in character['Poke Ball'].keys():
-    #     print(f"{pokemon}(HP: {character['Poke Ball'][pokemon]['currentHP']})")
-    # print("")
-    # user_choice = input("what pokemon would you like to switch to (Entering Pokemon name)? ").capitalize()
-    # while user_choice not in character['Poke Ball'].keys():
-    #     print(f"\n{user_choice} is not included in your Poke Balls")
-    #     user_choice = input("what pokemon would you like (Entering Pokemon name)? ").capitalize()
-    # while character['Poke Ball'][user_choice]['currentHP'] == 0:
-    #     print(f"\n{user_choice} has 0 HP, could you choose other pokemon?")
-    #     user_choice = input("Please choose a pokemon again: ").capitalize()
-    # print(f"\nGood job, {player_pokemon}! Come back!")
-    # print(f"Go, {user_choice}")
-    # print(f"{user_choice}(HP: {character['Poke Ball'][user_choice]['currentHP']})\n")
-    #
-    # return user_choice
+    if len(character['Poke Ball']) == 1:
+        print("\nYou has no pokemon to switch to\n")
+    else:
+        print("\nYour pokemons' status...")
+        for pokemon in character['Poke Ball'].keys():
+            print(f"{pokemon}(HP: {character['Poke Ball'][pokemon]['currentHP']})")
+
+        user_choice = input("\nwhat pokemon would you like to switch to (Entering Pokemon name)? ").capitalize()
+        while user_choice not in character['Poke Ball'].keys() or character['Poke Ball'][user_choice]['currentHP'] == 0:
+            print(f"\n{user_choice} is not included in your Poke Balls or has 0HP")
+            user_choice = input("what pokemon would you like (Entering Pokemon name)? ").capitalize()
+
+        print(f"\nGood job, {player_pokemon}! Come back!")
+        print(f"Go, {user_choice}")
+
+        player_pokemon = user_choice
+        print(f"{user_choice}(HP: {character['Poke Ball'][user_choice]['currentHP']})\n")
+
+    return player_pokemon
 
 
 # Should consider max currentHP depends on level
