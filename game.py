@@ -95,12 +95,12 @@ def choose_skill_to_challenge(skill_collection):
     number = 1
     print("")
     for skill in skill_collection:
-        print(f"\n{number}. {skill['name']}(damage range: {skill['damage'][0]} ~ {skill['damage'][1]})")
+        print(f"{number}. {skill['name']}(damage range: {skill['damage'][0]} ~ {skill['damage'][1]})")
         number += 1
-    user_choice = input("Which skill would you like to use (Entering skill name)? ").capitalize()
-    while user_choice not in skill_collection.keys():
+    user_choice = input("Which skill would you like to use (Entering skill name)? ").title()
+    while user_choice not in [userSkill['name'] for userSkill in skill_collection]:
         print(f"{user_choice} is not a valid skill choice")
-        user_choice = input("Please choose a valid skill (Entering skill name): ").capitalize()
+        user_choice = input("Please choose a valid skill (Entering skill name): ").title()
     return user_choice
 
 
@@ -145,7 +145,7 @@ def fight(user_pokemon, event_pokemon_info, character):
         return True
 
 
-def change_pokemon(character, player_pokemon):
+def change_pokemon(character, user_pokemon):
     if len(character['Poke Ball']) == 1:
         print("\nYou has no pokemon to switch to\n")
     else:
@@ -158,45 +158,45 @@ def change_pokemon(character, player_pokemon):
             print(f"\n{user_choice} is not included in your Poke Balls or has 0HP")
             user_choice = input("what pokemon would you like (Entering Pokemon name)? ").capitalize()
 
-        print(f"\nGood job, {player_pokemon}! Come back!")
+        print(f"\nGood job, {user_pokemon}! Come back!")
         print(f"Go, {user_choice}")
 
-        player_pokemon = user_choice
+        user_pokemon = user_choice
         print(f"{user_choice}(HP: {character['Poke Ball'][user_choice]['currentHP']})\n")
 
-    return player_pokemon
+    return user_pokemon
 
 
-def check_potion(character, player_pokemon):
+def check_potion(character, user_pokemon):
     validation = False
     if character['Potion'] == 0:
         print("\nYou don't have any potion!\n")
-    elif character['Poke Ball'][player_pokemon]['currentHP'] == level_maximum_hp(character):
-        print(f"\n{player_pokemon} has full HP!\n")
+    elif character['Poke Ball'][user_pokemon]['currentHP'] == level_maximum_hp(character):
+        print(f"\n{user_pokemon} has full HP!\n")
     else:
         validation = True
     return validation
 
 
-def use_potion(character, player_pokemon):
-    if check_potion(character, player_pokemon):
-        print(f"\nYou have {character['Potion']} potion(s)!\n{player_pokemon} has "
-              f"{character['Poke Ball'][player_pokemon]['currentHP']}.")
+def use_potion(character, user_pokemon):
+    if check_potion(character, user_pokemon):
+        print(f"\nYou have {character['Potion']} potion(s)!\n{user_pokemon} has "
+              f"{character['Poke Ball'][user_pokemon]['currentHP']}.")
         user_answer = input("Would you like to use a potion (y/n)? ").lower()
         while user_answer not in ['y', 'n']:
             print(f"\n{user_answer} is not a valid option")
             user_answer = input("Please choose a valid option (y/n): ").lower()
         if user_answer == 'y':
-            if character['Poke Ball'][player_pokemon]['currentHP'] >= 15:
-                character['Poke Ball'][player_pokemon]['currentHP'] = level_maximum_hp(character)
+            if character['Poke Ball'][user_pokemon]['currentHP'] >= 15:
+                character['Poke Ball'][user_pokemon]['currentHP'] = level_maximum_hp(character)
             else:
-                character['Poke Ball'][player_pokemon]['currentHP'] += 5
+                character['Poke Ball'][user_pokemon]['currentHP'] += 5
             character['potion'] -= 1
-            print(f"\n{player_pokemon} restored HP!\n{player_pokemon} "
-                  f"(HP: {character['Poke Ball'][player_pokemon]['currentHP']}\n{character['potion']} potion(s) left!")
+            print(f"\n{user_pokemon} restored HP!\n{user_pokemon} "
+                  f"(HP: {character['Poke Ball'][user_pokemon]['currentHP']}\n{character['potion']} potion(s) left!")
 
 
-def select_release_pokemon(character, event_pokemon_info):
+def select_release_pokemon(character):
     print("\nYou have...")
     for pokemon in character['Poke Ball'].keys():
         print(f"{pokemon}(HP: {character['Poke Ball'][pokemon]['currentHP']})")
@@ -240,11 +240,11 @@ def set_event_type():
 
 def get_event_pokemon(character):
     event_pokemon_collection = event_pokemon(character['User Level'])
-    return random.choices(list(copy.deepcopy(event_pokemon_collection.items())), k=1)[0]
+    return copy.deepcopy(random.choices(list(event_pokemon_collection.items()), k=1)[0])
 
 
 def take_out_pokemon(character):
-    player_pokemon = random.choice(list(character['Poke Ball'].keys()))
+    player_pokemon = random.choice(list(character['Poke Ball'].keys()))  # change way to save player pokemon info(with type and HP)
     while character['Poke Ball'][player_pokemon]['currentHP'] == 0:
         player_pokemon = random.choice(list(character['Poke Ball'].keys()))
     print(f"Go, {player_pokemon}!")
@@ -344,8 +344,8 @@ def check_status(character, user_pokemon):
 
 
 def get_attacked(event_pokemon_info, event_type, character, user_pokemon):
-    skill_collection = get_skill_of(event_pokemon_info[1]['Type'])
-    event_pokemon_skill = random.choices(list(skill_collection.items()), k=1)[0]
+    skill_collection = get_skill_of(event_pokemon_info[1]['type'])
+    event_pokemon_skill = random.choices(list(skill_collection), k=1)[0]
     damage = set_times(event_type)
     damage *= random.choice(range(event_pokemon_skill['damage'][0], event_pokemon_skill['damage'][1] + 1))
     skill_accuracy = get_possibility()
@@ -369,8 +369,8 @@ def event_occurred(character):
         if event_type == "wildPokemon":
             print(f"\nA wild {event_pokemon_info[0]} appeared!(HP: {event_pokemon_info[1]['currentHP']})\n")
         else:
-            print(f"\nYou encountered a {event_type}!")
-            print(f"{event_type} sent out {event_pokemon_info[0]}!(HP: {event_pokemon_info[1]['currentHP']})\n")
+            print(f"\nYou encountered a {event_type}!\n{event_type} sent out {event_pokemon_info[0]}!"
+                  f"(HP: {event_pokemon_info[1]['currentHP']})\n")
 
         user_pokemon = take_out_pokemon(character)
 
