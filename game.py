@@ -2,11 +2,9 @@ import random
 import copy
 
 
-def make_character():
-    character = {'Money': 30, 'User Level': 1, 'Potion': 0, 'Current Location': (0, 0)}
-    starting_pokemon = {'Squirtle': {'type': 'water', 'currentHP': 20},
-                        'Charmander': {'type': 'fire', 'currentHP': 20},
-                        'Bulbasaur': {'type': 'grass', 'currentHP': 20}}
+def make_character(character_name):
+    character = {'Character Name': character_name, 'Money': 30, 'Current Level': 1, 'Potion': 0, 'Current Location': (0, 0)}
+    starting_pokemon = starting_pokemon_collection()
     print("which pokemon would you like to go together?\n")
     print("Squirtle(Water) | Charmander(Fire) | Bulbasaur(Grass)")
     user_choice = input("Please type pokemon name: ").capitalize()
@@ -16,6 +14,10 @@ def make_character():
     character['Poke Ball'] = {user_choice: starting_pokemon[user_choice]}
     character['Starting Pokemon'] = user_choice
     return character
+
+
+def starting_pokemon_collection():
+    return 0
 
 
 def event_pokemon(user_level):
