@@ -3,8 +3,9 @@ import copy
 
 
 def make_character(character_name):
-    character = {'Character Name': character_name, 'Money': 30, 'Current Level': 1, 'Potion': 0, 'Current Location': (0, 0)}
-    starting_pokemon = starting_pokemon_collection()
+    character = {'Character Name': character_name, 'Money': 30, 'Current Level': 1, 'Potion': 0,
+                 'Current Location': (0, 0)}
+    starting_pokemon = starting_pokemon_collection(character['Current Level'])
     print("which pokemon would you like to go together?\n")
     print("Squirtle(Water) | Charmander(Fire) | Bulbasaur(Grass)")
     user_choice = input("Please type pokemon name: ").capitalize()
@@ -16,8 +17,27 @@ def make_character(character_name):
     return character
 
 
-def starting_pokemon_collection():
-    return 0
+def starting_pokemon_collection(character_level):
+    level1_starting_pokemon = {'Squirtle': {'type': 'water', 'currentHP': 30},
+                               'Charmander': {'type': 'fire', 'currentHP': 30},
+                               'Bulbasaur': {'type': 'grass', 'currentHP': 30}}
+
+    level2_starting_pokemon = {'Wartortle': {'type': 'water', 'currentHP': 50},
+                               'Charmeleon': {'type': 'fire', 'currentHP': 50},
+                               'Ivysaur': {'type': 'grass', 'currentHP': 50}}
+
+    level3_starting_pokemon = {'Blastoise': {'type': 'water', 'currentHP': 80},
+                               'Charizard': {'type': 'fire', 'currentHP': 80},
+                               'Venusaur': {'type': 'grass', 'currentHP': 80}}
+
+    current_pokemon_collection = level1_starting_pokemon
+
+    if character_level == 2:
+        current_pokemon_collection = level2_starting_pokemon
+    elif character_level == 3:
+        current_pokemon_collection = level3_starting_pokemon
+
+    return current_pokemon_collection
 
 
 def event_pokemon(user_level):
@@ -227,7 +247,7 @@ def throw_poke_ball(event_pokemon_info, character):
             else:
                 print(f"\n{event_pokemon_info[0]} broke free!")
         character['Poke Ball'][event_pokemon_info[0]] = {'type': event_pokemon_info[1]['type'],
-                                                            'currentHP': level_maximum_hp(character) / 2}
+                                                         'currentHP': level_maximum_hp(character) / 2}
         print(f"\nGotcha! {event_pokemon_info[0]} was caught!")
     else:
         print("\nShoot! It was so close, too!")
@@ -246,7 +266,8 @@ def get_event_pokemon(character):
 
 
 def take_out_pokemon(character):
-    player_pokemon = random.choice(list(character['Poke Ball'].keys()))  # change way to save player pokemon info(with type and HP)
+    player_pokemon = random.choice(
+        list(character['Poke Ball'].keys()))  # change way to save player pokemon info(with type and HP)
     while character['Poke Ball'][player_pokemon]['currentHP'] == 0:
         player_pokemon = random.choice(list(character['Poke Ball'].keys()))
     print(f"Go, {player_pokemon}!")
@@ -592,7 +613,8 @@ def in_the_gym(character):
     :postcondition: return True if the battle wins else False
     :return: True if the battle wins else False
     """
-    gym_badges = {'Level 1': False, 'Level 2': False, 'Level 3': False} # level 1에서 2번, level 2에서 3번, level 3에서 4번, -> 레벨업
+    gym_badges = {'Level 1': False, 'Level 2': False,
+                  'Level 3': False}  # level 1에서 2번, level 2에서 3번, level 3에서 4번, -> 레벨업
     is_gym_badge_earned = False
     user_input = input("Encountered a gym! Enter y to challenge, n to quit: ")
     if user_input == 'n':
