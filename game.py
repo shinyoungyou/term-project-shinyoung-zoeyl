@@ -272,7 +272,7 @@ def take_out_pokemon(character_pokemons):
     player_pokemon = random.choice(
         list(character_pokemons.items()))
     print(player_pokemon)
-    while character_pokemons[player_pokemon[0]]['currentHP'] == 0:
+    while player_pokemon[1]['currentHP'] == 0:
         player_pokemon = random.choice(list(character_pokemons.items()))
     print(f"Go, {player_pokemon[0]}!")
     return player_pokemon
@@ -404,22 +404,23 @@ def event_occurred(character):
     if event_type:
         event_pokemon_info = describe_event(event_type, character['Current Level'])
 
-        user_pokemon = take_out_pokemon(character['Poke Ball'])
+        character_pokemon = take_out_pokemon(character['Poke Ball'])
 
         while process_result:
-            print(f"Current status: {user_pokemon[0]}(HP: {user_pokemon[1]['currentHP']})\n")
+            # Check
+            print(f"Current status: {character_pokemon[0]}(HP: {character['Poke Ball'][character_pokemon[0]]['currentHP']})\n")
 
             user_choice = select_event_option(event_type)
 
             if user_choice == change_pokemon:
-                user_pokemon = change_pokemon(character, user_pokemon)
+                character_pokemon = change_pokemon(character, character_pokemon)
             elif user_choice == use_potion:
-                use_potion(character, user_pokemon)
+                use_potion(character, character_pokemon)
             else:
-                process_result = proceed_event_option(user_choice, user_pokemon, character, event_pokemon_info)
+                process_result = proceed_event_option(user_choice, character_pokemon, character, event_pokemon_info)
 
             if process_result:
-                process_result = get_attacked(event_pokemon_info, event_type, character, user_pokemon)
+                process_result = get_attacked(event_pokemon_info, event_type, character, character_pokemon)
 
 
 def get_user_choice():
