@@ -386,17 +386,22 @@ def get_attacked(event_pokemon_info, event_type, character, user_pokemon):
     return process_result
 
 
+def describe_event(event_type, character_level):
+    event_pokemon_info = get_event_pokemon(character_level)
+    if event_type == "wildPokemon":
+        print(f"\nA wild {event_pokemon_info[0]} appeared!(HP: {event_pokemon_info[1]['currentHP']})\n")
+    else:
+        print(f"\nYou encountered a {event_type}!\n{event_type} sent out {event_pokemon_info[0]}!"
+              f"(HP: {event_pokemon_info[1]['currentHP']})\n")
+    return event_pokemon_info
+
+
 def event_occurred(character):
     event_type = set_event_type()
     process_result = True
 
     if event_type:
-        event_pokemon_info = get_event_pokemon(character['Current Level'])
-        if event_type == "wildPokemon":
-            print(f"\nA wild {event_pokemon_info[0]} appeared!(HP: {event_pokemon_info[1]['currentHP']})\n")
-        else:
-            print(f"\nYou encountered a {event_type}!\n{event_type} sent out {event_pokemon_info[0]}!"
-                  f"(HP: {event_pokemon_info[1]['currentHP']})\n")
+        event_pokemon_info = describe_event(event_type, character['Current Level'])
 
         user_pokemon = take_out_pokemon(character)
 
