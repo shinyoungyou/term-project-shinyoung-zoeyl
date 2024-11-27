@@ -268,12 +268,13 @@ def get_event_pokemon(character_level):
     return copy.deepcopy(random.choices(list(event_pokemon_collection.items()), k=1)[0])
 
 
-def take_out_pokemon(character):
+def take_out_pokemon(character_pokemons):
     player_pokemon = random.choice(
-        list(character['Poke Ball'].keys()))  # change way to save player pokemon info(with type and HP)
-    while character['Poke Ball'][player_pokemon]['currentHP'] == 0:
-        player_pokemon = random.choice(list(character['Poke Ball'].keys()))
-    print(f"Go, {player_pokemon}!")
+        list(character_pokemons.items()))
+    print(player_pokemon)
+    while character_pokemons[player_pokemon[0]]['currentHP'] == 0:
+        player_pokemon = random.choice(list(character_pokemons.items()))
+    print(f"Go, {player_pokemon[0]}!")
     return player_pokemon
 
 
@@ -403,7 +404,7 @@ def event_occurred(character):
     if event_type:
         event_pokemon_info = describe_event(event_type, character['Current Level'])
 
-        user_pokemon = take_out_pokemon(character)
+        user_pokemon = take_out_pokemon(character['Poke Ball'])
 
         while process_result:
             print(f"{user_pokemon}(HP: {character['Poke Ball'][user_pokemon]['currentHP']})\n")
