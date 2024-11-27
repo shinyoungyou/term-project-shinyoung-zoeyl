@@ -47,7 +47,7 @@ def current_pokemon_collection(character_level, level1, level2, level3):
     return current_level_collection
 
 
-def event_pokemon(user_level):
+def event_pokemon(character_level):
     level1_pokemon = {'Pichu': {'type': 'electric', 'currentHP': 20},
                       'Shinx': {'type': 'electric', 'currentHP': 20},
                       'Mareep': {'type': 'electric', 'currentHP': 20},
@@ -110,14 +110,10 @@ def event_pokemon(user_level):
                       'Golem': {'type': 'rock', 'currentHP': 70},
                       'Aggron': {'type': 'rock', 'currentHP': 70},
                       'Gigalith': {'type': 'rock', 'currentHP': 70}}
-    current_user_level = level1_pokemon
+    event_pokemon_collection = current_pokemon_collection(character_level, level1_pokemon,
+                                                          level2_pokemon, level3_pokemon)
 
-    if user_level == 2:
-        current_user_level = level2_pokemon
-    elif user_level == 3:
-        current_user_level = level3_pokemon
-
-    return current_user_level
+    return event_pokemon_collection
 
 
 def choose_skill_to_challenge(skill_collection):
