@@ -263,8 +263,8 @@ def set_event_type():
     return random.choices(event_collection, weights=[4, 3, 4, 2], k=1)[0]
 
 
-def get_event_pokemon(character):
-    event_pokemon_collection = event_pokemon(character['User Level'])
+def get_event_pokemon(character_level):
+    event_pokemon_collection = event_pokemon(character_level)
     return copy.deepcopy(random.choices(list(event_pokemon_collection.items()), k=1)[0])
 
 
@@ -391,7 +391,7 @@ def event_occurred(character):
     process_result = True
 
     if event_type:
-        event_pokemon_info = get_event_pokemon(character)
+        event_pokemon_info = get_event_pokemon(character['Current Level'])
         if event_type == "wildPokemon":
             print(f"\nA wild {event_pokemon_info[0]} appeared!(HP: {event_pokemon_info[1]['currentHP']})\n")
         else:
