@@ -160,6 +160,7 @@ def skill_result(user_pokemon_skill, skill_collection, event_pokemon_info, chara
 
 
 def fight(character_pokemon, event_pokemon_info):
+    print(f"{event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
     skill_collection = get_skill_of(character_pokemon[1]['type'])
     user_pokemon_skill = choose_skill_to_challenge(skill_collection)
     skill_accuracy = get_probability()
