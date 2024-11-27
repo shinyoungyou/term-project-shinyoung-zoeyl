@@ -30,25 +30,21 @@ def starting_pokemon_collection(character_level):
                                'Charizard': {'type': 'fire', 'currentHP': 80},
                                'Venusaur': {'type': 'grass', 'currentHP': 80}}
 
-    current_pokemon_collection = level1_starting_pokemon
+    pokemon_collection = current_pokemon_collection(character_level, level1_starting_pokemon,
+                                                    level2_starting_pokemon, level3_starting_pokemon)
 
-    if character_level == 2:
-        current_pokemon_collection = level2_starting_pokemon
-    elif character_level == 3:
-        current_pokemon_collection = level3_starting_pokemon
-
-    return current_pokemon_collection
+    return pokemon_collection
 
 
 def current_pokemon_collection(character_level, level1, level2, level3):
     if character_level == 2:
-        current_pokemon_collection = level2
+        current_level_collection = level2
     elif character_level == 3:
-        current_pokemon_collection = level3
+        current_level_collection = level3
     else:
-        current_pokemon_collection = level1
+        current_level_collection = level1
 
-    return current_pokemon_collection
+    return current_level_collection
 
 
 def event_pokemon(user_level):
