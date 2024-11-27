@@ -122,10 +122,10 @@ def choose_skill_to_challenge(skill_collection):
     for skill in skill_collection:
         print(f"{number}. {skill['name']}(damage range: {skill['damage'][0]} ~ {skill['damage'][1]})")
         number += 1
-    user_choice = input("Which skill would you like to use (Entering skill name)? ").title()
-    while user_choice not in [userSkill['name'] for userSkill in skill_collection]:
+    user_choice = int(input("Which skill would you like to use (Entering number)? "))
+    while user_choice not in range(1, 4):
         print(f"{user_choice} is not a valid skill choice")
-        user_choice = input("Please choose a valid skill (Entering skill name): ").title()
+        user_choice = int(input("Please choose a valid skill (Entering number): "))
     return user_choice
 
 
