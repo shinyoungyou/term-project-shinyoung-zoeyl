@@ -143,7 +143,17 @@ def level_maximum_hp(character):
     return maximum_hp
 
 
-def skill_result(user_pokemon_skill, skill_collection, event_pokemon_info, character):
+def make_stronger(character_level):
+    if character_level == 2:
+        stronger = 1.3
+    elif character_level == 3:
+        stronger = 1.5
+    else:
+        stronger = 1
+    return stronger
+
+
+def get_attack_result(user_pokemon_skill, skill_collection, event_pokemon_info, character):
     print(f"\n{user_pokemon_skill} hit!")
 
     damage = random.randrange(skill_collection[user_pokemon_skill]['damage'][0],
@@ -165,7 +175,7 @@ def fight(character_pokemon, event_pokemon_info):
     user_pokemon_skill = choose_skill_to_challenge(skill_collection)
     skill_accuracy = get_probability()
     if skill_accuracy:
-        return skill_result(user_pokemon_skill, skill_collection, event_pokemon_info)
+        return get_attack_result(user_pokemon_skill, skill_collection, event_pokemon_info)
     else:
         print(f"\n{user_pokemon_skill} missed!")
         return True
