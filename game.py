@@ -40,6 +40,17 @@ def starting_pokemon_collection(character_level):
     return current_pokemon_collection
 
 
+def current_pokemon_collection(character_level, level1, level2, level3):
+    if character_level == 2:
+        current_pokemon_collection = level2
+    elif character_level == 3:
+        current_pokemon_collection = level3
+    else:
+        current_pokemon_collection = level1
+
+    return current_pokemon_collection
+
+
 def event_pokemon(user_level):
     level1_pokemon = {'Pichu': {'type': 'electric', 'currentHP': 20},
                       'Shinx': {'type': 'electric', 'currentHP': 20},
