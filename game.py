@@ -48,68 +48,68 @@ def current_pokemon_collection(character_level, level1, level2, level3):
 
 
 def event_pokemon(character_level):
-    level1_pokemon = {'Pichu': {'type': 'electric', 'currentHP': 20},
-                      'Shinx': {'type': 'electric', 'currentHP': 20},
-                      'Mareep': {'type': 'electric', 'currentHP': 20},
-                      'Caterpie': {'type': 'grass', 'currentHP': 20},
-                      'Weedle': {'type': 'grass', 'currentHP': 20},
-                      'Treecko': {'type': 'grass', 'currentHP': 20},
-                      'Pidgey': {'type': 'flying', 'currentHP': 20},
-                      'Pidove': {'type': 'flying', 'currentHP': 20},
-                      'Slowpoke': {'type': 'water', 'currentHP': 20},
-                      'Horsea': {'type': 'water', 'currentHP': 20},
-                      'Mudkip': {'type': 'water', 'currentHP': 20},
-                      'Cyndaquil': {'type': 'fire', 'currentHP': 20},
-                      'Totodile': {'type': 'fire', 'currentHP': 20},
-                      'Magby': {'type': 'fire', 'currentHP': 20},
-                      'Swinub': {'type': 'ice', 'currentHP': 20},
-                      'Spheal': {'type': 'ice', 'currentHP': 20},
-                      'Vanillite': {'type': 'ice', 'currentHP': 20},
-                      'Geodude': {'type': 'rock', 'currentHP': 20},
-                      'Aron': {'type': 'rock', 'currentHP': 20},
-                      'Roggenrola': {'type': 'rock', 'currentHP': 20}}
+    level1_pokemon = {'Pichu': {'type': 'electric', 'currentHP': 30},
+                      'Shinx': {'type': 'electric', 'currentHP': 30},
+                      'Mareep': {'type': 'electric', 'currentHP': 30},
+                      'Caterpie': {'type': 'grass', 'currentHP': 30},
+                      'Weedle': {'type': 'grass', 'currentHP': 30},
+                      'Treecko': {'type': 'grass', 'currentHP': 30},
+                      'Pidgey': {'type': 'flying', 'currentHP': 30},
+                      'Pidove': {'type': 'flying', 'currentHP': 30},
+                      'Slowpoke': {'type': 'water', 'currentHP': 30},
+                      'Horsea': {'type': 'water', 'currentHP': 30},
+                      'Mudkip': {'type': 'water', 'currentHP': 30},
+                      'Cyndaquil': {'type': 'fire', 'currentHP': 30},
+                      'Totodile': {'type': 'fire', 'currentHP': 30},
+                      'Magby': {'type': 'fire', 'currentHP': 30},
+                      'Swinub': {'type': 'ice', 'currentHP': 30},
+                      'Spheal': {'type': 'ice', 'currentHP': 30},
+                      'Vanillite': {'type': 'ice', 'currentHP': 30},
+                      'Geodude': {'type': 'rock', 'currentHP': 30},
+                      'Aron': {'type': 'rock', 'currentHP': 30},
+                      'Roggenrola': {'type': 'rock', 'currentHP': 30}}
 
-    level2_pokemon = {'Pikachu': {'type': 'electric', 'currentHP': 40},
-                      'Luxio': {'type': 'electric', 'currentHP': 40},
-                      'Flaaffy': {'type': 'electric', 'currentHP': 40},
-                      'Metapod': {'type': 'grass', 'currentHP': 40},
-                      'Kakuna': {'type': 'grass', 'currentHP': 40},
-                      'Grovyle': {'type': 'grass', 'currentHP': 40},
-                      'Pidgeotto': {'type': 'flying', 'currentHP': 40},
-                      'Tranquill': {'type': 'flying', 'currentHP': 40},
-                      'Slowbro': {'type': 'water', 'currentHP': 40},
-                      'Seadra': {'type': 'water', 'currentHP': 40},
-                      'Marshtomp': {'type': 'water', 'currentHP': 40},
-                      'Quilava': {'type': 'fire', 'currentHP': 40},
-                      'Croconaq': {'type': 'fire', 'currentHP': 40},
-                      'Magmar': {'type': 'fire', 'currentHP': 40},
-                      'Piloswine': {'type': 'ice', 'currentHP': 40},
-                      'Sealeo': {'type': 'ice', 'currentHP': 40},
-                      'Vanillish': {'type': 'ice', 'currentHP': 40},
-                      'Graveler': {'type': 'rock', 'currentHP': 40},
-                      'Lairon': {'type': 'rock', 'currentHP': 40},
-                      'Boldore': {'type': 'rock', 'currentHP': 40}}
+    level2_pokemon = {'Pikachu': {'type': 'electric', 'currentHP': 50},
+                      'Luxio': {'type': 'electric', 'currentHP': 50},
+                      'Flaaffy': {'type': 'electric', 'currentHP': 50},
+                      'Metapod': {'type': 'grass', 'currentHP': 50},
+                      'Kakuna': {'type': 'grass', 'currentHP': 50},
+                      'Grovyle': {'type': 'grass', 'currentHP': 50},
+                      'Pidgeotto': {'type': 'flying', 'currentHP': 50},
+                      'Tranquill': {'type': 'flying', 'currentHP': 50},
+                      'Slowbro': {'type': 'water', 'currentHP': 50},
+                      'Seadra': {'type': 'water', 'currentHP': 50},
+                      'Marshtomp': {'type': 'water', 'currentHP': 50},
+                      'Quilava': {'type': 'fire', 'currentHP': 50},
+                      'Croconaq': {'type': 'fire', 'currentHP': 50},
+                      'Magmar': {'type': 'fire', 'currentHP': 50},
+                      'Piloswine': {'type': 'ice', 'currentHP': 50},
+                      'Sealeo': {'type': 'ice', 'currentHP': 50},
+                      'Vanillish': {'type': 'ice', 'currentHP': 50},
+                      'Graveler': {'type': 'rock', 'currentHP': 50},
+                      'Lairon': {'type': 'rock', 'currentHP': 50},
+                      'Boldore': {'type': 'rock', 'currentHP': 50}}
 
-    level3_pokemon = {'Raichu': {'type': 'electric', 'currentHP': 70},
-                      'Luxray': {'type': 'electric', 'currentHP': 70},
-                      'Ampharos': {'type': 'electric', 'currentHP': 70},
-                      'Butterfree': {'type': 'grass', 'currentHP': 70},
-                      'Beedrill': {'type': 'grass', 'currentHP': 70},
-                      'Sceptile': {'type': 'grass', 'currentHP': 70},
-                      'Pidgeot': {'type': 'flying', 'currentHP': 70},
-                      'Pidove': {'type': 'flying', 'currentHP': 70},
-                      'Slowking': {'type': 'water', 'currentHP': 70},
-                      'Kingdra': {'type': 'water', 'currentHP': 70},
-                      'Swampert': {'type': 'water', 'currentHP': 70},
-                      'Typhlosion': {'type': 'fire', 'currentHP': 70},
-                      'Reraligatr': {'type': 'fire', 'currentHP': 70},
-                      'Magmortar': {'type': 'fire', 'currentHP': 70},
-                      'Mamoswine': {'type': 'ice', 'currentHP': 70},
-                      'Walrein': {'type': 'ice', 'currentHP': 70},
-                      'Vanilluxe': {'type': 'ice', 'currentHP': 70},
-                      'Golem': {'type': 'rock', 'currentHP': 70},
-                      'Aggron': {'type': 'rock', 'currentHP': 70},
-                      'Gigalith': {'type': 'rock', 'currentHP': 70}}
+    level3_pokemon = {'Raichu': {'type': 'electric', 'currentHP': 80},
+                      'Luxray': {'type': 'electric', 'currentHP': 80},
+                      'Ampharos': {'type': 'electric', 'currentHP': 80},
+                      'Butterfree': {'type': 'grass', 'currentHP': 80},
+                      'Beedrill': {'type': 'grass', 'currentHP': 80},
+                      'Sceptile': {'type': 'grass', 'currentHP': 80},
+                      'Pidgeot': {'type': 'flying', 'currentHP': 80},
+                      'Pidove': {'type': 'flying', 'currentHP': 80},
+                      'Slowking': {'type': 'water', 'currentHP': 80},
+                      'Kingdra': {'type': 'water', 'currentHP': 80},
+                      'Swampert': {'type': 'water', 'currentHP': 80},
+                      'Typhlosion': {'type': 'fire', 'currentHP': 80},
+                      'Reraligatr': {'type': 'fire', 'currentHP': 80},
+                      'Magmortar': {'type': 'fire', 'currentHP': 80},
+                      'Mamoswine': {'type': 'ice', 'currentHP': 80},
+                      'Walrein': {'type': 'ice', 'currentHP': 80},
+                      'Vanilluxe': {'type': 'ice', 'currentHP': 80},
+                      'Golem': {'type': 'rock', 'currentHP': 80},
+                      'Aggron': {'type': 'rock', 'currentHP': 80},
+                      'Gigalith': {'type': 'rock', 'currentHP': 80}}
     event_pokemon_collection = current_pokemon_collection(character_level, level1_pokemon,
                                                           level2_pokemon, level3_pokemon)
 
@@ -135,11 +135,11 @@ def get_probability():
 
 def level_maximum_hp(character):
     if character['User Level'] == 1:
-        maximum_hp = 20
+        maximum_hp = 30
     elif character['User Level'] == 2:
-        maximum_hp = 40
+        maximum_hp = 50
     else:
-        maximum_hp = 70
+        maximum_hp = 80
     return maximum_hp
 
 
@@ -339,9 +339,9 @@ def select_event_option(event_type):
     return character_option[user_choice - 1]
 
 
-def proceed_event_option(user_choice, user_pokemon, character, event_pokemon_info):
+def proceed_event_option(user_choice, character_pokemon, character, event_pokemon_info):
     if user_choice == fight:
-        process_result = fight(user_pokemon, event_pokemon_info, character)
+        process_result = fight(character_pokemon, event_pokemon_info, character)
     elif user_choice == throw_poke_ball:
         process_result = throw_poke_ball(event_pokemon_info, character)
     else:
@@ -407,8 +407,9 @@ def event_occurred(character):
         character_pokemon = take_out_pokemon(character['Poke Ball'])
 
         while process_result:
-            # Check
-            print(f"Current status: {character_pokemon[0]}(HP: {character['Poke Ball'][character_pokemon[0]]['currentHP']})\n")
+            # Check HP part I would like put like character_pokemon[1]['currentHP']
+            print(f"Current status: {character_pokemon[0]}"
+                  f"(HP: {character['Poke Ball'][character_pokemon[0]]['currentHP']})\n")
 
             user_choice = select_event_option(event_type)
 
