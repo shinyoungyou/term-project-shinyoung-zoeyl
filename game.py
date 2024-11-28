@@ -7,8 +7,7 @@ def make_character(character_name):
     character = {'Character Name': character_name, 'Money': 30, 'Current Level': 1, 'Potion': 0,
                  'Current Location': (0, 0)}
     starting_pokemon = starting_pokemon_collection(character['Current Level'])
-    print("which pokemon would you like to go together?\n")
-    print("Squirtle(Water) | Charmander(Fire) | Bulbasaur(Grass)")
+    print("which pokemon would you like to go together?\nSquirtle(Water) | Charmander(Fire) | Bulbasaur(Grass)")
     user_choice = input("Please type pokemon name: ").capitalize()
     while user_choice not in starting_pokemon:
         print(f"\n{user_choice} is not included in Starting pokemon")
@@ -422,30 +421,37 @@ def select_release_pokemon(character):
         print(f"\nGoodbye, {user_choice_pokemon}")
 
 
+def check_total_of_user_pokemons(character, event_pokemon_info):
+    catch_pokemon = True
+    if len(character['Poke Ball']) == 6:
+        user_choice = input("\nYou can only carry up to 6 Pokémon. Would you like to release one (y/n)? ").lower()
+        while user_choice not in ['y', 'n']:
+            print(f"\n{user_choice} is not a valid option")
+            user_choice = input("Please choose a valid option (y/n): ").lower()
+        if user_choice == 'y':
+            select_release_pokemon(character)
+        else:
+            print(f"\n{event_pokemon_info[0]} broke free!")
+            catch_pokemon = False
+    return catch_pokemon
+
+
 def throw_poke_ball(event_pokemon_info, character):
     process_result = False
     if event_pokemon_info[1]['currentHP'] <= 5:
-        if len(character['Poke Ball']) == 6:
-            user_choice = input("\nYou can only carry up to 6 Pokémon. Would you like to release one (y/n)? ").lower()
-            while user_choice not in ['y', 'n']:
-                print(f"\n{user_choice} is not a valid option")
-                user_choice = input("Please choose a valid option (y/n): ").lower()
-            if user_choice == 'y':
-                select_release_pokemon(character, event_pokemon_info)
-            else:
-                print(f"\n{event_pokemon_info[0]} broke free!")
-        character['Poke Ball'][event_pokemon_info[0]] = {'type': event_pokemon_info[1]['type'],
-                                                         'currentHP': level_maximum_hp(character) / 2}
-        print(f"\nGotcha! {event_pokemon_info[0]} was caught!")
+        if check_total_of_user_pokemons(character, event_pokemon_info):
+            character['Poke Ball'][event_pokemon_info[0]] = {'type': event_pokemon_info[1]['type'],
+                                                             'currentHP': level_maximum_hp(character) / 2}
+            print(f"\nGotcha! {event_pokemon_info[0]} was caught!")
     else:
-        print("\nShoot! It was so close, too!")
+        print("\nShoot! It was so close!")
         process_result = get_probability()
     return process_result
 
 
 def set_event_type():
     event_collection = ("wildPokemon", "Team Rocket", "Strange trainer", False)
-    return random.choices(event_collection, weights=[4, 3, 4, 2], k=1)[0]
+    return random.choices(event_collection, weights=[4, 2, 3, 1], k=1)[0]
 
 
 def get_event_pokemon(character_level):
