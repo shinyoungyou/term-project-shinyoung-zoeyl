@@ -312,6 +312,18 @@ def make_stronger(character_level):
     return stronger
 
 
+def get_money(character, event_type):
+    money = make_stronger(character['Current Level'])
+    if event_type == 'wildPokemon':
+        money *= random.randrange(3, 7)
+    elif event_type == 'Team Rocket':
+        money *= random.randrange(11, 15)
+    else:
+        money *= random.randrange(7, 11)
+    character['Money'] += money
+    print(f"You got {money}!")
+
+
 def get_attack_result(user_pokemon_skill, skill_collection, event_pokemon_info, character):
     print(f"\n{user_pokemon_skill} hit!")
 
