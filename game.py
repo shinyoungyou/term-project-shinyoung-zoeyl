@@ -315,13 +315,15 @@ def make_stronger(character_level):
 def get_attack_result(user_pokemon_skill, skill_collection, event_pokemon_info, character):
     print(f"\n{user_pokemon_skill} hit!")
 
-    damage = random.randrange(skill_collection[user_pokemon_skill]['damage'][0],
-                              skill_collection[user_pokemon_skill]['damage'][1] + 1)
+    damage = make_stronger(character['Current Level']) * random.randrange(
+        skill_collection[user_pokemon_skill - 1]['damage'][0],
+        skill_collection[user_pokemon_skill - 1]['damage'][1] + 1)
+
     event_pokemon_info['currentHP'] -= damage
 
     if event_pokemon_info['currentHP'] <= 0:
-        event_pokemon_info['currentHP'] = level_maximum_hp(character)
         print(f"You defeated the {event_pokemon_info[0]}")
+        # get_money(character)
         return False
     else:
         print(f"{event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
