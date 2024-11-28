@@ -283,8 +283,8 @@ def choose_skill_to_challenge(skill_collection):
         number += 1
     user_choice = int(input("Which skill would you like to use (Entering number)? "))
     while user_choice not in range(1, 4):
-        print(f"{user_choice} is not a valid skill choice")
-        user_choice = int(input("Please choose a valid skill (Entering number): "))
+        print(f"{user_choice} is not a valid choice!")
+        user_choice = int(input("Please choose a valid option (Entering number): "))
     return skill_collection[user_choice - 1]
 
 
