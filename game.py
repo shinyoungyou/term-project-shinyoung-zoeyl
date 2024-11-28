@@ -661,6 +661,37 @@ def game():
     event_occurred(character)
 
 
+def check_badge_eligibility(character, actual_win_count, gym_badge_earned):
+    """
+    Check if the character is eligible to earn a gym badge.
+
+    :param character: a dictionary representing the character, including their current level
+    :param actual_win_count: a positive integer representing the character's current number of wins
+    :param gym_badge_earned: a boolean representing if the gym badge earned
+    :precondition: character is a dictionary with a key "Current Level"
+    :precondition: actual_win_count is a positive integer
+    :param gym_badge_earned: gym_badge_earned is a boolean
+    :postcondition: updates gym_badge_earned to True if the character is eligible for the badge
+    :return: True if the gym badge is earned, else False
+    """
+    level = character["Current Level"]
+
+    win_count = {1: 2, 2: 3, 3: 4}.get(level)
+    if win_count is None:
+        print("Invalid level")
+        return
+
+    count_left_for_badge = win_count - actual_win_count
+
+    if count_left_for_badge > 0:
+        print(f"You need to win {count_left_for_badge} more time(s) to earn the badge.")
+        return gym_badge_earned
+    else:
+        gym_badge_earned = True
+
+    return gym_badge_earned
+
+
 def battle_with_gym_leader(character):
     """
     Drive the battle with gym leader.
