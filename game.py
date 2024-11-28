@@ -7,8 +7,7 @@ def make_character(character_name):
     character = {'Character Name': character_name, 'Money': 30, 'Current Level': 1, 'Potion': 0,
                  'Current Location': (0, 0)}
     starting_pokemon = starting_pokemon_collection(character['Current Level'])
-    print("which pokemon would you like to go together?\n")
-    print("Squirtle(Water) | Charmander(Fire) | Bulbasaur(Grass)")
+    print("which pokemon would you like to go together?\nSquirtle(Water) | Charmander(Fire) | Bulbasaur(Grass)")
     user_choice = input("Please type pokemon name: ").capitalize()
     while user_choice not in starting_pokemon:
         print(f"\n{user_choice} is not included in Starting pokemon")
@@ -283,19 +282,19 @@ def choose_skill_to_challenge(skill_collection):
         number += 1
     user_choice = int(input("Which skill would you like to use (Entering number)? "))
     while user_choice not in range(1, 4):
-        print(f"{user_choice} is not a valid skill choice")
-        user_choice = int(input("Please choose a valid skill (Entering number): "))
-    return user_choice
+        print(f"{user_choice} is not a valid choice!")
+        user_choice = int(input("Please choose a valid option (Entering number): "))
+    return skill_collection[user_choice - 1]
 
 
 def get_probability():
     return random.choices([True, False], weights=[3, 1], k=1)[0]
 
 
-def level_maximum_hp(character):
-    if character['User Level'] == 1:
+def level_maximum_hp(character_level):
+    if character_level == 1:
         maximum_hp = 30
-    elif character['User Level'] == 2:
+    elif character_level == 2:
         maximum_hp = 50
     else:
         maximum_hp = 80
@@ -312,35 +311,48 @@ def make_stronger(character_level):
     return stronger
 
 
-def get_attack_result(user_pokemon_skill, skill_collection, event_pokemon_info, character):
-    print(f"\n{user_pokemon_skill} hit!")
+def get_money(character, event_type):
+    earn_money = make_stronger(character['Current Level'])
+    if event_type == 'wildPokemon':
+        earn_money *= random.randrange(3, 7)
+    elif event_type == 'Team Rocket':
+        earn_money *= random.randrange(11, 15)
+    else:
+        earn_money *= random.randrange(7, 11)
+    character['Money'] += earn_money
+    print(f"You got {earn_money}!")
 
-    damage = random.randrange(skill_collection[user_pokemon_skill]['damage'][0],
-                              skill_collection[user_pokemon_skill]['damage'][1] + 1)
+
+def get_attack_result(character_pokemon_skill, event_pokemon_info, character, event_type):
+    print(f"\n{character_pokemon_skill['name']} hit!")
+
+    damage = make_stronger(character['Current Level']) * random.randrange(
+        character_pokemon_skill['damage'][0], character_pokemon_skill['damage'][1] + 1)
+
     event_pokemon_info['currentHP'] -= damage
 
     if event_pokemon_info['currentHP'] <= 0:
-        event_pokemon_info['currentHP'] = level_maximum_hp(character)
         print(f"You defeated the {event_pokemon_info[0]}")
+        get_money(character, event_type)
         return False
     else:
         print(f"{event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
         return True
 
 
-def fight(character_pokemon, event_pokemon_info):
+def fight(character_pokemon, event_pokemon_info, character, event_type):
     print(f"{event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
     skill_collection = get_skill_of(character_pokemon[1]['type'])
-    user_pokemon_skill = choose_skill_to_challenge(skill_collection)
+    character_pokemon_skill = choose_skill_to_challenge(skill_collection)
     skill_accuracy = get_probability()
     if skill_accuracy:
-        return get_attack_result(user_pokemon_skill, skill_collection, event_pokemon_info)
+        return get_attack_result(character_pokemon_skill, event_pokemon_info, character, event_type)
     else:
-        print(f"\n{user_pokemon_skill} missed!")
+        print(f"\n{character_pokemon_skill['name']} missed!")
         return True
 
 
-def change_pokemon(character, user_pokemon):
+def change_pokemon(character, character_pokemon):
     if len(character['Poke Ball']) == 1:
         print("\nYou has no pokemon to switch to\n")
     else:
@@ -353,42 +365,44 @@ def change_pokemon(character, user_pokemon):
             print(f"\n{user_choice} is not included in your Poke Balls or has 0HP")
             user_choice = input("what pokemon would you like (Entering Pokemon name)? ").capitalize()
 
-        print(f"\nGood job, {user_pokemon}! Come back!")
-        print(f"Go, {user_choice}")
+        print(f"\nGood job, {character_pokemon}! Come back!\nGo, {user_choice}")
 
-        user_pokemon = user_choice
+        character_pokemon = (user_choice, character['Poke Ball'][user_choice])
         print(f"{user_choice}(HP: {character['Poke Ball'][user_choice]['currentHP']})\n")
 
-    return user_pokemon
+    return character_pokemon
 
 
-def check_potion(character, user_pokemon):
+def check_potion(character, character_pokemon):
     validation = False
     if character['Potion'] == 0:
         print("\nYou don't have any potion!\n")
-    elif character['Poke Ball'][user_pokemon]['currentHP'] == level_maximum_hp(character):
-        print(f"\n{user_pokemon} has full HP!\n")
+    elif character_pokemon[1]["currentHP"] == level_maximum_hp(character['Current Level']):
+        print(f"\n{character_pokemon[0]} has full HP!\n")
     else:
         validation = True
     return validation
 
 
-def use_potion(character, user_pokemon):
-    if check_potion(character, user_pokemon):
-        print(f"\nYou have {character['Potion']} potion(s)!\n{user_pokemon} has "
-              f"{character['Poke Ball'][user_pokemon]['currentHP']}.")
+def use_potion(character, character_pokemon):
+    if check_potion(character['Potion'], character_pokemon):
+        print(f"\nYou have {character['Potion']} potion(s)!\n{character_pokemon[0]} has "
+              f"{character_pokemon[1]["currentHP"]} HP.")
+
         user_answer = input("Would you like to use a potion (y/n)? ").lower()
-        while user_answer not in ['y', 'n']:
+        while user_answer not in ('y', 'n'):
             print(f"\n{user_answer} is not a valid option")
             user_answer = input("Please choose a valid option (y/n): ").lower()
+
         if user_answer == 'y':
-            if character['Poke Ball'][user_pokemon]['currentHP'] >= 15:
-                character['Poke Ball'][user_pokemon]['currentHP'] = level_maximum_hp(character)
+            pokemon_maximum_hp = level_maximum_hp(character['Current Level'])
+            if character_pokemon[1]["currentHP"] > pokemon_maximum_hp - 5:
+                character_pokemon[1]["currentHP"] = pokemon_maximum_hp
             else:
-                character['Poke Ball'][user_pokemon]['currentHP'] += 5
+                character_pokemon[1]["currentHP"] += 5
             character['potion'] -= 1
-            print(f"\n{user_pokemon} restored HP!\n{user_pokemon} "
-                  f"(HP: {character['Poke Ball'][user_pokemon]['currentHP']}\n{character['potion']} potion(s) left!")
+            print(f"\n{character_pokemon[0]} restored HP!\n{character_pokemon[0]} "
+                  f"(HP: {character_pokemon[1]["currentHP"]}\n{character['potion']} potion(s) left!")
 
 
 def select_release_pokemon(character):
@@ -407,30 +421,37 @@ def select_release_pokemon(character):
         print(f"\nGoodbye, {user_choice_pokemon}")
 
 
+def check_total_of_user_pokemons(character, event_pokemon_info):
+    catch_pokemon = True
+    if len(character['Poke Ball']) == 6:
+        user_choice = input("\nYou can only carry up to 6 Pokémon. Would you like to release one (y/n)? ").lower()
+        while user_choice not in ['y', 'n']:
+            print(f"\n{user_choice} is not a valid option")
+            user_choice = input("Please choose a valid option (y/n): ").lower()
+        if user_choice == 'y':
+            select_release_pokemon(character)
+        else:
+            print(f"\n{event_pokemon_info[0]} broke free!")
+            catch_pokemon = False
+    return catch_pokemon
+
+
 def throw_poke_ball(event_pokemon_info, character):
     process_result = False
     if event_pokemon_info[1]['currentHP'] <= 5:
-        if len(character['Poke Ball']) == 6:
-            user_choice = input("\nYou can only carry up to 6 Pokémon. Would you like to release one (y/n)? ").lower()
-            while user_choice not in ['y', 'n']:
-                print(f"\n{user_choice} is not a valid option")
-                user_choice = input("Please choose a valid option (y/n): ").lower()
-            if user_choice == 'y':
-                select_release_pokemon(character, event_pokemon_info)
-            else:
-                print(f"\n{event_pokemon_info[0]} broke free!")
-        character['Poke Ball'][event_pokemon_info[0]] = {'type': event_pokemon_info[1]['type'],
-                                                         'currentHP': level_maximum_hp(character) / 2}
-        print(f"\nGotcha! {event_pokemon_info[0]} was caught!")
+        if check_total_of_user_pokemons(character, event_pokemon_info):
+            character['Poke Ball'][event_pokemon_info[0]] = {'type': event_pokemon_info[1]['type'],
+                                                             'currentHP': level_maximum_hp(character) / 2}
+            print(f"\nGotcha! {event_pokemon_info[0]} was caught!")
     else:
-        print("\nShoot! It was so close, too!")
+        print("\nShoot! It was so close!")
         process_result = get_probability()
     return process_result
 
 
 def set_event_type():
     event_collection = ("wildPokemon", "Team Rocket", "Strange trainer", False)
-    return random.choices(event_collection, weights=[4, 3, 4, 2], k=1)[0]
+    return random.choices(event_collection, weights=[4, 2, 3, 1], k=1)[0]
 
 
 def get_event_pokemon(character_level):
@@ -509,9 +530,9 @@ def select_event_option(event_type):
     return character_option[user_choice - 1]
 
 
-def proceed_event_option(user_choice, character_pokemon, character, event_pokemon_info):
+def proceed_event_option(user_choice, character_pokemon, character, event_pokemon_info, event_type):
     if user_choice == fight:
-        process_result = fight(character_pokemon, event_pokemon_info)
+        process_result = fight(character_pokemon, event_pokemon_info, character, event_type)
     elif user_choice == throw_poke_ball:
         process_result = throw_poke_ball(event_pokemon_info, character)
     else:
@@ -588,7 +609,8 @@ def event_occurred(character):
             elif user_choice == use_potion:
                 use_potion(character, character_pokemon)
             else:
-                process_result = proceed_event_option(user_choice, character_pokemon, character, event_pokemon_info)
+                process_result = proceed_event_option(user_choice, character_pokemon, character,
+                                                      event_pokemon_info, event_type)
 
             if process_result:
                 process_result = get_attacked(event_pokemon_info, event_type, character, character_pokemon)
