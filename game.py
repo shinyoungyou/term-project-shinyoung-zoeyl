@@ -130,6 +130,23 @@ def check_current_location(board, character):
     return board[character["Current Location"]]
 
 
+def is_alive(character):
+    """
+    Check if the character is alive
+
+    :param character: a dictionary representing character, including their pokemon
+    :precondition: character is a dictionary with a key "Balls" including pokemon's HP
+    :postcondition: returns True if at least one pokemon has HP greater than 0, else False
+    :return: True if the character is alive, else False
+    """
+    alive = True
+
+    if not any(pokemon['Current HP'] > 0 for pokemon in character["Balls"].values()):
+        alive = False
+
+    return alive
+
+
 def starting_pokemon_collection(character_level):
     level1_starting_pokemon = {'Squirtle': {'type': 'water', 'currentHP': 30},
                                'Charmander': {'type': 'fire', 'currentHP': 30},
@@ -499,7 +516,7 @@ def get_attacked(event_pokemon_info, event_type, character, user_pokemon):
     event_pokemon_skill = random.choices(list(skill_collection), k=1)[0]
     damage = set_times(event_type)
     damage *= random.choice(range(event_pokemon_skill['damage'][0], event_pokemon_skill['damage'][1] + 1))
-    skill_accuracy = get_possibility()
+    skill_accuracy = get_probability()
     print(f"{event_pokemon_info[0]} used {event_pokemon_skill['name']}!\n")
     if skill_accuracy:
         print(f"{event_pokemon_skill['name']} hit!")
@@ -590,33 +607,6 @@ def move_character(character, direction):
 def game():
     character = make_character()
     event_occurred(character)
-
-
-def buy_portion():
-    """
-    Calculate the change after a purchase.
-
-    :postcondition: returns the change after a purchase, or 0 if the user skips
-    :return: change after a purchase, or 0 if the user skips
-    """
-    price = 10
-    print(f"Encountered a store! The portion costs ${price}.")
-    while True:
-        user_input = input(f"Enter {price} or more to buy, or 0 to skip: ")
-        budget = int(user_input)
-        if budget == 0:
-            break
-            # print("You chose not to proceed with the purchase.")
-            # return budget
-
-        change = budget - price
-        if change < 0:
-            print("Invalid input.")
-            # or
-            # print("Insufficient funds. You can't buy this item.")
-        else:
-            print(f"Purchase successful! Your change is ${change}.")
-            return change
 
 
 def in_the_gym(character):
