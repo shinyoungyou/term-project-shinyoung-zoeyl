@@ -341,13 +341,13 @@ def get_attack_result(user_pokemon_skill, event_pokemon_info, character, event_t
         return True
 
 
-def fight(character_pokemon, event_pokemon_info, event_type):
+def fight(character_pokemon, event_pokemon_info, character, event_type):
     print(f"{event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
     skill_collection = get_skill_of(character_pokemon[1]['type'])
     user_pokemon_skill = choose_skill_to_challenge(skill_collection)
     skill_accuracy = get_probability()
     if skill_accuracy:
-        return get_attack_result(user_pokemon_skill, event_pokemon_info, event_type)
+        return get_attack_result(user_pokemon_skill, event_pokemon_info, character, event_type)
     else:
         print(f"\n{user_pokemon_skill['name']} missed!")
         return True
@@ -524,7 +524,7 @@ def select_event_option(event_type):
 
 def proceed_event_option(user_choice, character_pokemon, character, event_pokemon_info, event_type):
     if user_choice == fight:
-        process_result = fight(character_pokemon, event_pokemon_info, event_type)
+        process_result = fight(character_pokemon, event_pokemon_info, character, event_type)
     elif user_choice == throw_poke_ball:
         process_result = throw_poke_ball(event_pokemon_info, character)
     else:
