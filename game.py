@@ -32,6 +32,59 @@ def print_instructions():
     print("- The mission is complete when you defeat the final Gym Leader at Level 3.")
 
 
+def generate_store_locations(board, rows, columns):
+    """
+    Add random stores to the board.
+
+    :param board: a dictionary representing the board
+    :param rows: number of rows in the board
+    :param columns: number of columns in the board
+    :precondition: board is a dictionary representing the board
+    :precondition: rows is a positive integer
+    :precondition: columns is a positive integer
+    :postcondition: updates board with randomly generated store locations
+    :return: updated board with store locations
+    """
+    accessible_cells = [key for key, value in board.items() if value is True]
+    stores = random.sample(accessible_cells, 3)
+    for store in stores:
+        board[store] = "Store"
+    return board
+
+
+def make_board(level):
+    """
+    Make a new game board for the given level.
+
+    :param level: an integer between 1, 2, and 3, representing the current level
+    :precondition: level is a positive integer between 1, 2, and 3
+    :postcondition: creates a dictionary of new board for the given level
+    :return: a dictionary representing the game board
+    """
+    board = {}
+
+    level_config = {
+        1: (6, 6, lambda i, j: (i == 0 and j < 5) or (1 <= i <= 4 and 1 <= j <= 4) or (i == 5 and j > 0), (5, 5)),
+        2: (8, 5, lambda i, j: (i == 0 and j == 0) or (1 <= i <= 6 and 0 <= j <= 4) or (i == 7 and j == 4), (7, 4)),
+        3: (10, 5, lambda i, j: (i == 0 and j == 4) or (1 <= i <= 8 and 0 <= j <= 4) or (i == 9 and j == 0), (9, 0)),
+    }
+
+    if level not in level_config:
+        return board
+
+    rows, columns, is_accessible, gym_location = level_config[level]
+
+    for i in range(rows):
+        for j in range(columns):
+            board[(i, j)] = True if is_accessible(i, j) else False
+
+    board[gym_location] = "Gym"
+
+    board = generate_store_locations(board, rows, columns)
+
+    return board
+
+
 def starting_pokemon_collection(character_level):
     level1_starting_pokemon = {'Squirtle': {'type': 'water', 'currentHP': 30},
                                'Charmander': {'type': 'fire', 'currentHP': 30},
@@ -492,67 +545,6 @@ def move_character(character, direction):
 def game():
     character = make_character()
     event_occurred(character)
-
-
-def make_board(level):
-    """
-    Make a new game board.
-
-    :param level: an integer (1, 2, or 3) representing character's current level
-    :precondition: level is greater than 0
-    :postcondition: returns board for the given level
-    :return: board for the given level
-
-    >>> make_board(1)
-    {(0, 0): 'Empty room', (0, 1): 'Empty room', (0, 2): 'Empty room', (0, 3): 'Empty room', (0, 4): 'Empty room',
-    (1, 1): 'Empty room', (1, 2): 'Empty room', (1, 3): 'Empty room', (1, 4): 'Empty room', (2, 1): 'Empty room',
-    (2, 2): 'Empty room', (2, 3): 'Empty room', (2, 4): 'Empty room', (3, 1): 'Empty room', (3, 2): 'Empty room',
-    (3, 3): 'Empty room', (3, 4): 'Empty room', (4, 1): 'Empty room', (4, 2): 'Empty room', (4, 3): 'Empty room',
-    (4, 4): 'Empty room', (5, 1): 'Empty room', (5, 2): 'Empty room', (5, 3): 'Empty room', (5, 4): 'Empty room',
-    (5, 5): 'Empty room'}
-    """
-    board = {}
-
-    layout = []
-    if level == 1:
-        layout.append([True, True, True, True, True, False])
-        layout.append([False, True, True, True, True, False])
-        layout.append([False, True, True, True, True, False])
-        layout.append([False, True, True, True, True, False])
-        layout.append([False, True, True, True, True, False])
-        layout.append([False, True, True, True, True, True])
-    elif level == 2:
-        layout.append([True, False, False, False, False])
-        layout.append([True, True, True, True, True])
-        layout.append([True, True, True, True, True])
-        layout.append([True, True, True, True, True])
-        layout.append([True, True, True, True, True])
-        layout.append([True, True, True, True, True])
-        layout.append([True, True, True, True, True])
-        layout.append([False, False, False, False, True])
-    elif level == 3:
-        layout.append([False, False, False, False, True])
-        layout.append([True, True, True, True, True])
-        layout.append([True, True, True, True, True])
-        layout.append([True, True, True, True, True])
-        layout.append([True, True, True, True, True])
-        layout.append([True, True, True, True, True])
-        layout.append([True, True, True, True, True])
-        layout.append([True, True, True, True, True])
-        layout.append([True, True, True, True, True])
-        layout.append([True, False, False, False, False])
-    else:
-        return board
-
-    rows = len(layout)
-    columns = len(layout[0])
-
-    for i in range(rows):
-        for j in range(columns):
-            if layout[i][j]:
-                board[(i, j)] = 'Empty room'
-
-    return board
 
 
 def display_current_location(board, character):
