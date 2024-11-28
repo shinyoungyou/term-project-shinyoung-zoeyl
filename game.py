@@ -285,7 +285,7 @@ def choose_skill_to_challenge(skill_collection):
     while user_choice not in range(1, 4):
         print(f"{user_choice} is not a valid skill choice")
         user_choice = int(input("Please choose a valid skill (Entering number): "))
-    return user_choice
+    return skill_collection[user_choice - 1]
 
 
 def get_probability():
@@ -324,12 +324,11 @@ def get_money(character, event_type):
     print(f"You got {money}!")
 
 
-def get_attack_result(user_pokemon_skill, skill_collection, event_pokemon_info, character, event_type):
-    print(f"\n{user_pokemon_skill} hit!")
+def get_attack_result(user_pokemon_skill, event_pokemon_info, character, event_type):
+    print(f"\n{user_pokemon_skill['name']} hit!")
 
     damage = make_stronger(character['Current Level']) * random.randrange(
-        skill_collection[user_pokemon_skill - 1]['damage'][0],
-        skill_collection[user_pokemon_skill - 1]['damage'][1] + 1)
+        user_pokemon_skill['damage'][0], user_pokemon_skill['damage'][1] + 1)
 
     event_pokemon_info['currentHP'] -= damage
 
@@ -348,9 +347,9 @@ def fight(character_pokemon, event_pokemon_info, event_type):
     user_pokemon_skill = choose_skill_to_challenge(skill_collection)
     skill_accuracy = get_probability()
     if skill_accuracy:
-        return get_attack_result(user_pokemon_skill, skill_collection, event_pokemon_info, event_type)
+        return get_attack_result(user_pokemon_skill, event_pokemon_info, event_type)
     else:
-        print(f"\n{user_pokemon_skill} missed!")
+        print(f"\n{user_pokemon_skill['name']} missed!")
         return True
 
 
