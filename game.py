@@ -353,7 +353,7 @@ def fight(character_pokemon, event_pokemon_info, character, event_type):
         return True
 
 
-def change_pokemon(character, user_pokemon):
+def change_pokemon(character, character_pokemon):
     if len(character['Poke Ball']) == 1:
         print("\nYou has no pokemon to switch to\n")
     else:
@@ -366,13 +366,12 @@ def change_pokemon(character, user_pokemon):
             print(f"\n{user_choice} is not included in your Poke Balls or has 0HP")
             user_choice = input("what pokemon would you like (Entering Pokemon name)? ").capitalize()
 
-        print(f"\nGood job, {user_pokemon}! Come back!")
-        print(f"Go, {user_choice}")
+        print(f"\nGood job, {character_pokemon}! Come back!\nGo, {user_choice}")
 
-        user_pokemon = user_choice
+        character_pokemon = (user_choice, character['Poke Ball'][user_choice])
         print(f"{user_choice}(HP: {character['Poke Ball'][user_choice]['currentHP']})\n")
 
-    return user_pokemon
+    return character_pokemon
 
 
 def check_potion(character, user_pokemon):
