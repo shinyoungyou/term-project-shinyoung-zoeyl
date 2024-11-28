@@ -344,12 +344,12 @@ def get_attack_result(user_pokemon_skill, event_pokemon_info, character, event_t
 def fight(character_pokemon, event_pokemon_info, character, event_type):
     print(f"{event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
     skill_collection = get_skill_of(character_pokemon[1]['type'])
-    user_pokemon_skill = choose_skill_to_challenge(skill_collection)
+    character_pokemon_skill = choose_skill_to_challenge(skill_collection)
     skill_accuracy = get_probability()
     if skill_accuracy:
-        return get_attack_result(user_pokemon_skill, event_pokemon_info, character, event_type)
+        return get_attack_result(character_pokemon_skill, event_pokemon_info, character, event_type)
     else:
-        print(f"\n{user_pokemon_skill['name']} missed!")
+        print(f"\n{character_pokemon_skill['name']} missed!")
         return True
 
 
