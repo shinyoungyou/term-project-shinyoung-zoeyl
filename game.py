@@ -1,5 +1,6 @@
 import random
 import copy
+from . import POTION_PRICE
 
 
 def make_character(character_name):
@@ -18,6 +19,11 @@ def make_character(character_name):
 
 
 def print_instructions():
+    """
+    Print the game instructions.
+
+    :postcondition: displays the game instructions in detail
+    """
     print("Welcome to the world of Pokemon! Embark on an exciting journey to become a Pokemon Champion.")
     print("Important notes to know before you begin:")
     print("- Stores are represented by S on the map.")
@@ -145,6 +151,29 @@ def is_alive(character):
         alive = False
 
     return alive
+
+
+def buy_potion(character):
+    """
+    Calculate the change after a purchase.
+
+    :param character: a dictionary representing character, including their money
+    :precondition: character is a dictionary with a key "Money" representing the character's current budget
+    :postcondition: updates the character's money if a potion is purchased
+    """
+    user_input = input("Enter 'y' to buy a potion or 'n' to skip: ")
+
+    if user_input != 'y':
+        return
+
+    budget = character["Money"]
+    change = budget - POTION_PRICE
+
+    if change >= 0:
+        print(f"Purchase successful! Your change is ${change}.")
+        character["Money"] = change
+    else:
+        print("You can't buy with your current budget.")
 
 
 def starting_pokemon_collection(character_level):
@@ -609,7 +638,7 @@ def game():
     event_occurred(character)
 
 
-def in_the_gym(character):
+def battle_with_gym_leader(character):
     """
     Drive the battle with gym leader.
 
@@ -722,7 +751,7 @@ def main():
     board, rows, columns = make_board(character["Current Level"])
     display_current_location(board, character, rows, columns)
     print(check_current_location(board, character))
-    # in_the_gym(character)
+    # battle_with_gym_leader(character)
     # print_instructions()
 
 

@@ -1,0 +1,1 @@
+POTION_PRICE = 10
