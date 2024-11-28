@@ -32,16 +32,12 @@ def print_instructions():
     print("- The mission is complete when you defeat the final Gym Leader at Level 3.")
 
 
-def generate_store_locations(board, rows, columns):
+def generate_store_locations(board):
     """
     Add random stores to the board.
 
     :param board: a dictionary representing the board
-    :param rows: number of rows in the board
-    :param columns: number of columns in the board
     :precondition: board is a dictionary representing the board
-    :precondition: rows is a positive integer
-    :precondition: columns is a positive integer
     :postcondition: updates board with randomly generated store locations
     :return: updated board with store locations
     """
@@ -80,9 +76,58 @@ def make_board(level):
 
     board[gym_location] = "Gym"
 
-    board = generate_store_locations(board, rows, columns)
+    board = generate_store_locations(board)
 
-    return board
+    return board, rows, columns
+
+
+def display_current_location(board, character, rows, columns):
+    """
+    Display the current location of the game board.
+
+    :param board: a dictionary representing the game board
+    :param character: a dictionary representing the character
+    :param rows: a positive integer representing the number of rows
+    :param columns: a positive integer representing the number of columns
+    :precondition: board is a dictionary representing the game board
+    :precondition: character is a dictionary representing the character
+    :precondition: rows is a positive integers
+    :precondition: columns is a positive integers
+    :postcondition: prints the current location of character, store, and gym location
+    """
+    if not board:
+        return
+
+    for i in range(rows):
+        row = ""
+        for j in range(columns):
+            location = board.get((i, j), False)
+
+            if location is False:
+                row += "   "
+            elif (i, j) == character["Current Location"]:
+                row += "[#]"
+            elif location == "Store":
+                row += "[S]"
+            elif location == "Gym":
+                row += "[G]"
+            else:
+                row += "[ ]"
+        print(row)
+
+
+def check_current_location(board, character):
+    """
+    Check the current location of the game board.
+
+    :param board: a dictionary representing the game board
+    :param character: a dictionary representing the character
+    :precondition: board is a dictionary representing the game board
+    :precondition: character is a dictionary representing the character
+    :postcondition: retrieves the description of current location from the board
+    :return: the description of current location between True, False, Store, and Gym
+    """
+    return board[character["Current Location"]]
 
 
 def starting_pokemon_collection(character_level):
@@ -547,63 +592,6 @@ def game():
     event_occurred(character)
 
 
-def display_current_location(board, character):
-    """
-    Display character's current location.
-
-    :param board: a dictionary representing the game board
-    :param character: a dictionary including character's current location and other related details
-    :precondition: board is a dictionary where each key is a tuple representing coordinates (rows, columns),
-                    and each value is a short string description of the coordinates
-    :precondition: character is a dictionary including Current Location, Current Level, Current EXP, Money, and Balls
-    :postcondition: prints the game board and character's current location with 'U'
-
-    >>> test_board = {(0, 0): 'Empty room', (0, 1): 'Empty room', (0, 2): 'Empty room', (0, 3): 'Empty room',
-    ... (0, 4): 'Empty room', (1, 1): 'Empty room', (1, 2): 'Empty room', (1, 3): 'Empty room', (1, 4): 'Empty room',
-    ... (2, 1): 'Empty room', (2, 2): 'Empty room', (2, 3): 'Empty room', (2, 4): 'Empty room', (3, 1): 'Empty room',
-    ... (3, 2): 'Empty room', (3, 3): 'Empty room', (3, 4): 'Empty room', (4, 1): 'Empty room', (4, 2): 'Empty room',
-    ... (4, 3): 'Empty room', (4, 4): 'Empty room', (5, 1): 'Empty room', (5, 2): 'Empty room', (5, 3): 'Empty room',
-    ... (5, 4): 'Empty room', (5, 5): 'Empty room'}
-    >>> test_character = {
-    ...     "Current Location": (1, 3),
-    ...     "Current EXP": 20,
-    ...     "Money": 10,
-    ...     "Balls": {
-    ...         'Charmander': {'Current HP': 20},
-    ...         'Pikachu': {'Current HP': 20},
-    ...         'Caterpie': {'Current HP': 20},
-    ...         'Pidove': {'Current HP': 20},
-    ...         'Slowpoke': {'Current HP': 20},
-    ...         'Horsea': {'Current HP': 20}
-    ...     }
-    ... }
-    >>> display_current_location(test_board, test_character)
-    [ ][ ][ ][ ][ ]
-       [ ][ ][U][ ]
-       [ ][ ][ ][ ]
-       [ ][ ][ ][ ]
-       [ ][ ][ ][ ]
-       [ ][ ][ ][ ][ ]
-    """
-    if board == {}:
-        return
-
-    rows = max(pos[0] for pos in board.keys()) + 1
-    columns = max(pos[1] for pos in board.keys()) + 1
-
-    for i in range(rows):
-        row = ""
-        for j in range(columns):
-            if (i, j) in board:
-                if (i, j) == character["Current Location"]:
-                    row += "[U]"  # User's position
-                else:
-                    row += "[ ]"  # Empty room
-            else:
-                row += "   "  # No room
-        print(row)
-
-
 def buy_portion():
     """
     Calculate the change after a purchase.
@@ -728,7 +716,7 @@ def main():
     """
     # game()
     character = {
-        "Current Location": (5, 5),
+        "Current Location": (5, 2),
         "Current Level": 1,
         "Current EXP": 20,
         "Money": 10,
@@ -741,10 +729,11 @@ def main():
             'Horsea': {'Current HP': 20}
         }
     }
-    # board = make_board(character["Current Level"])
-    # display_current_location(board, character)
+    board, rows, columns = make_board(character["Current Level"])
+    display_current_location(board, character, rows, columns)
+    print(check_current_location(board, character))
     # in_the_gym(character)
-    print_instructions()
+    # print_instructions()
 
 
 if __name__ == "__main__":
