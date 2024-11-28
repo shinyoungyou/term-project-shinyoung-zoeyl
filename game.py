@@ -324,11 +324,11 @@ def get_money(character, event_type):
     print(f"You got {money}!")
 
 
-def get_attack_result(user_pokemon_skill, event_pokemon_info, character, event_type):
-    print(f"\n{user_pokemon_skill['name']} hit!")
+def get_attack_result(character_pokemon_skill, event_pokemon_info, character, event_type):
+    print(f"\n{character_pokemon_skill['name']} hit!")
 
     damage = make_stronger(character['Current Level']) * random.randrange(
-        user_pokemon_skill['damage'][0], user_pokemon_skill['damage'][1] + 1)
+        character_pokemon_skill['damage'][0], character_pokemon_skill['damage'][1] + 1)
 
     event_pokemon_info['currentHP'] -= damage
 
