@@ -292,10 +292,10 @@ def get_probability():
     return random.choices([True, False], weights=[3, 1], k=1)[0]
 
 
-def level_maximum_hp(character):
-    if character['User Level'] == 1:
+def level_maximum_hp(character_level):
+    if character_level == 1:
         maximum_hp = 30
-    elif character['User Level'] == 2:
+    elif character_level == 2:
         maximum_hp = 50
     else:
         maximum_hp = 80
@@ -374,33 +374,36 @@ def change_pokemon(character, character_pokemon):
     return character_pokemon
 
 
-def check_potion(character, user_pokemon):
+def check_potion(character, character_pokemon):
     validation = False
     if character['Potion'] == 0:
         print("\nYou don't have any potion!\n")
-    elif character['Poke Ball'][user_pokemon]['currentHP'] == level_maximum_hp(character):
-        print(f"\n{user_pokemon} has full HP!\n")
+    elif character_pokemon[1]["currentHP"] == level_maximum_hp(character['Current Level']):
+        print(f"\n{character_pokemon[0]} has full HP!\n")
     else:
         validation = True
     return validation
 
 
-def use_potion(character, user_pokemon):
-    if check_potion(character, user_pokemon):
-        print(f"\nYou have {character['Potion']} potion(s)!\n{user_pokemon} has "
-              f"{character['Poke Ball'][user_pokemon]['currentHP']}.")
+def use_potion(character, character_pokemon):
+    if check_potion(character['Potion'], character_pokemon):
+        print(f"\nYou have {character['Potion']} potion(s)!\n{character_pokemon[0]} has "
+              f"{character_pokemon[1]["currentHP"]} HP.")
+
         user_answer = input("Would you like to use a potion (y/n)? ").lower()
-        while user_answer not in ['y', 'n']:
+        while user_answer not in ('y', 'n'):
             print(f"\n{user_answer} is not a valid option")
             user_answer = input("Please choose a valid option (y/n): ").lower()
+
         if user_answer == 'y':
-            if character['Poke Ball'][user_pokemon]['currentHP'] >= 15:
-                character['Poke Ball'][user_pokemon]['currentHP'] = level_maximum_hp(character)
+            pokemon_maximum_hp = level_maximum_hp(character['Current Level'])
+            if character_pokemon[1]["currentHP"] > pokemon_maximum_hp - 5:
+                character_pokemon[1]["currentHP"] = pokemon_maximum_hp
             else:
-                character['Poke Ball'][user_pokemon]['currentHP'] += 5
+                character_pokemon[1]["currentHP"] += 5
             character['potion'] -= 1
-            print(f"\n{user_pokemon} restored HP!\n{user_pokemon} "
-                  f"(HP: {character['Poke Ball'][user_pokemon]['currentHP']}\n{character['potion']} potion(s) left!")
+            print(f"\n{character_pokemon[0]} restored HP!\n{character_pokemon[0]} "
+                  f"(HP: {character_pokemon[1]["currentHP"]}\n{character['potion']} potion(s) left!")
 
 
 def select_release_pokemon(character):
