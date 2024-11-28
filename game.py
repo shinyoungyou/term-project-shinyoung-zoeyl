@@ -17,6 +17,21 @@ def make_character(character_name):
     return character
 
 
+def print_instructions():
+    print("Welcome to the world of Pokemon! Embark on an exciting journey to become a Pokemon Champion.")
+    print("Important notes to know before you begin:")
+    print("- Stores are represented by S on the map.")
+    print("- Gyms are represented by G on the map.")
+    print("- If all six of your Pokémon lose their HP, the game is over.")
+    print("- You can only challenge a Gym Leader once you have a full team of six Pokémon.")
+    print("- After defeating a Gym Leader, you will earn a Badge, unlocking the next level.")
+    print("- Badge Requirements by Level:")
+    print("  - Level 1: Defeat the gym leader twice to earn a badge.")
+    print("  - Level 2: Defeat the gym leader three times to earn a badge.")
+    print("  - Level 3: Defeat the gym leader four times to earn a badge and complete the mission.")
+    print("- The mission is complete when you defeat the final Gym Leader at Level 3.")
+
+
 def starting_pokemon_collection(character_level):
     level1_starting_pokemon = {'Squirtle': {'type': 'water', 'currentHP': 30},
                                'Charmander': {'type': 'fire', 'currentHP': 30},
@@ -734,9 +749,10 @@ def main():
             'Horsea': {'Current HP': 20}
         }
     }
-    board = make_board(character["Current Level"])
-    display_current_location(board, character)
-    in_the_gym(character)
+    # board = make_board(character["Current Level"])
+    # display_current_location(board, character)
+    # in_the_gym(character)
+    print_instructions()
 
 
 if __name__ == "__main__":
