@@ -275,7 +275,7 @@ def event_pokemon(character_level):
 
 
 def choose_skill_to_challenge(skill_collection):
-    number = 1
+    number = 1  # don't need to add to the flowchart
     print("")
     for skill in skill_collection:
         print(f"{number}. {skill['name']}(damage range: {skill['damage'][0]} ~ {skill['damage'][1]})")
@@ -589,6 +589,7 @@ def describe_event(event_type, character_level):
 
 
 def event_occurred(character):
+    # docstrings
     event_type = set_event_type()
     process_result = True
 
