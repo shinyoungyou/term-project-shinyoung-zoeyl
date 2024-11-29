@@ -329,9 +329,9 @@ def get_attack_result(character_pokemon_skill, event_pokemon_info, character, ev
     damage = make_stronger(character['Current Level']) * random.randrange(
         character_pokemon_skill['damage'][0], character_pokemon_skill['damage'][1] + 1)
 
-    event_pokemon_info['currentHP'] -= damage
+    event_pokemon_info[1]['currentHP'] -= damage
 
-    if event_pokemon_info['currentHP'] <= 0:
+    if event_pokemon_info[1]['currentHP'] <= 0:
         print(f"You defeated the {event_pokemon_info[0]}")
         get_money(character, event_type)
         return False
@@ -373,11 +373,11 @@ def change_pokemon(character, character_pokemon):
     return character_pokemon
 
 
-def check_potion(character, character_pokemon):
+def check_potion(number_of_potion, character_level, character_pokemon):
     validation = False
-    if character['Potion'] == 0:
+    if number_of_potion == 0:
         print("\nYou don't have any potion!\n")
-    elif character_pokemon[1]["currentHP"] == level_maximum_hp(character['Current Level']):
+    elif character_pokemon[1]["currentHP"] == level_maximum_hp(character_level):
         print(f"\n{character_pokemon[0]} has full HP!\n")
     else:
         validation = True
@@ -385,7 +385,7 @@ def check_potion(character, character_pokemon):
 
 
 def use_potion(character, character_pokemon):
-    if check_potion(character['Potion'], character_pokemon):
+    if check_potion(character['Potion'], character['Current Level'], character_pokemon):
         print(f"\nYou have {character['Potion']} potion(s)!\n{character_pokemon[0]} has "
               f"{character_pokemon[1]["currentHP"]} HP.")
 
