@@ -462,7 +462,6 @@ def get_event_pokemon(character_level):
 def take_out_pokemon(character_pokemons):
     player_pokemon = random.choice(
         list(character_pokemons.items()))
-    print(player_pokemon)
     while player_pokemon[1]['currentHP'] == 0:
         player_pokemon = random.choice(list(character_pokemons.items()))
     print(f"Go, {player_pokemon[0]}!")
