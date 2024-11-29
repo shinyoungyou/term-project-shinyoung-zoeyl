@@ -565,16 +565,21 @@ def get_attacked(event_pokemon_info, event_type, character, character_pokemon):
     skill_collection = get_skill_of(event_pokemon_info[1]['type'])
     event_pokemon_skill = random.choices(list(skill_collection), k=1)[0]
     damage = (make_damage_stronger(event_type, character['Current Level'])
+
               * random.choice(range(event_pokemon_skill['damage'][0], event_pokemon_skill['damage'][1] + 1)))
+
     skill_accuracy = get_probability()
     print(f"{event_pokemon_info[0]} used {event_pokemon_skill['name']}!\n")
+
     if skill_accuracy:
         print(f"{event_pokemon_skill['name']} hit!")
-        character['Poke Ball'][character_pokemon]['currentHP'] -= damage
-        print(f"{character_pokemon} took {damage} damage!")
+        character_pokemon[1]['currentHP'] -= damage
+        print(f"{character_pokemon[0]} took {damage} damage!")
     else:
         print(f"{event_pokemon_skill['name']} missed!")
+
     process_result = check_status(character, character_pokemon)
+
     return process_result
 
 
