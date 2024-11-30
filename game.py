@@ -49,7 +49,7 @@ def generate_store_locations(board):
     accessible_cells = [key for key, value in board.items() if value is True]
     stores = random.sample(accessible_cells, 3)
     for store in stores:
-        board[store] = "Store"
+        board[store] = "🏪"
     return board
 
 
@@ -79,7 +79,7 @@ def make_board(level):
         for j in range(columns):
             board[(i, j)] = True if is_accessible(i, j) else False
 
-    board[gym_location] = "Gym"
+    board[gym_location] = "🏛"
 
     board = generate_store_locations(board)
 
@@ -706,15 +706,15 @@ def game():
             print("GAME OVER")
 
 
-def check_badge_eligibility(character, actual_win_count, gym_badge_earned):
+def check_badge_eligibility(character, current_win_count, gym_badge_earned):
     """
     Check if the character is eligible to earn a gym badge.
 
     :param character: a dictionary representing the character, including their current level
-    :param actual_win_count: a positive integer representing the character's current number of wins
+    :param current_win_count: a positive integer representing the character's current number of wins
     :param gym_badge_earned: a boolean representing if the gym badge earned
     :precondition: character is a dictionary with a key "Current Level"
-    :precondition: actual_win_count is a positive integer
+    :precondition: current_win_count is a positive integer
     :param gym_badge_earned: gym_badge_earned is a boolean
     :postcondition: updates gym_badge_earned to True if the character is eligible for the badge
     :return: True if the gym badge is earned, else False
@@ -726,7 +726,7 @@ def check_badge_eligibility(character, actual_win_count, gym_badge_earned):
         print("Invalid level")
         return
 
-    count_left_for_badge = win_count - actual_win_count
+    count_left_for_badge = win_count - current_win_count
 
     if count_left_for_badge > 0:
         print(f"You need to win {count_left_for_badge} more time(s) to earn the badge.")
