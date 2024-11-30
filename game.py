@@ -650,7 +650,7 @@ def get_user_choice(character, board, rows, columns):
     return user_choice
 
 
-def validate_move(board, character, direction):
+def valid_move(board, character, direction):
     user_row = character['Current Location'][0]
     user_col = character['Current Location'][1]
 
@@ -681,16 +681,29 @@ def move_character(character, direction):
 
 
 def game():
-    character_name = input("What is your name? ").capitalize()
+    character_name = input("What is your name? ").capitalize()  #
     character = make_character(character_name)
-    print_instructions()
+    print_instructions()  #
     board, rows, columns = make_board(character['Current Level'])
     achieved_goal = False
     while is_alive(character) and not achieved_goal:
         display_current_location(board, character, rows, columns)
         direction = get_user_choice(character, board, rows, columns)
+        if valid_move(board, character, direction):
+            move_character(character, direction)
+            display_current_location(board, character, rows, columns)  #
+            if check_current_location(board, character):
+                if in_special_place():
+                    achieved_goal = True
+            else:
+                event_occurred(character)
+        else:
+            print("You can't go in that direction!")
 
-
+        if achieved_goal:
+            print("Congratulations! You have successfully finished your journey :)")
+        elif not is_alive(character):
+            print("GAME OVER")
 
 
 def check_badge_eligibility(character, actual_win_count, gym_badge_earned):
