@@ -565,6 +565,7 @@ def make_damage_stronger(event_type, character_level):
 
     return stronger
 
+
 def check_status(character_pokemon):
     if character_pokemon[1]['currentHP'] <= 0:
         character_pokemon[1]['currentHP'] = 0
@@ -590,9 +591,7 @@ def get_attacked(event_pokemon_info, event_type, character, character_pokemon):
     else:
         print(f"{event_pokemon_skill['name']} missed!")
 
-    process_result = check_status(character_pokemon)
-
-    return process_result
+    return check_status(character_pokemon)
 
 
 def describe_event(event_type, character_level):
