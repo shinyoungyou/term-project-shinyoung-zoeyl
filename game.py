@@ -745,65 +745,49 @@ def battle_with_gym_leader(character):
 
     :param character: a dictionary including character's current level and other related details
     :precondition: character is a dictionary including Current Location, Current Level, Current EXP, Money, and Balls
-    :postcondition: return True if the battle wins else False
-    :return: True if the battle wins else False
+    :postcondition: updates character's level and badge status based on the battle outcome
+    :return: True if the gym badge is earned, False otherwise
     """
     gym_badges = {'Level 1': False, 'Level 2': False,
                   'Level 3': False}  # level 1에서 2번, level 2에서 3번, level 3에서 4번, -> 레벨업
-    is_gym_badge_earned = False
+    gym_badge_earned = False
+    current_win_count = 0
+
     user_input = input("Encountered a gym! Enter y to challenge, n to quit: ")
     if user_input == 'n':
-        return False
+        return gym_badge_earned
     print("Gym Leader: Welcome to the gym! Here is one rule, you can't use potions to accurately assess your skills.")
 
-    pokemon_types = {
-        'Charmander': 'fire',
-        'Pikachu': 'electric',
-        'Caterpie': 'grass',
-        'Pidove': 'flying',
-        'Slowpoke': 'water',
-        'Horsea': 'water'
-    }
+    process_result = True
+    while process_result:
+        selected_pokemon = take_out_pokemon(character['Poke Ball'])
+        gym_leader_pokemon = get_event_pokemon(character['Current Level'])
 
-    selected_pokemon = choose_pokemon_to_challenge(character, pokemon_types)
+        user_choice = select_event_option("Gym Leader")
 
-    gym_leader_pokemon = generate_gym_leader_pokemon()
+        if user_choice == fight:
+            process_result = fight(selected_pokemon, gym_leader_pokemon, character, "Gym Leader")
+        elif user_choice == change_pokemon:
+            change_pokemon(character, selected_pokemon)
 
-    # TODO: decompose, function name: choose_skills()
-    pokemon_type = pokemon_types[selected_pokemon]
-    skills_of_selected_pokemon = get_skill_of(pokemon_type)
-    skill_names = [skill['name'] for skill in skills_of_selected_pokemon]
-
-    while character['Balls'][selected_pokemon]['Current HP'] > 0 and gym_leader_pokemon['Current HP'] > 0:
-        user_input = input(f"Choose a skill between {skill_names}: ")
-
-        selected_skill = next((skill for skill in skills_of_selected_pokemon if skill['name'] == user_input), None)
-
-        # TODO: decompose, function name: battle_with_gym_leader()
-        if selected_skill:
-            damage_to_gym_leader = selected_skill['damage']
-            gym_leader_pokemon['Current HP'] -= damage_to_gym_leader
-            print(f"You used {user_input}! It dealt {damage_to_gym_leader} damage.")
-            print(f"Gym Leader's {gym_leader_pokemon['name']} HP: {max(gym_leader_pokemon['Current HP'], 0)}")
+        if process_result:
+            process_result = (get_attacked(gym_leader_pokemon, "Gym Leader", character, selected_pokemon))
         else:
-            print("Invalid skill selection. Try again.")
-            continue
+            current_win_count += 1
 
-        if gym_leader_pokemon['Current HP'] > 0:
-            damage_from_gym_leader = random.choice([3, 5, 7])
-            character['Balls'][selected_pokemon]['Current HP'] -= damage_from_gym_leader
-            print(f"Gym Leader's {gym_leader_pokemon['name']} attacked! You took {damage_from_gym_leader} damage.")
-            print(f"Your {selected_pokemon}'s HP: {max(character['Balls'][selected_pokemon]['Current HP'], 0)}")
+        gym_badge_earned = check_badge_eligibility(character, current_win_count, gym_badge_earned)
+        if gym_badge_earned:
+            # level_up(character)
+            break
+        else:
+            if is_alive(character):
+                user_input = input("Enter y if you want to proceed another battle in the gym, else n: ")
+                if user_input != 'y':
+                    break
+            else:
+                break
 
-    # TODO: decompose, function name: result_of_battle()
-    if character['Balls'][selected_pokemon]['Current HP'] <= 0:
-        print(f"Your {selected_pokemon} fainted! You couldn't won the gym badge.")
-    elif gym_leader_pokemon['Current HP'] <= 0:
-        gym_badges[character['Current Level']] = True
-        is_gym_badge_earned = True
-        character['Current Level'] += 1
-        print(f"Gym leader's {gym_leader_pokemon['name']} fainted. You won the gym badge!")
-    return is_gym_badge_earned
+    return gym_badge_earned
 
 
 def choose_pokemon_to_challenge(character, pokemon_types):
