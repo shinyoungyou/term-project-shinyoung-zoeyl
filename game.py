@@ -352,23 +352,23 @@ def fight(character_pokemon, event_pokemon_info, character, event_type):
         return True
 
 
-def change_pokemon(character, character_pokemon):
-    if len(character['Poke Ball']) == 1:
+def change_pokemon(pokeball, character_pokemon):
+    if len(pokeball) == 1:
         print("\nYou has no pokemon to switch to\n")
     else:
         print("\nYour pokemons' status...")
-        for pokemon in character['Poke Ball'].keys():
-            print(f"{pokemon}(HP: {character['Poke Ball'][pokemon]['currentHP']})")
+        for pokemon in pokeball.keys():
+            print(f"{pokemon}(HP: {pokeball[pokemon]['currentHP']})")
 
         user_choice = input("\nwhat pokemon would you like to switch to (Entering Pokemon name)? ").capitalize()
-        while user_choice not in character['Poke Ball'].keys() or character['Poke Ball'][user_choice]['currentHP'] == 0:
+        while user_choice not in pokeball.keys() or pokeball[user_choice]['currentHP'] == 0:
             print(f"\n{user_choice} is not included in your Poke Balls or has 0HP")
             user_choice = input("what pokemon would you like (Entering Pokemon name)? ").capitalize()
 
-        print(f"\nGood job, {character_pokemon}! Come back!\nGo, {user_choice}")
+        print(f"\nGood job, {character_pokemon[0]}! Come back!\nGo, {user_choice}")
 
-        character_pokemon = (user_choice, character['Poke Ball'][user_choice])
-        print(f"{user_choice}(HP: {character['Poke Ball'][user_choice]['currentHP']})\n")
+        character_pokemon = (user_choice, pokeball[user_choice])
+        print(f"{user_choice}(HP: {character_pokemon[1]['currentHP']})\n")
 
     return character_pokemon
 
@@ -609,7 +609,7 @@ def event_occurred(character):
             user_choice = select_event_option(event_type)
 
             if user_choice == change_pokemon:
-                character_pokemon = change_pokemon(character, character_pokemon)
+                character_pokemon = change_pokemon(character['Poke Ball'], character_pokemon)
             elif user_choice == use_potion:
                 use_potion(character, character_pokemon)
             else:
