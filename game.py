@@ -548,6 +548,8 @@ def get_stronger_collection(character_level):
     else:
         stronger_collection = (1.5, 1.7, 2, 2.5)
 
+    return stronger_collection
+
 
 def make_damage_stronger(event_type, character_level):
 
