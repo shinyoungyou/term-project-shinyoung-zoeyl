@@ -633,12 +633,20 @@ def event_occurred(character):
                 process_result = get_attacked(event_pokemon_info, event_type, character, character_pokemon)
 
 
-def get_user_choice():
+def get_user_choice(character, board, rows, columns):
     print("1. Up  2. Down  3. Left  4. Right  5. Check status")
-    user_choice = int(input("Which direction would you like to go (Entering number)? "))
-    while user_choice not in range(1, 6):
-        print("\nPlease, choose a valid direction!")
-        user_choice = int(input("What direction would you like to go (Entering number)? "))
+    while True:
+        user_choice = int(input("Which direction would you like to go (Entering number)? "))
+        while user_choice not in range(1, 5):
+            if user_choice == 5:
+                print("Current status is...")
+                for name, info in character['Poke Ball'].items():
+                    print(f"{name}(HP: {info['currentHP']})")
+                display_current_location(board, character, rows, columns)
+            else:
+                print("\nPlease, choose a valid direction!")
+            user_choice = int(input("What direction would you like to go (Entering number)? "))
+
     return user_choice
 
 
@@ -676,9 +684,12 @@ def game():
     character_name = input("What is your name? ").capitalize()
     character = make_character(character_name)
     print_instructions()
-    board = make_board(character['Current Level'])
-    achived_goal = False
-    while is_alive(character) and not achived_goal:
+    board, rows, columns = make_board(character['Current Level'])
+    achieved_goal = False
+    while is_alive(character) and not achieved_goal:
+        display_current_location(board, character, rows, columns)
+        direction = get_user_choice(character, board, rows, columns)
+
 
 
 
