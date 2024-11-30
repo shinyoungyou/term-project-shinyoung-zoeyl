@@ -634,9 +634,9 @@ def event_occurred(character):
 
 
 def get_user_choice():
-    print("1. Up \n 2. Down \n 3. Left \n 4. Right")
+    print("1. Up  2. Down  3. Left  4. Right  5. Check status")
     user_choice = int(input("Which direction would you like to go (Entering number)? "))
-    while user_choice not in range(1, 5):
+    while user_choice not in range(1, 6):
         print("\nPlease, choose a valid direction!")
         user_choice = int(input("What direction would you like to go (Entering number)? "))
     return user_choice
@@ -673,8 +673,13 @@ def move_character(character, direction):
 
 
 def game():
-    character = make_character()
-    event_occurred(character)
+    character_name = input("What is your name? ").capitalize()
+    character = make_character(character_name)
+    print_instructions()
+    board = make_board(character['Current Level'])
+    achived_goal = False
+    while is_alive(character) and not achived_goal:
+
 
 
 def check_badge_eligibility(character, actual_win_count, gym_badge_earned):
@@ -803,26 +808,7 @@ def main():
     """
     Drive the program.
     """
-    # game()
-    character = {
-        "Current Location": (5, 2),
-        "Current Level": 1,
-        "Current EXP": 20,
-        "Money": 10,
-        "Balls": {
-            'Charmander': {'Current HP': 20},
-            'Pikachu': {'Current HP': 20},
-            'Caterpie': {'Current HP': 20},
-            'Pidove': {'Current HP': 20},
-            'Slowpoke': {'Current HP': 20},
-            'Horsea': {'Current HP': 20}
-        }
-    }
-    board, rows, columns = make_board(character["Current Level"])
-    display_current_location(board, character, rows, columns)
-    print(check_current_location(board, character))
-    # battle_with_gym_leader(character)
-    # print_instructions()
+    game()
 
 
 if __name__ == "__main__":
