@@ -146,7 +146,7 @@ def is_alive(character):
     """
     alive = True
 
-    if not any(pokemon['Current HP'] > 0 for pokemon in character["Balls"].values()):
+    if not any(pokemon['currentHP'] > 0 for pokemon in character["Poke Ball"].values()):
         alive = False
 
     return alive
@@ -511,7 +511,10 @@ def get_skill_of(pokemon_type):
 
 
 def select_event_option(event_type):
-    character_option = [fight, change_pokemon, use_potion]
+    character_option = [fight, change_pokemon]  # change list type to dictionary
+    if event_type != 'Gym Leader':
+        character_option.append(use_potion)
+
     if event_type == 'wildPokemon':
         character_option.extend([throw_poke_ball, "Run"])
 
@@ -777,7 +780,7 @@ def battle_with_gym_leader(character):
 
         gym_badge_earned = check_badge_eligibility(character, current_win_count, gym_badge_earned)
         if gym_badge_earned:
-            # level_up(character)
+            level_up(character)
             break
         else:
             if is_alive(character):
@@ -788,6 +791,16 @@ def battle_with_gym_leader(character):
                 break
 
     return gym_badge_earned
+
+
+def level_up(character):
+    character['Current Level'] += 1
+    character['Current HP'] = level_maximum_hp(character['Current Level'])
+    if character['Current Level'] == 2:
+        character['Money'] += 50
+    elif character['Current Level'] == 3:
+        character['Money'] += 70
+    print(f"You've leveled up to {character['Current Level']}!")
 
 
 def choose_pokemon_to_challenge(character, pokemon_types):
@@ -816,7 +829,13 @@ def main():
     """
     Drive the program.
     """
-    game()
+    # game()
+    # board, rows, columns = make_board(character["Current Level"])
+    # display_current_location(board, character, rows, columns)
+    # print(check_current_location(board, character))
+    character = make_character("user1")
+    battle_with_gym_leader(character)
+    # print_instructions()
 
 
 if __name__ == "__main__":
