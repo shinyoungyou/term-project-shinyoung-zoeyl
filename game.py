@@ -1,6 +1,6 @@
 import random
 import copy
-from . import POTION_PRICE
+from constants import POTION_PRICE
 
 
 def make_character(character_name):
