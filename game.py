@@ -552,18 +552,18 @@ def get_stronger_collection(character_level):
 
 
 def make_damage_stronger(event_type, character_level):
-
-
     stronger_collection = get_stronger_collection(character_level)
-    if character_level == 1:
-        if event_type == 'Team Rocket':
-            stronger = 1.4
-        elif event_type == 'Strange trainer':
-            stronger = 1.3
-        elif event_type == 'wildPokemon':
-            stronger = 1
-        else:
-            stronger = 0
+
+    if event_type == 'Team Rocket':
+        stronger = stronger_collection[2]
+    elif event_type == 'Strange trainer':
+        stronger = stronger_collection[1]
+    elif event_type == 'wildPokemon':
+        stronger = stronger_collection[0]
+    else:
+        stronger = stronger_collection[3]
+
+    return stronger
 
 def check_status(character_pokemon):
     if character_pokemon[1]['currentHP'] <= 0:
