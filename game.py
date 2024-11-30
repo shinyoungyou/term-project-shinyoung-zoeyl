@@ -320,7 +320,7 @@ def get_money(character, event_type):
     else:
         earn_money *= random.randrange(7, 11)
     character['Money'] += earn_money
-    print(f"You got {earn_money}!")
+    print(f"You got {earn_money} dollars!")
 
 
 def get_attack_result(character_pokemon_skill, event_pokemon_info, character, event_type):
@@ -460,8 +460,7 @@ def get_event_pokemon(character_level):
 
 
 def take_out_pokemon(character_pokemons):
-    player_pokemon = random.choice(
-        list(character_pokemons.items()))
+    player_pokemon = random.choice(list(character_pokemons.items()))
     while player_pokemon[1]['currentHP'] == 0:
         player_pokemon = random.choice(list(character_pokemons.items()))
     print(f"Go, {player_pokemon[0]}!")
