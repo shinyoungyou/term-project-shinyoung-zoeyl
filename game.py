@@ -135,21 +135,6 @@ def check_current_location(board, character):
     return board[character["Current Location"]]
 
 
-def check_store_or_gym(current_location, character):
-    if current_location == "Gym":
-        gym_badge_earned, current_win_count = battle_with_gym_leader(character)
-        gym_badge_earned = check_badge_eligibility(character, current_win_count, gym_badge_earned)
-        if gym_badge_earned:
-            level_up(character)
-        else:
-            if is_alive(character):
-                user_input = input("Enter y if you want to proceed another battle in the gym, else n: ")
-                # if user_input != 'y':
-            #         break
-            # else:
-            #     break
-
-
 def is_alive(character):
     """
     Check if the character is alive
@@ -475,26 +460,10 @@ def get_event_pokemon(character_level):
     return copy.deepcopy(random.choices(list(event_pokemon_collection.items()), k=1)[0])
 
 
-# def take_out_pokemon(character_pokemons):
-#     player_pokemon = random.choice(list(character_pokemons.items()))
-#     while player_pokemon[1]['currentHP'] == 0:
-#         player_pokemon = random.choice(list(character_pokemons.items()))
-#     print(f"Go, {player_pokemon[0]}!")
-#     return player_pokemon
-
-
 def take_out_pokemon(character_pokemons):
-    """
-    Select a Pokémon with HP greater than 0 to battle.
-
-    :param character_pokemons: a dictionary representing pokemon name and HP
-    :precondition: character_pokemons is a dictionary representing pokemon name and HP
-    :postcondition: retrieves random pokemon with HP greater than 0
-    :return: a tuple (pokemon_name, pokemon_data)
-    """
-    available_pokemons = [pokemon for pokemon in character_pokemons.items() if pokemon[1]['currentHP'] > 0]
-
-    player_pokemon = random.choice(available_pokemons)
+    player_pokemon = random.choice(list(character_pokemons.items()))
+    while player_pokemon[1]['currentHP'] == 0:
+        player_pokemon = random.choice(list(character_pokemons.items()))
     print(f"Go, {player_pokemon[0]}!")
     return player_pokemon
 
@@ -541,23 +510,24 @@ def get_skill_of(pokemon_type):
     return skills_of[pokemon_type]
 
 
-def select_event_option(event_type, gym_round=None):
-    character_option = [fight, change_pokemon]
-    if event_type == 'Gym Leader':
-        if gym_round > 2:
-            character_option.append("Run Away")
-    elif event_type == 'wildPokemon':
-        character_option.extend([throw_poke_ball, use_potion, "Run Away"])
-    else:
+def select_event_option(event_type):
+    character_option = [fight, change_pokemon]  # change list type to dictionary
+    if event_type != 'Gym Leader':
         character_option.append(use_potion)
 
-    for i, option in enumerate(character_option):
-        name = option if option == "Run Away" else option.__name__.replace("_", " ").title()
-        print(f"{i + 1}. {name}")
+    if event_type == 'wildPokemon':
+        character_option.extend([throw_poke_ball, "Run"])
 
-    user_choice = int(input("What do you want to do (Enter number)? "))
+    for print_option in range(len(character_option)):
+        if print_option == 4:
+            print(f"{print_option + 1}. {character_option[print_option]}")
+        else:
+            print(f"{print_option + 1}. {character_option[print_option].__name__.replace("_", " ").title()}")
+
+    user_choice = int(input("What do you want to do (Entering number)? "))
     while user_choice <= 0 or user_choice > len(character_option):
-        user_choice = int(input("\nInvalid choice! Enter a valid number: "))
+        print("\nThat is not option you can choose!")
+        user_choice = input("Please choose valid option(Entering number): ")
 
     return character_option[user_choice - 1]
 
@@ -725,24 +695,9 @@ def game():
         if valid_move(board, character, direction):
             move_character(character, direction)
             display_current_location(board, character, rows, columns)  #
-            current_location = check_current_location(board, character)
-            # if check_current_location(board, character):
-            #     if in_special_place():
-            #         achieved_goal = True
-            if current_location == "Gym":
-                proceed_battle = True
-                while proceed_battle and is_alive(character):
-                    gym_badge_earned, current_win_count = battle_with_gym_leader(character)
-                    gym_badge_earned = check_badge_eligibility(character, current_win_count, gym_badge_earned)
-
-                    if gym_badge_earned:
-                        level_up(character)
-                        proceed_battle = False
-                    else:
-                        user_input = input(
-                            "Enter 'y' to proceed with another battle, or 'n' to leave the gym: ").lower()
-                        proceed_battle = (user_input == 'y')
-
+            if check_current_location(board, character):
+                if in_special_place():
+                    achieved_goal = True
             else:
                 event_occurred(character)
         else:
@@ -767,9 +722,9 @@ def check_badge_eligibility(character, current_win_count, gym_badge_earned):
     :postcondition: updates gym_badge_earned to True if the character is eligible for the badge
     :return: True if the gym badge is earned, else False
     """
-    current_level = character["Current Level"]
+    level = character["Current Level"]
 
-    win_count = {1: 2, 2: 3, 3: 4}.get(current_level)
+    win_count = {1: 2, 2: 3, 3: 4}.get(level)
     if win_count is None:
         print("Invalid level")
         return
@@ -781,7 +736,6 @@ def check_badge_eligibility(character, current_win_count, gym_badge_earned):
         return gym_badge_earned
     else:
         gym_badge_earned = True
-        print("You earned the gym badge!")
 
     return gym_badge_earned
 
@@ -807,43 +761,36 @@ def battle_with_gym_leader(character):
         return gym_badge_earned
     print("Gym Leader: Welcome to the gym! Here is one rule, you can't use potions to accurately assess your skills.")
 
-    prev_round = 0
-    gym_round = 1
-    while prev_round != gym_round and is_alive(character):
-        process_result = True  # process_result: the ability to continue the game
-        prev_round += 1
-        print(f"Round {gym_round}.")
-        print(f"process_result: {process_result}")
+    process_result = True
+    while process_result:
         selected_pokemon = take_out_pokemon(character['Poke Ball'])
-        print(selected_pokemon)
         gym_leader_pokemon = get_event_pokemon(character['Current Level'])
-        while process_result:
-            user_choice = select_event_option("Gym Leader", gym_round)
 
-            if user_choice == fight:
-                process_result = fight(selected_pokemon, gym_leader_pokemon, character, "Gym Leader")
-            elif user_choice == change_pokemon:
-                change_pokemon(character, selected_pokemon)
-            elif user_choice == "Run Away":
-                print("Gym Leader: Running away, huh? I guess today's not your day. "
-                      "Come back when you're ready to battle!")
+        user_choice = select_event_option("Gym Leader")
+
+        if user_choice == fight:
+            process_result = fight(selected_pokemon, gym_leader_pokemon, character, "Gym Leader")
+        elif user_choice == change_pokemon:
+            change_pokemon(character, selected_pokemon)
+
+        if process_result:
+            process_result = (get_attacked(gym_leader_pokemon, "Gym Leader", character, selected_pokemon))
+        else:
+            current_win_count += 1
+
+        gym_badge_earned = check_badge_eligibility(character, current_win_count, gym_badge_earned)
+        if gym_badge_earned:
+            level_up(character)
+            break
+        else:
+            if is_alive(character):
+                user_input = input("Enter y if you want to proceed another battle in the gym, else n: ")
+                if user_input != 'y':
+                    break
+            else:
                 break
 
-            if process_result:
-                process_result = get_attacked(gym_leader_pokemon, "Gym Leader", character, selected_pokemon)
-                if not process_result:
-                    print(f"Gym Leader: You lost in round {gym_round}.")
-                    print(character)
-                    if is_alive(character):
-                        gym_round += 1
-                    else:
-                        print("Game over: All your Pokémon have fainted.")
-                        break
-            else:
-                current_win_count += 1
-                gym_round += 1
-
-    return gym_badge_earned, current_win_count
+    return gym_badge_earned
 
 
 def level_up(character):
@@ -882,12 +829,12 @@ def main():
     """
     Drive the program.
     """
-    game()
+    # game()
     # board, rows, columns = make_board(character["Current Level"])
     # display_current_location(board, character, rows, columns)
     # print(check_current_location(board, character))
-    # character = make_character("user1")
-    # battle_with_gym_leader(character)
+    character = make_character("user1")
+    battle_with_gym_leader(character)
     # print_instructions()
 
 
