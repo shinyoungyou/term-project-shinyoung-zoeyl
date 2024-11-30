@@ -420,15 +420,15 @@ def select_release_pokemon(character):
         print(f"\nGoodbye, {user_choice_pokemon}")
 
 
-def check_total_of_user_pokemons(character, event_pokemon_info):
+def check_total_of_user_pokemons(character_pokemons, event_pokemon_info):
     catch_pokemon = True
-    if len(character['Poke Ball']) == 6:
+    if len(character_pokemons) == 6:
         user_choice = input("\nYou can only carry up to 6 Pokémon. Would you like to release one (y/n)? ").lower()
         while user_choice not in ['y', 'n']:
             print(f"\n{user_choice} is not a valid option")
             user_choice = input("Please choose a valid option (y/n): ").lower()
         if user_choice == 'y':
-            select_release_pokemon(character)
+            select_release_pokemon(character_pokemons)
         else:
             print(f"\n{event_pokemon_info[0]} broke free!")
             catch_pokemon = False
@@ -438,7 +438,7 @@ def check_total_of_user_pokemons(character, event_pokemon_info):
 def throw_poke_ball(event_pokemon_info, character):
     process_result = False
     if event_pokemon_info[1]['currentHP'] <= 5:
-        if check_total_of_user_pokemons(character, event_pokemon_info):
+        if check_total_of_user_pokemons(character['Poke Ball'], event_pokemon_info):
             character['Poke Ball'][event_pokemon_info[0]] = {'type': event_pokemon_info[1]['type'],
                                                              'currentHP': level_maximum_hp(character) / 2}
             print(f"\nGotcha! {event_pokemon_info[0]} was caught!")
