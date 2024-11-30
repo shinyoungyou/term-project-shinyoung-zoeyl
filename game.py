@@ -409,6 +409,7 @@ def select_release_pokemon(character):
     for pokemon in character['Poke Ball'].keys():
         print(f"{pokemon}(HP: {character['Poke Ball'][pokemon]['currentHP']})")
     print("You can't choose the Starting Pokemon!")
+
     user_choice_pokemon = input("what pokemon would you release (Entering pokemon name)? ").capitalize()
     while (user_choice_pokemon not in character['Poke Ball'].keys() or user_choice_pokemon
            == character['Starting Pokemon']):
@@ -416,6 +417,7 @@ def select_release_pokemon(character):
         user_choice_pokemon = input(
             "Please choose a pokemon that is in your Poke Ball except your Starting Pokemon "
             + "(Entering pokemon name): ").capitalize()
+
         del character['Poke Ball'][user_choice_pokemon]
         print(f"\nGoodbye, {user_choice_pokemon}")
 
@@ -439,8 +441,8 @@ def throw_poke_ball(event_pokemon_info, character):
     process_result = False
     if event_pokemon_info[1]['currentHP'] <= 5:
         if check_total_of_user_pokemons(character, event_pokemon_info):
-            character['Poke Ball'][event_pokemon_info[0]] = {'type': event_pokemon_info[1]['type'],
-                                                             'currentHP': level_maximum_hp(character) / 2}
+            character['Poke Ball'][event_pokemon_info[0]] \
+                = {'type': event_pokemon_info[1]['type'], 'currentHP': level_maximum_hp(character['Current Level']) / 2}
             print(f"\nGotcha! {event_pokemon_info[0]} was caught!")
     else:
         print("\nShoot! It was so close!")
@@ -538,15 +540,28 @@ def proceed_event_option(user_choice, character_pokemon, character, event_pokemo
     return process_result
 
 
-def make_damage_stronger(event_type, character_level):
-    if event_type == 'Team Rocket' or character_level == 3:
-        times = 1.5
-    elif event_type == 'Strange trainer' or character_level == 2:
-        times = 1.3
+def get_stronger_collection(character_level):
+    if character_level == 1:
+        stronger_collection = (1, 1.3, 1.4, 1.5)
+    elif character_level == 2:
+        stronger_collection = (1.3, 1.5, 1.7, 2)
     else:
-        times = 1
-    return times
+        stronger_collection = (1.5, 1.7, 2, 2.5)
 
+
+def make_damage_stronger(event_type, character_level):
+
+
+    stronger_collection = get_stronger_collection(character_level)
+    if character_level == 1:
+        if event_type == 'Team Rocket':
+            stronger = 1.4
+        elif event_type == 'Strange trainer':
+            stronger = 1.3
+        elif event_type == 'wildPokemon':
+            stronger = 1
+        else:
+            stronger = 0
 
 def check_status(character_pokemon):
     if character_pokemon[1]['currentHP'] <= 0:
@@ -562,13 +577,11 @@ def get_attacked(event_pokemon_info, event_type, character, character_pokemon):
     skill_collection = get_skill_of(event_pokemon_info[1]['type'])
     event_pokemon_skill = random.choices(list(skill_collection), k=1)[0]
     damage = (make_damage_stronger(event_type, character['Current Level'])
-
               * random.choice(range(event_pokemon_skill['damage'][0], event_pokemon_skill['damage'][1] + 1)))
 
-    skill_accuracy = get_probability()
     print(f"{event_pokemon_info[0]} used {event_pokemon_skill['name']}!\n")
 
-    if skill_accuracy:
+    if get_probability():
         print(f"{event_pokemon_skill['name']} hit!")
         character_pokemon[1]['currentHP'] -= damage
         print(f"{character_pokemon[0]} took {damage} damage!")
