@@ -3,7 +3,9 @@ import copy
 from constants import POTION_PRICE
 
 
-def make_character(character_name):
+def set_up_game():
+    character_name = input("What is your name? ").capitalize()
+    print_instructions()
     character = {'Character Name': character_name, 'Money': 30, 'Current Level': 1, 'Potion': 0,
                  'Current Location': (0, 0)}
     starting_pokemon = starting_pokemon_collection(character['Current Level'])
@@ -672,7 +674,7 @@ def valid_move(board, character, direction):
         return False
 
 
-def move_character(character, direction):
+def move_character(character, direction, board, rows, columns):
     if direction == 1:
         character['Current Location'][1] -= 1
     elif direction == 2:
@@ -682,19 +684,20 @@ def move_character(character, direction):
     else:
         character['Current Location'][0] += 1
 
+    display_current_location(board, character, rows, columns)
+
 
 def game():
-    character_name = input("What is your name? ").capitalize()  #
-    character = make_character(character_name)
-    print_instructions()  #
+    character = set_up_game()
     board, rows, columns = make_board(character['Current Level'])
     achieved_goal = False
+
     while is_alive(character) and not achieved_goal:
         display_current_location(board, character, rows, columns)
         direction = get_user_choice(character, board, rows, columns)
+
         if valid_move(board, character, direction):
-            move_character(character, direction)
-            display_current_location(board, character, rows, columns)  #
+            move_character(character, direction, board, rows, columns)
             if check_current_location(board, character):
                 if in_special_place():
                     achieved_goal = True
