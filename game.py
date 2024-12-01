@@ -1,3 +1,4 @@
+import itertools
 import random
 import copy
 from constants import POTION_PRICE
@@ -64,12 +65,10 @@ def make_board(level):
 
     rows, columns, is_accessible, gym_location, store_location = level_config[level]
 
-    for i in range(rows):
-        for j in range(columns):
-            board[(i, j)] = True if is_accessible(i, j) else False
+    for i, j in itertools.product(range(rows), range(columns)):
+        board[(i, j)] = True if is_accessible(i, j) else False
 
     board[gym_location] = "Gym"
-
     board[store_location] = "Store"
 
     return board, rows, columns
@@ -701,8 +700,6 @@ def move_character(character, direction, board, rows, columns):
 
 def game():
     character = set_up_game()
-    print(character)
-    # character
     board, rows, columns = make_board(character['Current Level'])
     achieved_goal = False
 
@@ -885,12 +882,6 @@ def main():
     Drive the program.
     """
     game()
-    # board, rows, columns = make_board(character["Current Level"])
-    # display_current_location(board, character, rows, columns)
-    # print(check_current_location(board, character))
-    # character = make_character("user1")
-    # battle_with_gym_leader(character)
-    # print_instructions()
 
 
 if __name__ == "__main__":
