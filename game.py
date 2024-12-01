@@ -144,6 +144,25 @@ def is_alive(character):
     return alive
 
 
+def check_input_is_digit(input_message, error_message="Invalid input! Please enter a valid number: "):
+    """
+    Check if the user input is digit.
+
+    :param input_message: a string representing the input message
+    :param error_message: a string representing the error message
+    :precondition input_message: a string representing the input message
+    :precondition error_message: a string representing the error message
+    :postcondition: prompts the user until they enter a valid digit
+    :return: an integer representing valid input
+    """
+    while True:
+        user_input = input(input_message)
+        if user_input.isdigit():
+            return int(user_input)
+        else:
+            print(error_message)
+
+
 def buy_potion(character):
     """
     Calculate the change after a purchase.
@@ -157,13 +176,7 @@ def buy_potion(character):
     if user_input != 'y':
         return
 
-    number_of_potions = ""
-    while True:
-        if number_of_potions.isdigit():
-            break
-        else:
-            number_of_potions = input("Enter the number of potions to purchase: ")
-    number_of_potions = int(number_of_potions)
+    number_of_potions = check_input_is_digit("Enter the number of potions to purchase: ")
 
     total_price = POTION_PRICE * number_of_potions
     print(f"Total price will be: ${total_price}")
@@ -283,11 +296,13 @@ def choose_skill_to_challenge(skill_collection):
     for skill in skill_collection:
         print(f"{number}. {skill['name']}(damage range: {skill['damage'][0]} ~ {skill['damage'][1]})")
         number += 1
-    user_choice = int(input("Which skill would you like to use (Entering number)? "))
-    while user_choice not in range(1, 4):
-        print(f"{user_choice} is not a valid choice!")
-        user_choice = int(input("Please choose a valid option (Entering number): "))
-    return skill_collection[user_choice - 1]
+
+    while True:
+        user_choice = check_input_is_digit("Which skill would you like to use (Enter number)? ")
+        if 1 <= user_choice <= len(skill_collection):
+            return skill_collection[user_choice - 1]
+        else:
+            print(f"{user_choice} is not a valid choice! Please choose a valid option between 1 and {len(skill_collection)}.")
 
 
 def get_probability():
@@ -548,11 +563,11 @@ def select_event_option(event_type, gym_round=None):
         name = option if option == "Run Away" else option.__name__.replace("_", " ").title()
         print(f"{i + 1}. {name}")
 
-    user_choice = int(input("What do you want to do (Enter number)? "))
-    while user_choice <= 0 or user_choice > len(character_option):
-        user_choice = int(input("\nInvalid choice! Enter a valid number: "))
-
-    return character_option[user_choice - 1]
+    while True:
+        user_choice = check_input_is_digit("What do you want to do (Enter number)? ")
+        if 1 <= user_choice <= len(character_option):
+            return character_option[user_choice - 1]
+        print(f"\nInvalid choice! Please enter a number between 1 and {len(character_option)}.")
 
 
 def proceed_event_option(user_choice, character_pokemon, character, event_pokemon_info, event_type):
@@ -662,16 +677,17 @@ def event_occurred(character):
 def get_user_choice(character, board, rows, columns):
     print("1. Up  2. Down  3. Left  4. Right  5. Check status")
     while True:
-        user_choice = int(input("Which direction would you like to go (Entering number)? "))
-        while user_choice not in range(1, 5):
-            if user_choice == 5:
-                print("Current status is...")
-                for name, info in character['Poke Ball'].items():
-                    print(f"{name}(HP: {info['currentHP']})")
-                display_current_location(board, character, rows, columns)
-            else:
-                print("\nPlease, choose a valid direction!")
-            user_choice = int(input("What direction would you like to go (Entering number)? "))
+        user_choice = check_input_is_digit("Which direction would you like to go (Enter number)? ")
+
+        if 1 <= user_choice <= 4:
+            return user_choice
+        elif user_choice == 5:
+            print("Current status is...")
+            for name, info in character['Poke Ball'].items():
+                print(f"{name}(HP: {info['currentHP']})")
+            display_current_location(board, character, rows, columns)
+        else:
+            print("\nPlease, choose a valid direction or option!")
 
         return user_choice
 
