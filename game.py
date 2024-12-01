@@ -687,9 +687,7 @@ def get_user_choice(character, board, rows, columns):
                 print(f"{name}(HP: {info['currentHP']})")
             display_current_location(board, character, rows, columns)
         else:
-            print("\nPlease, choose a valid direction or option!")
-
-        return user_choice
+            print("\nPlease choose a valid direction!")
 
 
 def validate_move(board, character, direction):
