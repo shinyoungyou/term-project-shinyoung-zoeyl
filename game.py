@@ -39,22 +39,6 @@ def print_instructions():
     print("- The mission is complete when you defeat the final Gym Leader at Level 3.")
 
 
-def generate_store_locations(board):
-    """
-    Add random stores to the board.
-
-    :param board: a dictionary representing the board
-    :precondition: board is a dictionary representing the board
-    :postcondition: updates board with randomly generated store locations
-    :return: updated board with store locations
-    """
-    accessible_cells = [key for key, value in board.items() if value is True]
-    stores = random.sample(accessible_cells, 3)
-    for store in stores:
-        board[store] = "🏪"
-    return board
-
-
 def make_board(level):
     """
     Make a new game board for the given level.
@@ -67,23 +51,26 @@ def make_board(level):
     board = {}
 
     level_config = {
-        1: (6, 6, lambda i, j: (i == 0 and j < 5) or (1 <= i <= 4 and 1 <= j <= 4) or (i == 5 and j > 0), (5, 5)),
-        2: (8, 5, lambda i, j: (i == 0 and j == 0) or (1 <= i <= 6 and 0 <= j <= 4) or (i == 7 and j == 4), (7, 4)),
-        3: (10, 5, lambda i, j: (i == 0 and j == 4) or (1 <= i <= 8 and 0 <= j <= 4) or (i == 9 and j == 0), (9, 0)),
+        1: (6, 6, lambda i, j: (i == 0 and j < 5) or (1 <= i <= 4 and 1 <= j <= 4) or (i == 5 and j > 0),
+            (5, 5), (2, 2)),
+        2: (8, 5, lambda i, j: (i == 0 and j == 0) or (1 <= i <= 6 and 0 <= j <= 4) or (i == 7 and j == 4),
+            (7, 4), (2, 2)),
+        3: (10, 5, lambda i, j: (i == 0 and j == 4) or (1 <= i <= 8 and 0 <= j <= 4) or (i == 9 and j == 0),
+            (9, 0), (2, 2)),
     }
 
     if level not in level_config:
         return board
 
-    rows, columns, is_accessible, gym_location = level_config[level]
+    rows, columns, is_accessible, gym_location, store_location = level_config[level]
 
     for i in range(rows):
         for j in range(columns):
             board[(i, j)] = True if is_accessible(i, j) else False
 
-    board[gym_location] = "🏛"
+    board[gym_location] = "Gym"
 
-    board = generate_store_locations(board)
+    board[store_location] = "Store"
 
     return board, rows, columns
 
@@ -111,15 +98,15 @@ def display_current_location(board, character, rows, columns):
             location = board.get((i, j), False)
 
             if location is False:
-                row += "   "
+                row += "    "
             elif (i, j) == character["Current Location"]:
-                row += "[#]"
+                row += "[🤠]"
             elif location == "Store":
-                row += "[S]"
+                row += "[💊]"
             elif location == "Gym":
-                row += "[G]"
+                row += "[🥊]"
             else:
-                row += "[ ]"
+                row += "[  ]"
         print(row)
 
 
@@ -134,7 +121,11 @@ def check_current_location(board, character):
     :postcondition: retrieves the description of current location from the board
     :return: the description of current location between True, False, Store, and Gym
     """
-    return board[character["Current Location"]]
+    is_special_location = False
+    current_location = board[character["Current Location"]]
+    if current_location == "Store" or current_location == "Gym":
+        is_special_location = True
+    return is_special_location
 
 
 def is_alive(character):
@@ -167,10 +158,21 @@ def buy_potion(character):
     if user_input != 'y':
         return
 
+    number_of_potions = ""
+    while True:
+        if number_of_potions.isdigit():
+            break
+        else:
+            number_of_potions = input("Enter the number of potions to purchase: ")
+    number_of_potions = int(number_of_potions)
+
+    total_price = POTION_PRICE * number_of_potions
+    print(f"Total price will be: ${total_price}")
     budget = character["Money"]
-    change = budget - POTION_PRICE
+    change = budget - total_price
 
     if change >= 0:
+        character["Potion"] += 1 * number_of_potions
         print(f"Purchase successful! Your change is ${change}.")
         character["Money"] = change
     else:
@@ -178,9 +180,9 @@ def buy_potion(character):
 
 
 def starting_pokemon_collection(character_level):
-    level1_starting_pokemon = {'Squirtle': {'type': 'water', 'currentHP': 30},
-                               'Charmander': {'type': 'fire', 'currentHP': 30},
-                               'Bulbasaur': {'type': 'grass', 'currentHP': 30}}
+    level1_starting_pokemon = {'Squirtle': {'type': 'water', 'currentHP': 40},
+                               'Charmander': {'type': 'fire', 'currentHP': 40},
+                               'Bulbasaur': {'type': 'grass', 'currentHP': 40}}
 
     level2_starting_pokemon = {'Wartortle': {'type': 'water', 'currentHP': 50},
                                'Charmeleon': {'type': 'fire', 'currentHP': 50},
@@ -385,6 +387,27 @@ def check_potion(number_of_potion, character_level, character_pokemon):
     return validation
 
 
+def change_pokemon__(pokeball, character_pokemon):
+    if len(pokeball) == 1:
+        print("\nYou has no pokemon to switch to\n")
+    else:
+        print("\nYour pokemons' status...")
+        for pokemon in pokeball.keys():
+            print(f"{pokemon}(HP: {pokeball[pokemon]['currentHP']})")
+
+        user_choice = input("\nwhat pokemon would you like to switch to (Entering Pokemon name)? ").capitalize()
+        while user_choice not in pokeball.keys() or pokeball[user_choice]['currentHP'] == 0:
+            print(f"\n{user_choice} is not included in your Poke Balls or has 0HP")
+            user_choice = input("what pokemon would you like (Entering Pokemon name)? ").capitalize()
+
+        print(f"\nGood job, {character_pokemon[0]}! Come back!\nGo, {user_choice}")
+
+        character_pokemon = (user_choice, pokeball[user_choice])
+        print(f"{user_choice}(HP: {character_pokemon[1]['currentHP']})\n")
+
+    return character_pokemon
+
+
 def use_potion(character, character_pokemon):
     if check_potion(character['Potion'], character['Current Level'], character_pokemon):
         print(f"\nYou have {character['Potion']} potion(s)!\n{character_pokemon[0]} has "
@@ -397,13 +420,13 @@ def use_potion(character, character_pokemon):
 
         if user_answer == 'y':
             pokemon_maximum_hp = level_maximum_hp(character['Current Level'])
-            if character_pokemon[1]["currentHP"] > pokemon_maximum_hp - 5:
+            if character_pokemon[1]["currentHP"] > pokemon_maximum_hp - 10:
                 character_pokemon[1]["currentHP"] = pokemon_maximum_hp
             else:
-                character_pokemon[1]["currentHP"] += 5
-            character['potion'] -= 1
+                character_pokemon[1]["currentHP"] += 10
+            character['Potion'] -= 1
             print(f"\n{character_pokemon[0]} restored HP!\n{character_pokemon[0]} "
-                  f"(HP: {character_pokemon[1]["currentHP"]}\n{character['potion']} potion(s) left!")
+                  f"(HP: {character_pokemon[1]["currentHP"]}\n{character['Potion']} potion(s) left!")
 
 
 def select_release_pokemon(character):
@@ -441,7 +464,7 @@ def check_total_of_user_pokemons(character, event_pokemon_info):
 
 def throw_poke_ball(event_pokemon_info, character):
     process_result = False
-    if event_pokemon_info[1]['currentHP'] <= 5:
+    if event_pokemon_info[1]['currentHP'] <= 10:
         if check_total_of_user_pokemons(character, event_pokemon_info):
             character['Poke Ball'][event_pokemon_info[0]] \
                 = {'type': event_pokemon_info[1]['type'], 'currentHP': level_maximum_hp(character['Current Level']) / 2}
@@ -454,7 +477,7 @@ def throw_poke_ball(event_pokemon_info, character):
 
 def set_event_type():
     event_collection = ("wildPokemon", "Team Rocket", "Strange trainer", False)
-    return random.choices(event_collection, weights=[4, 2, 3, 1], k=1)[0]
+    return random.choices(event_collection, weights=[8, 1, 1, 4], k=1)[0]
 
 
 def get_event_pokemon(character_level):
@@ -512,24 +535,23 @@ def get_skill_of(pokemon_type):
     return skills_of[pokemon_type]
 
 
-def select_event_option(event_type):
-    character_option = [fight, change_pokemon]  # change list type to dictionary
-    if event_type != 'Gym Leader':
+def select_event_option(event_type, gym_round=None):
+    character_option = [fight, change_pokemon]
+    if event_type == 'Gym Leader':
+        if gym_round > 2:
+            character_option.append("Run Away")
+    elif event_type == 'wildPokemon':
+        character_option.extend([throw_poke_ball, use_potion, "Run Away"])
+    else:
         character_option.append(use_potion)
 
-    if event_type == 'wildPokemon':
-        character_option.extend([throw_poke_ball, "Run"])
+    for i, option in enumerate(character_option):
+        name = option if option == "Run Away" else option.__name__.replace("_", " ").title()
+        print(f"{i + 1}. {name}")
 
-    for print_option in range(len(character_option)):
-        if print_option == 4:
-            print(f"{print_option + 1}. {character_option[print_option]}")
-        else:
-            print(f"{print_option + 1}. {character_option[print_option].__name__.replace("_", " ").title()}")
-
-    user_choice = int(input("What do you want to do (Entering number)? "))
+    user_choice = int(input("What do you want to do (Enter number)? "))
     while user_choice <= 0 or user_choice > len(character_option):
-        print("\nThat is not option you can choose!")
-        user_choice = input("Please choose valid option(Entering number): ")
+        user_choice = int(input("\nInvalid choice! Enter a valid number: "))
 
     return character_option[user_choice - 1]
 
@@ -652,43 +674,35 @@ def get_user_choice(character, board, rows, columns):
                 print("\nPlease, choose a valid direction!")
             user_choice = int(input("What direction would you like to go (Entering number)? "))
 
-    return user_choice
+        return user_choice
 
 
-def valid_move(board, character, direction):
-    user_row = character['Current Location'][0]
-    user_col = character['Current Location'][1]
+def validate_move(board, character, direction):
+    directions = {1: (-1, -0), 2: (1, 0), 3: (0, -1), 4: (0, 1)}
 
-    if direction == 1:
-        user_col -= 1
-    elif direction == 2:
-        user_col += 1
-    elif direction == 3:
-        user_row -= 1
-    else:
-        user_row += 1
+    if direction in directions:
+        dx, dy = directions[direction]
+        new_position = (character['Current Location'][0] + dx, character['Current Location'][1] + dy)
 
-    if (user_row, user_col) in board:
-        return True
-    else:
-        return False
+        return board.get(new_position, False)
+
+    return False
 
 
 def move_character(character, direction, board, rows, columns):
-    if direction == 1:
-        character['Current Location'][1] -= 1
-    elif direction == 2:
-        character['Current Location'][1] += 1
-    elif direction == 3:
-        character['Current Location'][0] -= 1
-    else:
-        character['Current Location'][0] += 1
+    directions = {1: (-1, -0), 2: (1, 0), 3: (0, -1), 4: (0, 1)}
+
+    if direction in directions:
+        dx, dy = directions[direction]
+        character['Current Location'] = (character['Current Location'][0] + dx, character['Current Location'][1] + dy)
 
     display_current_location(board, character, rows, columns)
 
 
 def game():
     character = set_up_game()
+    print(character)
+    # character
     board, rows, columns = make_board(character['Current Level'])
     achieved_goal = False
 
@@ -696,11 +710,11 @@ def game():
         display_current_location(board, character, rows, columns)
         direction = get_user_choice(character, board, rows, columns)
 
-        if valid_move(board, character, direction):
+        if validate_move(board, character, direction):
             move_character(character, direction, board, rows, columns)
-            if check_current_location(board, character):
-                if in_special_place():
-                    achieved_goal = True
+            is_special_location = check_current_location(board, character)
+            if is_special_location:
+                process_by_location_type(character, board)
             else:
                 event_occurred(character)
         else:
@@ -710,6 +724,29 @@ def game():
             print("Congratulations! You have successfully finished your journey :)")
         elif not is_alive(character):
             print("GAME OVER")
+
+
+def process_by_location_type(character, board):
+    current_location = board[character['Current Location']]
+    if current_location == "Gym":
+        if has_six_pokemons(character):
+            proceed_battle = True
+            while proceed_battle and is_alive(character):
+                gym_badge_earned, current_win_count = battle_with_gym_leader(character)
+                gym_badge_earned = check_badge_eligibility(character, current_win_count, gym_badge_earned)
+
+                if gym_badge_earned:
+                    level_up(character)
+                    proceed_battle = False
+                # else:
+                #     user_input = input(
+                #         "Enter 'y' to proceed with another battle, or 'n' to leave the gym: ").lower()
+                #     proceed_battle = (user_input == 'y')
+    elif current_location == "Store":
+        buy_potion(character)
+        # user_input = input("Enter y to use potion now, or n to skip: ")
+        # if user_input == "y":
+        #     use_potion(character)
 
 
 def check_badge_eligibility(character, current_win_count, gym_badge_earned):
@@ -725,9 +762,9 @@ def check_badge_eligibility(character, current_win_count, gym_badge_earned):
     :postcondition: updates gym_badge_earned to True if the character is eligible for the badge
     :return: True if the gym badge is earned, else False
     """
-    level = character["Current Level"]
+    current_level = character["Current Level"]
 
-    win_count = {1: 2, 2: 3, 3: 4}.get(level)
+    win_count = {1: 2, 2: 3, 3: 4}.get(current_level)
     if win_count is None:
         print("Invalid level")
         return
@@ -741,6 +778,14 @@ def check_badge_eligibility(character, current_win_count, gym_badge_earned):
         gym_badge_earned = True
 
     return gym_badge_earned
+
+
+def has_six_pokemons(character):
+    more = 6 - len(character['Poke Ball'])
+    if more:
+        print(f"You need to earn {more} more pokemon(s) to enter the gym")
+
+    return not more
 
 
 def battle_with_gym_leader(character):
@@ -764,36 +809,43 @@ def battle_with_gym_leader(character):
         return gym_badge_earned
     print("Gym Leader: Welcome to the gym! Here is one rule, you can't use potions to accurately assess your skills.")
 
-    process_result = True
-    while process_result:
+    prev_round = 0
+    gym_round = 1
+    while prev_round != gym_round and is_alive(character):
+        process_result = True  # process_result: the ability to continue the game
+        prev_round += 1
+        print(f"Round {gym_round}.")
+        print(f"process_result: {process_result}")
         selected_pokemon = take_out_pokemon(character['Poke Ball'])
+        print(selected_pokemon)
         gym_leader_pokemon = get_event_pokemon(character['Current Level'])
+        while process_result:
+            user_choice = select_event_option("Gym Leader", gym_round)
 
-        user_choice = select_event_option("Gym Leader")
-
-        if user_choice == fight:
-            process_result = fight(selected_pokemon, gym_leader_pokemon, character, "Gym Leader")
-        elif user_choice == change_pokemon:
-            change_pokemon(character, selected_pokemon)
-
-        if process_result:
-            process_result = (get_attacked(gym_leader_pokemon, "Gym Leader", character, selected_pokemon))
-        else:
-            current_win_count += 1
-
-        gym_badge_earned = check_badge_eligibility(character, current_win_count, gym_badge_earned)
-        if gym_badge_earned:
-            level_up(character)
-            break
-        else:
-            if is_alive(character):
-                user_input = input("Enter y if you want to proceed another battle in the gym, else n: ")
-                if user_input != 'y':
-                    break
-            else:
+            if user_choice == fight:
+                process_result = fight(selected_pokemon, gym_leader_pokemon, character, "Gym Leader")
+            elif user_choice == change_pokemon:
+                change_pokemon(character, selected_pokemon)
+            elif user_choice == "Run Away":
+                print("Gym Leader: Running away, huh? I guess today's not your day. "
+                      "Come back when you're ready to battle!")
                 break
 
-    return gym_badge_earned
+            if process_result:
+                process_result = get_attacked(gym_leader_pokemon, "Gym Leader", character, selected_pokemon)
+                if not process_result:
+                    print(f"Gym Leader: You lost in round {gym_round}.")
+                    print(character)
+                    if is_alive(character):
+                        gym_round += 1
+                    else:
+                        print("Game over: All your Pokémon have fainted.")
+                        break
+            else:
+                current_win_count += 1
+                gym_round += 1
+
+    return gym_badge_earned, current_win_count
 
 
 def level_up(character):
@@ -832,7 +884,7 @@ def main():
     """
     Drive the program.
     """
-    # game()
+    game()
     # board, rows, columns = make_board(character["Current Level"])
     # display_current_location(board, character, rows, columns)
     # print(check_current_location(board, character))
