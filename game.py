@@ -221,7 +221,14 @@ def buy_potion(character):
         print("You can't buy with your current budget.")
 
 
-def starting_pokemon_collection(character_level):
+def starting_pokemon_collection(character_level: int) -> dict:
+    """
+    Provide a starting Pokémon collection tailored to the character_level.
+
+    :param character_level: an integer
+    :precondition: character_level must be a number between 1 and 3
+    :return: a dictionary containing starting Pokémon's information tailored to the character_level
+    """
     level1_starting_pokemon = {'Squirtle': {'type': 'water', 'currentHP': 40},
                                'Charmander': {'type': 'fire', 'currentHP': 40},
                                'Bulbasaur': {'type': 'grass', 'currentHP': 40}}
