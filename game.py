@@ -179,11 +179,11 @@ def check_input_is_digit(input_message: str,
 
 def encounter_store(character: dict):
     """
-    Give user options between buy or use potion, or quit.
+    Give user with options between buy or use potion, or quit the store.
 
-    :param character: a dictionary representing the character
+    :param character: a dictionary containing the character's details, including 'Money', 'Poke Ball'
     :precondition: character is a dictionary representing the character
-    :postcondition: prompts the user until they enter buy, use, or q
+    :postcondition: executes selected option between buy potion, use potion, or quit
     """
     actions = {
         'buy': lambda: buy_potion(character),
@@ -200,12 +200,12 @@ def encounter_store(character: dict):
             print("Invalid option. Please try again.")
 
 
-def select_pokemon(pokeball):
+def select_pokemon(pokeball: dict) -> (str, dict):
     """
     Let user select a Pokémon.
 
-    :param pokeball: a dictionary representing the Pokémon
-    :precondition: pokeball is a dictionary representing the Pokémon
+    :param pokeball: a dictionary representing collection of Pokémon(s)
+    :precondition: pokeball is a dictionary representing collection of Pokémon(s)
     :postcondition: provides selected Pokémon name and the Pokémon's info
     :return: a tuple of a string representing selected Pokémon name,
              and a dictionary of the Pokémon's info
@@ -222,13 +222,13 @@ def select_pokemon(pokeball):
     return user_choice, pokeball[user_choice]
 
 
-def buy_potion(character):
+def buy_potion(character: dict):
     """
     Calculate the change after a purchase.
 
     :param character: a dictionary representing character, including their money
     :precondition: character is a dictionary with a key "Money" representing the character's current budget
-    :postcondition: updates the character's money if a potion is purchased
+    :postcondition: updates the character's money if any potion is purchased
     """
     print(f"\nYour budget is ${character['Money']}, and each potion price is ${POTION_PRICE}.")
     while True:
@@ -560,11 +560,11 @@ def change_pokemon(pokeball: dict, character_pokemon: tuple):
             if pokemon != character_pokemon[0]:
                 print(f"{pokemon}(HP: {pokeball[pokemon]['currentHP']})")
 
-        user_choice = input("\nwhat pokemon would you like to switch to (Entering Pokemon name)? ").capitalize()
+        user_choice = input("\nWhich pokemon would you like to switch to (Entering Pokemon name)? ").capitalize()
         while (user_choice not in pokeball.keys() or pokeball[user_choice]['currentHP'] == 0
                or user_choice == character_pokemon[0]):
             print(f"\n{user_choice} is not included in your Poke Balls or has 0HP")
-            user_choice = input("what pokemon would you like (Entering Pokemon name)? ").capitalize()
+            user_choice = input("Which pokemon would you like (Entering Pokemon name)? ").capitalize()
 
         print(f"\nGood job, {character_pokemon[0]}! Come back!\nGo, {user_choice}")
 
@@ -859,6 +859,7 @@ def event_occurred(character):
             if process_result:
                 process_result = get_attacked(event_pokemon_info, event_type, character, character_pokemon)
     else:
+        print("\nNo event is occurred.")
         print("\n------------------------------------------\n")
 
 
@@ -879,7 +880,22 @@ def get_user_choice(character, board, rows, columns):
             print("\nPlease choose a valid direction!")
 
 
-def validate_move(board, character, direction):
+def validate_move(board: dict, character: dict, direction: int) -> (bool, (int, int)):
+    """
+    Validate user move.
+
+    :param board: a dictionary representing the game board
+    :param character: a dictionary representing character's info, including their current location
+    :param direction: a positive integer representing the direction between 'Up', 'Down', 'Left', or 'Right'
+    :precondition: board is a dictionary representing the game board
+    :precondition: character is a dictionary representing character's info, including their current location
+    :precondition: direction is a positive integer from 1 to 4
+                    representing 'Up', 'Down', 'Left', or 'Right' respectively
+    :postcondition: check if the move is within the boundaries of the game board
+    :return: a tuple of boolean representing whether the move is within the boundaries of the game board
+             and a tuple representing the corresponding new position,
+             including an integer representing X-coordinate, and an integer representing Y-coordinate
+    """
     directions = {1: (-1, -0), 2: (1, 0), 3: (0, -1), 4: (0, 1)}
 
     new_position = None
@@ -892,7 +908,23 @@ def validate_move(board, character, direction):
     return False, new_position
 
 
-def move_character(character, new_position, board, rows, columns):
+def move_character(character: dict, new_position: (int, int), board: dict, rows: int, columns: int):
+    """
+    Move character.
+
+    :param character: a dictionary representing character's info, including their current location
+    :param new_position: a tuple representing the new location
+    :param board: a dictionary representing the game board
+    :param rows: a positive integer representing number of rows of the game board
+    :param columns: a positive integer representing number of columns of the game board
+    :precondition: character is a dictionary representing character's info, including their current location
+    :precondition: new_position is a tuple representing the new location,
+                   including an integer representing X-coordinate, and an integer representing Y-coordinate
+    :precondition: board is a dictionary representing the game board
+    :precondition: rows is an integer greater than 0
+    :precondition: columns is an integer greater than 0
+    :postcondition: updates the character's current location based on the new position
+    """
     character['Current Location'] = new_position
 
     print()
@@ -929,7 +961,18 @@ def game():
             print("GAME OVER")
 
 
-def process_by_location_type(character, board):
+def process_by_location_type(character: dict, board: dict) -> bool:
+    """
+    Process actions when character's location is gym or store.
+
+    :param character: a dictionary representing character's info, including their current location and level
+    :param board: a dictionary representing the game board
+    :precondition: character is a dictionary which has 'Current Location' and 'Current Level' keys
+    :precondition: board is a dictionary which has all the available coordinates keys
+    :postcondition: executes specific actions when character is currently located in gym or store
+    :return: True if the character achieved their goal as a result of going through the specific location,
+             otherwise False
+    """
     achieved_goal = False
     current_location = board[character['Current Location']]
     if current_location == "Gym":
@@ -976,7 +1019,15 @@ def check_badge_eligibility(character, current_win_count, gym_badge_earned):
     return gym_badge_earned
 
 
-def has_six_pokemons(character):
+def has_six_pokemons(character: dict) -> bool:
+    """
+    Check if the character has six Pokèmons.
+
+    :param character: a dictionary representing character's info, including their Pokèmons' info
+    :precondition: character is a dictionary which has Pokèmons' info that the character has
+    :postcondition: counts the number of Pokèmons needed to enter the gym
+    :return: True if the character has six Pokèmons, otherwise False
+    """
     more = 6 - len(character['Poke Ball'])
     if more > 0:
         print(f"You need to earn {more} more pokemon(s) to enter the gym.")
@@ -1049,9 +1100,13 @@ def battle_with_gym_leader(character):
     return gym_badge_earned
 
 
-def evolve_pokemon(character):
+def evolve_pokemon(character: dict):
     """
-    Handle pokemon evolution based on the character's level.
+    Evolve character's starting pokèmon based on the character's level.
+
+    :param character: a dictionary including character's info such as their poke ball and starting pokèmon
+    :precondition: character is a dictionary including 'Poke Ball', 'Starting Pokemon' keys
+    :postcondition: handles starting pokèmon evolution according to the character's level
     """
     evolution_map = {
         'Squirtle': 'Wartortle',
@@ -1074,7 +1129,14 @@ def evolve_pokemon(character):
             print(f"\n{current_starting_pokemon_name} has evolved into {evolved_starting_pokemon_name}!")
 
 
-def level_up(character):
+def level_up(character: dict):
+    """
+    Level up the character.
+
+    :param character: a dictionary including character's info, such as current level, and other related details
+    :preconditoin: character is a dictionary including 'Current Level', 'Money', and other related details
+    :postcondition: updates the character's information according to their next level
+    """
     character['Current Level'] += 1
     evolve_pokemon(character)
 
