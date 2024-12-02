@@ -708,7 +708,14 @@ def throw_poke_ball(event_pokemon_info: tuple, character: dict) -> bool:
     return process_result
 
 
-def set_event_type():
+def set_event_type() -> str or bool:
+    """
+    Determine what kind of event has occurred.
+
+    :postcondition: choose a random event type
+    :return: a string representing the type of event if an event has occurred
+    :return: a boolean value, false if no event has occurred
+    """
     event_collection = ("wildPokemon", "Team Rocket", "Strange trainer", False)
     return random.choices(event_collection, weights=[18, 5, 7, 3], k=1)[0]
 
