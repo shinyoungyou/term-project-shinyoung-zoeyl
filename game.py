@@ -406,7 +406,7 @@ def level_maximum_hp(character_level: int) -> int:
 
 def make_stronger(character_level: int) -> int:
     """
-    Determine how much stronger the character's skill damage will become.
+    Determine how much stronger the character's skill damage becomes.
 
     :param character_level: an integer that represents user's current level
     :precondition: character_level must be a number between 1 and 3
@@ -422,7 +422,18 @@ def make_stronger(character_level: int) -> int:
     return stronger
 
 
-def get_money(character, event_type):
+def get_money(character: dict, event_type: str):
+    """
+    Determine how much money the user receives.
+
+    :param character: a dictionary containing information about the character's status
+    :param event_type: a string that represents what kind of event occurs
+    :precondition: character has information about current user's level
+    :precondition: event_type must be either wild Pokémon, Team Rocket, or Strange trainer
+    :postcondition: set up how many times more money the user can receive
+    :postcondition: multiply a random number from the range corresponding to the event type
+    :postcondition: add the number to the value of the 'Money' key in the character
+    """
     earn_money = make_stronger(character['Current Level'])
     if event_type == 'wildPokemon':
         earn_money *= random.randrange(3, 7)
