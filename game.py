@@ -311,7 +311,7 @@ def get_probability():
 
 def level_maximum_hp(character_level):
     if character_level == 1:
-        maximum_hp = 30
+        maximum_hp = 40
     elif character_level == 2:
         maximum_hp = 50
     else:
@@ -351,7 +351,8 @@ def get_attack_result(character_pokemon_skill, event_pokemon_info, character, ev
 
     if event_pokemon_info[1]['currentHP'] <= 0:
         print(f"You defeated the {event_pokemon_info[0]}")
-        get_money(character, event_type)
+        if event_type != "Gym Leader":
+            get_money(character, event_type)
         return False
     else:
         print(f"{event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
@@ -741,18 +742,9 @@ def process_by_location_type(character, board):
     current_location = board[character['Current Location']]
     if current_location == "Gym":
         if has_six_pokemons(character):
-            proceed_battle = True
-            while proceed_battle and is_alive(character):
-                gym_badge_earned, current_win_count = battle_with_gym_leader(character)
-                gym_badge_earned = check_badge_eligibility(character, current_win_count, gym_badge_earned)
-
-                if gym_badge_earned:
-                    level_up(character)
-                    proceed_battle = False
-                # else:
-                #     user_input = input(
-                #         "Enter 'y' to proceed with another battle, or 'n' to leave the gym: ").lower()
-                #     proceed_battle = (user_input == 'y')
+            gym_badge_earned = battle_with_gym_leader(character)
+            if gym_badge_earned:
+                level_up(character)
     elif current_location == "Store":
         buy_potion(character)
         # user_input = input("Enter y to use potion now, or n to skip: ")
@@ -815,20 +807,23 @@ def battle_with_gym_leader(character):
     gym_badge_earned = False
     current_win_count = 0
 
-    user_input = input("Encountered a gym! Enter y to challenge, n to quit: ")
+    while True:
+        user_input = input("Encountered a gym! Enter y to challenge, n to quit: ")
+        if user_input == 'y' or user_input == 'n':
+            break
+
     if user_input == 'n':
         return gym_badge_earned
     print("Gym Leader: Welcome to the gym! Here is one rule, you can't use potions to accurately assess your skills.")
 
     prev_round = 0
     gym_round = 1
-    while prev_round != gym_round and is_alive(character):
+    while prev_round != gym_round and is_alive(character) and not gym_badge_earned:
         process_result = True  # process_result: the ability to continue the game
         prev_round += 1
         print(f"Round {gym_round}.")
         print(f"process_result: {process_result}")
         selected_pokemon = take_out_pokemon(character['Poke Ball'])
-        print(selected_pokemon)
         gym_leader_pokemon = get_event_pokemon(character['Current Level'])
         while process_result:
             user_choice = select_event_option("Gym Leader", gym_round)
@@ -854,14 +849,39 @@ def battle_with_gym_leader(character):
                         break
             else:
                 current_win_count += 1
+                gym_badge_earned = check_badge_eligibility(character, current_win_count, gym_badge_earned)
                 gym_round += 1
+    print(f"gym_badge_earned: {gym_badge_earned}")
+    return gym_badge_earned
 
-    return gym_badge_earned, current_win_count
+
+def evolve_pokemon(character):
+    """
+    Handle pokemon evolution based on the character's level.
+    """
+    evolution_map = {
+        'Squirtle': 'Wartortle',
+        'Wartortle': 'Blastoise',
+        'Charmander': 'Charmeleon',
+        'Charmeleon': 'Charizard',
+        'Bulbasaur': 'Ivysaur',
+        'Ivysaur': 'Venusaur',
+    }
+
+    current_starting_pokemon_name = character['Starting Pokemon']
+    if current_starting_pokemon_name in evolution_map:
+        evolved_starting_pokemon_name = evolution_map[current_starting_pokemon_name]
+        available_starting_pokemons = starting_pokemon_collection(character['Current Level'])
+        if evolved_starting_pokemon_name in available_starting_pokemons:
+            character['Starting Pokemon'] = evolved_starting_pokemon_name
+            character['Poke Ball'] = available_starting_pokemons[evolved_starting_pokemon_name]
+            print(f"{current_starting_pokemon_name} has evolved into {evolved_starting_pokemon_name}!")
 
 
 def level_up(character):
     character['Current Level'] += 1
-    character['Current HP'] = level_maximum_hp(character['Current Level'])
+    evolve_pokemon(character)
+
     if character['Current Level'] == 2:
         character['Money'] += 50
     elif character['Current Level'] == 3:
@@ -880,15 +900,20 @@ def choose_pokemon_to_challenge(character, pokemon_types):
     return selected_pokemon
 
 
-def generate_gym_leader_pokemon():
-    gym_leader_pokemons = [
-        {'name': 'Bulbasaur', 'type': 'grass', 'Current HP': 20},
-        {'name': 'Squirtle', 'type': 'water', 'Current HP': 20},
-        {'name': 'Pidgeotto', 'type': 'flying', 'Current HP': 20},
-        {'name': 'Growlithe', 'type': 'fire', 'Current HP': 20},
-        {'name': 'Raichu', 'type': 'electric', 'Current HP': 20},
-    ]
-    return random.choice(gym_leader_pokemons)
+def test_gym():
+    character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
+                 'Current Location': (5, 5),
+                 'Starting Pokemon': 'Squirtle',
+                 'Poke Ball': {
+                     'Squirtle': {'type': 'water', 'currentHP': 40},
+                     'Pichu': {'type': 'electric', 'currentHP': 30},
+                     'Shinx': {'type': 'electric', 'currentHP': 30},
+                     'Mareep': {'type': 'electric', 'currentHP': 30},
+                     'Caterpie': {'type': 'grass', 'currentHP': 30},
+                     'Weedle': {'type': 'grass', 'currentHP': 30},
+                 }}
+    board, rows, columns = make_board(character['Current Level'])
+    process_by_location_type(character, board)
 
 
 def main():
@@ -896,6 +921,7 @@ def main():
     Drive the program.
     """
     game()
+    # test_gym()
 
 
 if __name__ == "__main__":
