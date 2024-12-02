@@ -51,14 +51,16 @@ def print_instructions():
     print("- The mission is complete when you defeat the final Gym Leader at Level 3.")
 
 
-def make_board(level):
+def make_board(level: int) -> (dict, int, int):
     """
     Make a new game board for the given level.
 
     :param level: an integer between 1, 2, and 3, representing the current level
     :precondition: level is a positive integer between 1, 2, and 3
     :postcondition: creates a dictionary of new board for the given level
-    :return: a dictionary representing the game board
+    :return: a tuple of dictionary representing the game board,
+            an integer for the number of rows,
+            and an integer for the number of columns
     """
     board = {}
 
@@ -85,7 +87,7 @@ def make_board(level):
     return board, rows, columns
 
 
-def display_current_location(board, character, rows, columns):
+def display_current_location(board: dict, character: dict, rows: int, columns: int):
     """
     Display the current location of the game board.
 
@@ -120,7 +122,7 @@ def display_current_location(board, character, rows, columns):
         print(row)
 
 
-def check_current_location(board, character):
+def check_current_location(board: dict, character: dict) -> bool | str:
     """
     Check the current location of the game board.
 
@@ -138,7 +140,7 @@ def check_current_location(board, character):
     return is_special_location
 
 
-def is_alive(character):
+def is_alive(character: dict) -> bool:
     """
     Check if the character is alive
 
@@ -155,7 +157,8 @@ def is_alive(character):
     return alive
 
 
-def check_input_is_digit(input_message, error_message="Invalid input! Please enter a valid number: "):
+def check_input_is_digit(input_message: str,
+                         error_message: str = "Invalid input! Please enter a valid number: ") -> int:
     """
     Check if the user input is digit.
 
@@ -174,9 +177,9 @@ def check_input_is_digit(input_message, error_message="Invalid input! Please ent
             print(error_message)
 
 
-def encounter_store(character):
+def encounter_store(character: dict):
     """
-    Give user options between buy or use potion.
+    Give user options between buy or use potion, or quit.
 
     :param character: a dictionary representing the character
     :precondition: character is a dictionary representing the character
@@ -203,7 +206,7 @@ def select_pokemon(pokeball):
 
     :param pokeball: a dictionary representing the Pokémon
     :precondition: pokeball is a dictionary representing the Pokémon
-    :postcondition: returns selected Pokémon name and the Pokémon's info
+    :postcondition: provides selected Pokémon name and the Pokémon's info
     :return: a tuple of a string representing selected Pokémon name,
              and a dictionary of the Pokémon's info
     """
