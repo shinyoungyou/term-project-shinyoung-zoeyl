@@ -948,7 +948,18 @@ def game():
             print("GAME OVER")
 
 
-def process_by_location_type(character, board):
+def process_by_location_type(character: dict, board: dict) -> bool:
+    """
+    Process actions when character's location is gym or store.
+
+    :param character: a dictionary representing character's info, including their current location and level
+    :param board: a dictionary representing the game board
+    :precondition: character is a dictionary which has 'Current Location' and 'Current Level' keys
+    :precondition: board is a dictionary which has all the available coordinates keys
+    :postcondition: executes specific actions when character is currently located in gym or store
+    :return: True if the character achieved their goal as a result of going through the specific location,
+             otherwise False
+    """
     achieved_goal = False
     current_location = board[character['Current Location']]
     if current_location == "Gym":
