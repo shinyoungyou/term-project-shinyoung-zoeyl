@@ -897,7 +897,8 @@ def battle_with_gym_leader(character):
     while prev_round != gym_round and is_alive(character) and not gym_badge_earned:
         process_result = True  # process_result: the ability to continue the game
         prev_round += 1
-        print(f"❗️Round {gym_round} ❗\n")
+        print(f"\n❗️Round {gym_round} ❗\n")
+        print(f"Event pokemon status: {gym_leader_pokemon['currentHP']}\n")
         while process_result:
             print(f"{character['Character Name']}'s pokemon status: {selected_pokemon[0]}"
                   f"(HP: {character['Poke Ball'][selected_pokemon[0]]['currentHP']})\n")
@@ -916,12 +917,11 @@ def battle_with_gym_leader(character):
             if process_result:
                 process_result = get_attacked(gym_leader_pokemon, "Gym Leader", character, selected_pokemon)
                 if not process_result:
-                    print(f"Gym Leader: You lost in round {gym_round}.")
+                    print(f"\nGym Leader: You lost in round {gym_round}.\n")
                     if is_alive(character):
                         selected_pokemon = take_out_pokemon(character['Poke Ball'])
                         gym_round += 1
                     else:
-                        print("Game over: All your Pokémon have fainted.")
                         break
             else:
                 current_win_count += 1
@@ -953,7 +953,7 @@ def evolve_pokemon(character):
             character['Poke Ball'] = {}
             character['Poke Ball'][evolved_starting_pokemon_name] \
                 = available_starting_pokemons[evolved_starting_pokemon_name]
-            print(f"\n {current_starting_pokemon_name} has evolved into {evolved_starting_pokemon_name}!")
+            print(f"\n{current_starting_pokemon_name} has evolved into {evolved_starting_pokemon_name}!")
 
 
 def level_up(character):
