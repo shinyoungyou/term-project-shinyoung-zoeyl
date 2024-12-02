@@ -313,9 +313,9 @@ def level_maximum_hp(character_level):
     if character_level == 1:
         maximum_hp = 40
     elif character_level == 2:
-        maximum_hp = 50
+        maximum_hp = 60
     else:
-        maximum_hp = 80
+        maximum_hp = 90
     return maximum_hp
 
 
