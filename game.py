@@ -334,6 +334,8 @@ def choose_skill_to_challenge(skill_collection, character_level):
     Provide information about skill the user chose.
 
     :param skill_collection: a list of dictionaries containing information about skills the user Pokémon can use.
+    :param character_level: an integer
+    :precondition: character_level must be a number between 1 and 3
     :precondition: skill_collection must contain only information about skills related to the user Pokémon's type
     :postcondition: display what skills the user Pokémon can use
     :postcondition: ask what skill the user want to use
