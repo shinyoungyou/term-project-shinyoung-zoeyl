@@ -656,7 +656,19 @@ def select_release_pokemon(character: dict) -> None:
         print(f"\nGoodbye, {user_choice_pokemon}")
 
 
-def check_total_of_user_pokemons(character, event_pokemon_info):
+def check_total_of_user_pokemons(character: dict, event_pokemon_info: tuple) -> bool:
+    """
+    Check if the user has fewer than six Pokémon.
+
+    :param character: a dictionary containing information about the character's status
+    :param event_pokemon_info: a tuple containing the event Pokémon's name and a dictionary with its type and current hp
+    :precondition: character has a value about 'Poke Ball' key and 'Starting Pokemon' key
+    :precondition: the event Pokémon must have an HP 10 or less in the event_pokemon_info
+    :precondition: the event Pokémon must have an HP greater than 0 in the event_pokemon_info
+    :postcondition: get the user's choice to release one of the user's Pokémon if the user has six Pokémon
+    :postcondition: execute the select_release_pokemon function if the user choose 'y'
+    :return: a boolean value, true if the user catches the event Pokémon successfully, false otherwise
+    """
     catch_pokemon = True
     if len(character['Poke Ball']) == 6:
         user_choice = input("\nYou can only carry up to 6 Pokémon. Would you like to release one (y/n)? ").lower()
