@@ -720,7 +720,16 @@ def set_event_type() -> str or bool:
     return random.choices(event_collection, weights=[18, 5, 7, 3], k=1)[0]
 
 
-def get_event_pokemon(character):
+def get_event_pokemon(character: dict) -> tuple:
+    """
+    Set up an event Pokémon.
+
+    :param character: a dictionary containing information about the character's status
+    :precondition: character has a value about 'Current Level' key and 'Poke Ball' key
+    :postcondition: get the event Pokémon collection tailored to current user's level
+    :postcondition: get a random event Pokémon from the event Pokémon collection
+    :return: a tuple representing information about the random event Pokémon
+    """
     event_pokemon_collection = event_pokemon(character["Current Level"])
 
     while True:
