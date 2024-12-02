@@ -382,7 +382,7 @@ def get_probability():
     :postcondition: get a random boolean value
     :return: a boolean value
     """
-    return random.choices([True, False], weights=[3, 1], k=1)[0]
+    return random.choices([True, False], weights=[5, 1], k=1)[0]
 
 
 def level_maximum_hp(character_level):
