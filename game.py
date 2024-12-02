@@ -414,7 +414,7 @@ def get_money(character, event_type):
     else:
         earn_money *= random.randrange(10, 20)
     character['Money'] += int(earn_money)
-    print(f"You got {int(earn_money)} dollars!")
+    print(f"You got ${int(earn_money)}!")
 
 
 def get_attack_result(character_pokemon_skill, event_pokemon_info, character, event_type):
@@ -548,7 +548,7 @@ def throw_poke_ball(event_pokemon_info, character):
 
 def set_event_type():
     event_collection = ("wildPokemon", "Team Rocket", "Strange trainer", False)
-    return random.choices(event_collection, weights=[15, 1, 2, 5], k=1)[0]
+    return random.choices(event_collection, weights=[18, 5, 7, 3], k=1)[0]
 
 
 def get_event_pokemon(character):
