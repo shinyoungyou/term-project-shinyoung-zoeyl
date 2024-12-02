@@ -542,7 +542,7 @@ def change_pokemon(pokeball: dict, character_pokemon: tuple):
     """
     Switch the user's current Pokémon to another one chosen by the user during the Pokémon battle.
 
-    :param pokeball: a dictionary containing information about Pokémon caught by the user
+    :param pokeball: a dictionary containing information about Pokémon the user has
     :param character_pokemon: a tuple containing the user Pokémon's name and a dictionary with its type and current HP
     :precondition: pokeball should contain Pokémon's name, and their type and current hp
     :precondition: the user Pokémon must have an HP greater than 0 in the character_pokemon
@@ -738,7 +738,15 @@ def get_event_pokemon(character: dict) -> tuple:
             return event_pokemon_info
 
 
-def take_out_pokemon(character_pokemons):
+def take_out_pokemon(character_pokemons: dict) -> tuple:
+    """
+    Set up a user's Pokémon for battle
+
+    :param character_pokemons: a dictionary containing information about Pokémon the user has
+    :precondition: pokeball should contain Pokémon's name, and its type and current hp
+    :postcondition: choose a random user's Pokémon that has HP greater than 0 from the character_pokemons
+    :return: a tuple containing the random user's Pokémon's name, type, and HP
+    """
     player_pokemon = random.choice(list(character_pokemons.items()))
     while player_pokemon[1]['currentHP'] == 0:
         player_pokemon = random.choice(list(character_pokemons.items()))
