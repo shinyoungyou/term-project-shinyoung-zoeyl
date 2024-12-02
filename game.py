@@ -332,7 +332,8 @@ def choose_skill_to_challenge(skill_collection):
         if 1 <= user_choice <= len(skill_collection):
             return skill_collection[user_choice - 1]
         else:
-            print(f"{user_choice} is not a valid choice! Please choose a valid option between 1 and {len(skill_collection)}.")
+            print(f"{user_choice} is not a valid choice! Please choose a valid option between 1 and "
+                  f"{len(skill_collection)}.")
 
 
 def get_probability():
@@ -569,9 +570,9 @@ def select_event_option(event_type, gym_round=None):
     else:
         character_option.append(use_potion)
 
-    for i, option in enumerate(character_option):
+    for number, option in enumerate(character_option):
         name = option if option == "Run Away" else option.__name__.replace("_", " ").title()
-        print(f"{i + 1}. {name}")
+        print(f"{number + 1}. {name}")
 
     while True:
         user_choice = check_input_is_digit("What do you want to do (Enter number)? ")
@@ -688,7 +689,7 @@ def event_occurred(character):
 def get_user_choice(character, board, rows, columns):
     print("1. Up  2. Down  3. Left  4. Right  5. Check status")
     while True:
-        user_choice = check_input_is_digit("Which direction would you like to go (Enter number)? ")
+        user_choice = check_input_is_digit("What number would you like to choose (Enter number)? ")
 
         if 1 <= user_choice <= 4:
             return user_choice
@@ -696,6 +697,7 @@ def get_user_choice(character, board, rows, columns):
             print("Current status is...")
             for name, info in character['Poke Ball'].items():
                 print(f"{name}(HP: {info['currentHP']})")
+            print(f"You have {character['Money']} dollars and You have (a) {character['Potion']} potion(s)!")
             display_current_location(board, character, rows, columns)
         else:
             print("\nPlease choose a valid direction!")
