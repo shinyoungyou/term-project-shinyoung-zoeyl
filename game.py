@@ -386,7 +386,15 @@ def get_probability():
     return random.choices([True, False], weights=[5, 1], k=1)[0]
 
 
-def level_maximum_hp(character_level):
+def level_maximum_hp(character_level: int) -> int:
+    """
+    Check what maximum hp is based on the user's level.
+
+    :param character_level: an integer that represents user's current level
+    :precondition: character_level must be a number between 1 and 3
+    :postcondition: set up the maximum hp based on the user's level
+    :return: an integer that represents the maximum hp based on the character_level
+    """
     if character_level == 1:
         maximum_hp = 40
     elif character_level == 2:
