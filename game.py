@@ -202,8 +202,9 @@ def buy_potion(character):
     :precondition: character is a dictionary with a key "Money" representing the character's current budget
     :postcondition: updates the character's money if a potion is purchased
     """
+    print(f"\nYour budget is {character['Money']}, and each potion price is {POTION_PRICE}.")
     while True:
-        number_of_potions = check_input_is_digit("\nEnter the number of potions to purchase: ")
+        number_of_potions = check_input_is_digit("Enter the number of potions to purchase: ")
         if number_of_potions > 0:
             break
         print("You need to buy at least one potion.")
@@ -215,7 +216,7 @@ def buy_potion(character):
 
     if change >= 0:
         character["Potion"] += 1 * number_of_potions
-        print(f"Purchase successful! Your change is ${change}")
+        print(f"Purchase successful! Your remaining budget is ${change}")
         character["Money"] = change
     else:
         print("You can't buy with your current budget.")
