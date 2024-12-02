@@ -479,7 +479,7 @@ def get_attack_result(character_pokemon_skill: dict, event_pokemon_info: tuple, 
     Check whether the event Pokémon is defeated.
 
     :param character_pokemon_skill: a dictionary containing skill name and skill damage range
-    :param event_pokemon_info: a tuple containing the event Pokémon's name and a dictionary with its type and current hp
+    :param event_pokemon_info: a tuple containing the event Pokémon's name and a dictionary with its type and current HP
     :param character: a dictionary containing information about the character's status
     :param event_type: a string that represents what kind of event occurs
     :precondition: character has a value about 'Current Level' key and 'Money' key
@@ -489,7 +489,7 @@ def get_attack_result(character_pokemon_skill: dict, event_pokemon_info: tuple, 
     :postcondition: subtract the damage amount from the event Pokémon's hp
     :postcondition: check if the event Pokémon's hp is 0 or less
     :postcondition: get money if the event Pokémon's hp is 0 or less
-    :return: a boolean value false representing the event Pokémon has been defeated, true otherwise
+    :return: a boolean value, false if the event Pokémon has been defeated, true otherwise
     """
     print(f"\n{character_pokemon_skill['name']} hit!")
 
@@ -512,8 +512,8 @@ def fight(character_pokemon: tuple, event_pokemon_info: tuple, character: dict, 
     """
     Check if the event is completed based on the user's selected 'fight' option.
 
-    :param character_pokemon: a tuple containing the user Pokémon's name and a dictionary with its type and current hp
-    :param event_pokemon_info: a tuple containing the event Pokémon's name and a dictionary with its type and current hp
+    :param character_pokemon: a tuple containing the user Pokémon's name and a dictionary with its type and current HP
+    :param event_pokemon_info: a tuple containing the event Pokémon's name and a dictionary with its type and current HP
     :param character: a dictionary containing information about the character's status
     :param event_type: event_type must be either wild Pokémon, Team Rocket, Gym Leader or Strange trainer
     :precondition: the user Pokémon must have an HP greater than 0 in the character_pokemon
@@ -525,7 +525,7 @@ def fight(character_pokemon: tuple, event_pokemon_info: tuple, character: dict, 
     :postcondition: get the user's choice of which skill to use
     :postcondition: check whether the user Pokémon's skill hit
     :postcondition: check if the event is completed by the user Pokémon's attack if the skill hit
-    :return: a boolean value true that represents the event is not finished, false otherwise
+    :return: a boolean value, true if the event is not finished, false otherwise
     """
     print(f"\nEvent pokemon status: {event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
     skill_collection = get_skill_of(character_pokemon[1]['type'])
@@ -543,7 +543,7 @@ def change_pokemon(pokeball: dict, character_pokemon: tuple):
     Switch the user's current Pokémon to another one chosen by the user during the Pokémon battle.
 
     :param pokeball: a dictionary containing information about Pokémon caught by the user
-    :param character_pokemon: a tuple containing the user Pokémon's name and a dictionary with its type and current hp
+    :param character_pokemon: a tuple containing the user Pokémon's name and a dictionary with its type and current HP
     :precondition: pokeball should contain Pokémon's name, and its type and current hp
     :precondition: the user Pokémon must have an HP greater than 0 in the character_pokemon
     :precondition: character_pokemon represents the status of one of the user's Pokémon in battle
@@ -574,7 +574,20 @@ def change_pokemon(pokeball: dict, character_pokemon: tuple):
     return character_pokemon
 
 
-def check_potion(number_of_potion, character_level, character_pokemon):
+def check_potion(number_of_potion: int, character_level: int, character_pokemon: tuple) -> bool:
+    """
+    Check whether the user can use a potion.
+
+    :param number_of_potion: an integer representing the number of potions the user has
+    :param character_level: an integer that represents user's current level
+    :param character_pokemon: a tuple containing the user Pokémon's name and a dictionary with its type and current HP
+    :precondition: the user Pokémon must have an HP greater than 0 in the character_pokemon
+    :precondition: character_pokemon represents the status of one of the user's Pokémon in battle
+    :precondition: character_level must be a number between 1 and 3
+    :precondition: number_of_potion must be 0 or greater
+    :postcondition: check if the user has no potion or the user's Pokémon has full HP
+    :return: a boolean value, true if the user can use a potion on the Pokémon, false otherwise
+    """
     validation = False
     if number_of_potion == 0:
         print("\nYou don't have any potion!\n")
