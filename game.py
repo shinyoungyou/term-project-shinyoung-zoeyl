@@ -257,7 +257,7 @@ def event_pokemon(character_level):
 
     :param character_level: an integer
     :precondition: character_level must be a number between 1 and 3
-    :postcondition: set up collections about event Pokémon's information tailored to a level
+    :postcondition: set up collections of event Pokémon information tailored to the user's level
     :postcondition: get a collection tailored to the character_level
     :return: a dictionary containing event Pokémon's information tailored to the character_level
     """
@@ -330,7 +330,16 @@ def event_pokemon(character_level):
 
 
 def choose_skill_to_challenge(skill_collection):
-    number = 1  # don't need to add to the flowchart
+    """
+    Provide information about skill the user chose.
+
+    :param skill_collection: a list of dictionaries containing information about skills the user Pokémon can use.
+    :precondition: skill_collection must contain only information about skills related to the user Pokémon's type
+    :postcondition: display what skills the user Pokémon can use
+    :postcondition: ask what skill the user want to use
+    :return: a dictionary containing skill information chosen by the user
+    """
+    number = 1
     print("")
     for skill in skill_collection:
         print(f"{number}. {skill['name']}(damage range: {skill['damage'][0]} ~ {skill['damage'][1]})")
