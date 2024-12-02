@@ -754,7 +754,16 @@ def take_out_pokemon(character_pokemons: dict) -> tuple:
     return player_pokemon
 
 
-def get_skill_of(pokemon_type):
+def get_skill_of(pokemon_type: str) -> list:
+    """
+    Provide skills that can be used based on the Pokémon's type.
+
+    :param pokemon_type: a string representing the type of Pokémon
+    :precondition: pokemon_type must be one of Water, Fire, Grass, Electric, Flying, Ice, or Rock
+    :postcondition: set up skill collections based on Pokémon's type
+    :postcondition: get skills base on the Pokémon's type
+    :return: a list containing skills the Pokémon of the given pokemon_type can use
+    """
     skills_of = {
         'water': [
             {'name': 'Tackle', 'damage': (1, 3)},
