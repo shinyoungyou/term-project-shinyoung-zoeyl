@@ -932,6 +932,9 @@ def move_character(character: dict, new_position: (int, int), board: dict, rows:
 
 
 def game():
+    """
+    Drive the game.
+    """
     character = set_up_game()
     board, rows, columns = make_board(character['Current Level'])
     achieved_goal = False
