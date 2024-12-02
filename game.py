@@ -1112,7 +1112,14 @@ def evolve_pokemon(character):
             print(f"\n{current_starting_pokemon_name} has evolved into {evolved_starting_pokemon_name}!")
 
 
-def level_up(character):
+def level_up(character: dict):
+    """
+    Level up the character.
+
+    :param character: a dictionary representing character's info including current level and other related details
+    :preconditoin: character is a dictionary including 'Current Level', 'Money', and other related details
+    :postcondition: updates the character's information according to their next level
+    """
     character['Current Level'] += 1
     evolve_pokemon(character)
 
