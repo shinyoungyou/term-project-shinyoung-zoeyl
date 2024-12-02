@@ -658,7 +658,7 @@ def select_release_pokemon(character: dict) -> None:
 
 def check_total_of_user_pokemons(character: dict, event_pokemon_info: tuple) -> bool:
     """
-    Check if the user has fewer than six Pokémon.
+    Check if the user has Pokémon fewer than six.
 
     :param character: a dictionary containing information about the character's status
     :param event_pokemon_info: a tuple containing the event Pokémon's name and a dictionary with its type and current hp
@@ -666,8 +666,8 @@ def check_total_of_user_pokemons(character: dict, event_pokemon_info: tuple) -> 
     :precondition: the event Pokémon must have an HP 10 or less in the event_pokemon_info
     :precondition: the event Pokémon must have an HP greater than 0 in the event_pokemon_info
     :postcondition: get the user's choice to release one of the user's Pokémon if the user has six Pokémon
-    :postcondition: execute the select_release_pokemon function if the user choose 'y'
-    :return: a boolean value, true if the user catches the event Pokémon successfully, false otherwise
+    :postcondition: release one of the user's Pokémon if the user choose 'y'
+    :return: a boolean value, true if the user has Pokémon less than six, false otherwise
     """
     catch_pokemon = True
     if len(character['Poke Ball']) == 6:
@@ -683,7 +683,18 @@ def check_total_of_user_pokemons(character: dict, event_pokemon_info: tuple) -> 
     return catch_pokemon
 
 
-def throw_poke_ball(event_pokemon_info, character):
+def throw_poke_ball(event_pokemon_info: tuple, character: dict) -> bool:
+    """
+    Check if the event is completed based on the user's selected 'Throw Poke Ball' option.
+
+    :param event_pokemon_info: a tuple containing the event Pokémon's name and a dictionary with its type and current hp
+    :param character: a dictionary containing information about the character's status
+    :precondition: the event Pokémon must have an HP greater than 0 in the event_pokemon_info
+    :precondition: character has a value about 'Current Level' key, 'Starting Pokemon' key and 'Poke Ball' key
+    :postcondition: check if the event Pokémon has HP greater than 10
+    :postcondition: check if the user has Pokémon more than five, if the event Pokémon has HP less than 11
+    :return: a boolean value, false if the user caught the event Pokémon successfully, true otherwise
+    """
     process_result = False
     if event_pokemon_info[1]['currentHP'] <= 10:
         if check_total_of_user_pokemons(character, event_pokemon_info):
