@@ -343,9 +343,9 @@ def level_maximum_hp(character_level):
     if character_level == 1:
         maximum_hp = 40
     elif character_level == 2:
-        maximum_hp = 50
+        maximum_hp = 65
     else:
-        maximum_hp = 80
+        maximum_hp = 100
     return maximum_hp
 
 
@@ -364,7 +364,7 @@ def get_money(character, event_type):
     if event_type == 'wildPokemon':
         earn_money *= random.randrange(3, 7)
     elif event_type == 'Team Rocket':
-        earn_money *= random.randrange(20, 30)
+        earn_money *= random.randrange(25, 31)
     else:
         earn_money *= random.randrange(10, 20)
     character['Money'] += earn_money
