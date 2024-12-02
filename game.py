@@ -10,11 +10,12 @@ def set_up_game():
     character = {'Character Name': character_name, 'Money': 30, 'Current Level': 1, 'Potion': 0,
                  'Current Location': (0, 0)}
     starting_pokemon = starting_pokemon_collection(character['Current Level'])
-    print("which pokemon would you like to go together?\nSquirtle(Water) | Charmander(Fire) | Bulbasaur(Grass)")
+    print("\nWhich pokemon would you like to go together?\nSquirtle(Water) | Charmander(Fire) | Bulbasaur(Grass)")
     user_choice = input("Please type pokemon name: ").capitalize()
     while user_choice not in starting_pokemon:
         print(f"\n{user_choice} is not included in Starting pokemon")
         user_choice = input("what pokemon would you like? ").capitalize()
+    print()
     character['Poke Ball'] = {user_choice: starting_pokemon[user_choice]}
     character['Starting Pokemon'] = user_choice
     return character
@@ -26,8 +27,8 @@ def print_instructions():
 
     :postcondition: displays the game instructions in detail
     """
-    print("Welcome to the world of Pokemon! Embark on an exciting journey to become a Pokemon Champion.")
-    print("Important notes to know before you begin:")
+    print("\nWelcome to the world of Pokemon! Embark on an exciting journey to become a Pokemon Champion.")
+    print("\nImportant notes to know before you begin:")
     print("- Stores are represented by S on the map.")
     print("- Gyms are represented by G on the map.")
     # print("- To catch wild pokemon, .")
@@ -171,7 +172,7 @@ def encounter_store(character):
     }
 
     while True:
-        user_input = input("Enter 'buy' to buy a potion, 'use' to use a potion, or 'q' to quit: ").lower()
+        user_input = input("\nEnter 'buy' to buy a potion, 'use' to use a potion, or 'q' to quit: ").lower()
         if user_input in actions:
             actions[user_input]()
         elif user_input == 'q':
@@ -186,7 +187,7 @@ def select_pokemon(pokeball):
         print(f"{pokemon}(HP: {pokeball[pokemon]['currentHP']})")
 
     while True:
-        user_choice = input("Select pokemon to proceed by entering the pokemon name: ").capitalize()
+        user_choice = input("\nSelect pokemon to proceed by entering the pokemon name: ").capitalize()
         if user_choice in pokeball.keys():
             break
 
@@ -202,19 +203,19 @@ def buy_potion(character):
     :postcondition: updates the character's money if a potion is purchased
     """
     while True:
-        number_of_potions = check_input_is_digit("Enter the number of potions to purchase: ")
+        number_of_potions = check_input_is_digit("\nEnter the number of potions to purchase: ")
         if number_of_potions > 0:
             break
         print("You need to buy at least one potion.")
 
     total_price = POTION_PRICE * number_of_potions
-    print(f"Total price will be: ${total_price}")
+    print(f"\nTotal price will be: ${total_price}")
     budget = character["Money"]
     change = budget - total_price
 
     if change >= 0:
         character["Potion"] += 1 * number_of_potions
-        print(f"Purchase successful! Your change is ${change}.")
+        print(f"Purchase successful! Your change is ${change}")
         character["Money"] = change
     else:
         print("You can't buy with your current budget.")
@@ -348,7 +349,6 @@ def choose_skill_to_challenge(skill_collection: list, character_level: int) -> d
     :return: a dictionary containing skill information chosen by the user
     """
     number = 1
-    print("")
     for skill in skill_collection:
         print(f"{number}. {skill['name']}(damage range: {int(skill['damage'][0] * make_stronger(character_level))} ~ "
               f"{int(skill['damage'][1] * make_stronger(character_level))})")
@@ -424,13 +424,13 @@ def get_attack_result(character_pokemon_skill, event_pokemon_info, character, ev
 
 
 def fight(character_pokemon, event_pokemon_info, character, event_type):
-    print(f"{event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
+    print(f"\nEvent pokemon status: {event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
     skill_collection = get_skill_of(character_pokemon[1]['type'])
     character_pokemon_skill = choose_skill_to_challenge(skill_collection, character['Current Level'])
     if get_probability():
         return get_attack_result(character_pokemon_skill, event_pokemon_info, character, event_type)
     else:
-        print(f"\n{character_pokemon_skill['name']} missed!")
+        print(f"{character_pokemon_skill['name']} missed!")
         return True
 
 
@@ -471,7 +471,7 @@ def use_potion(character, character_pokemon):
         print(f"\nYou have {character['Potion']} potion(s)!\n{character_pokemon[0]} has "
               f"{character_pokemon[1]["currentHP"]} HP.")
 
-        user_answer = input("Would you like to use a potion (y/n)? ").lower()
+        user_answer = input("\nWould you like to use a potion (y/n)? ").lower()
         while user_answer not in ('y', 'n'):
             print(f"\n{user_answer} is not a valid option")
             user_answer = input("Please choose a valid option (y/n): ").lower()
@@ -483,7 +483,7 @@ def use_potion(character, character_pokemon):
             else:
                 character_pokemon[1]["currentHP"] += 10
             character['Potion'] -= 1
-            print(f"\n{character_pokemon[0]} restored HP!\n{character_pokemon[0]} "
+            print(f"\n{character_pokemon[0]} restored HP!\n{character_pokemon[0]}"
                   f"(HP: {character_pokemon[1]["currentHP"]})\n{character['Potion']} potion(s) left!")
 
 
@@ -525,8 +525,9 @@ def throw_poke_ball(event_pokemon_info, character):
     if event_pokemon_info[1]['currentHP'] <= 10:
         if check_total_of_user_pokemons(character, event_pokemon_info):
             character['Poke Ball'][event_pokemon_info[0]] \
-                = {'type': event_pokemon_info[1]['type'], 'currentHP': level_maximum_hp(character['Current Level']) / 2}
-            print(f"\nGotcha! {event_pokemon_info[0]} was caught!")
+                = {'type': event_pokemon_info[1]['type'],
+                   'currentHP': int(level_maximum_hp(character['Current Level']) / 2)}
+            print(f"\nGotcha! {event_pokemon_info[0]} was caught!\n")
     else:
         print("\nShoot! It was so close!")
         process_result = get_probability()
@@ -535,7 +536,7 @@ def throw_poke_ball(event_pokemon_info, character):
 
 def set_event_type():
     event_collection = ("wildPokemon", "Team Rocket", "Strange trainer", False)
-    return random.choices(event_collection, weights=[15, 0, 0, 4], k=1)[0]
+    return random.choices(event_collection, weights=[15, 1, 2, 5], k=1)[0]
 
 
 def get_event_pokemon(character):
@@ -629,7 +630,7 @@ def proceed_event_option(user_choice, character_pokemon, character, event_pokemo
     elif user_choice == throw_poke_ball:
         process_result = throw_poke_ball(event_pokemon_info, character)
     else:
-        print(f"\nYou escaped from {event_pokemon_info[0]}!")
+        print(f"\nYou escaped from {event_pokemon_info[0]}!\n")
         process_result = False
     return process_result
 
@@ -675,7 +676,6 @@ def get_attacked(event_pokemon_info, event_type, character, character_pokemon):
     event_pokemon_skill = random.choices(list(skill_collection), k=1)[0]
     damage = int(make_damage_stronger(event_type, character['Current Level'])
                  * random.choice(range(event_pokemon_skill['damage'][0], event_pokemon_skill['damage'][1] + 1)))
-    damage = round(damage)
 
     print(f"{event_pokemon_info[0]} used {event_pokemon_skill['name']}!\n")
 
@@ -692,10 +692,9 @@ def get_attacked(event_pokemon_info, event_type, character, character_pokemon):
 def describe_event(event_type, character):
     event_pokemon_info = get_event_pokemon(character)
     if event_type == "wildPokemon":
-        print(f"\nA wild {event_pokemon_info[0]} appeared!(HP: {event_pokemon_info[1]['currentHP']})\n")
+        print(f"\nA wild {event_pokemon_info[0]} appeared!\n")
     else:
-        print(f"\nYou encountered a {event_type}!\n{event_type} sent out {event_pokemon_info[0]}!"
-              f"(HP: {event_pokemon_info[1]['currentHP']})\n")
+        print(f"\nYou encountered a {event_type}!\n{event_type} sent out {event_pokemon_info[0]}!\n")
     return event_pokemon_info
 
 
@@ -711,7 +710,7 @@ def event_occurred(character):
 
         while process_result:
             # Check HP part I would like put like character_pokemon[1]['currentHP']
-            print(f"Current status: {character_pokemon[0]}"
+            print(f"\n{character['Character Name']}'s pokemon status: {character_pokemon[0]}"
                   f"(HP: {character['Poke Ball'][character_pokemon[0]]['currentHP']})\n")
 
             user_choice = select_event_option(event_type)
@@ -726,19 +725,22 @@ def event_occurred(character):
 
             if process_result:
                 process_result = get_attacked(event_pokemon_info, event_type, character, character_pokemon)
+    else:
+        print("\n------------------------------------------\n")
 
 
 def get_user_choice(character, board, rows, columns):
-    print("1. Up  2. Down  3. Left  4. Right  5. Check status")
     while True:
-        user_choice = check_input_is_digit("Which direction would you like to go (Enter number)? ")
+        print("\n1. Up  2. Down  3. Left  4. Right  5. Check status")
+        user_choice = check_input_is_digit("What number would you like to choose (Enter number)? ")
 
         if 1 <= user_choice <= 4:
             return user_choice
         elif user_choice == 5:
-            print("Current status is...")
+            print("\nCurrent your pokemons' status is...")
             for name, info in character['Poke Ball'].items():
                 print(f"{name}(HP: {info['currentHP']})")
+            print(f"\nYou have ${character['Money']} and You have (a) {character['Potion']} potion(s)!\n")
             display_current_location(board, character, rows, columns)
         else:
             print("\nPlease choose a valid direction!")
@@ -763,6 +765,7 @@ def move_character(character, direction, board, rows, columns):
         dx, dy = directions[direction]
         character['Current Location'] = (character['Current Location'][0] + dx, character['Current Location'][1] + dy)
 
+    print()
     display_current_location(board, character, rows, columns)
 
 
