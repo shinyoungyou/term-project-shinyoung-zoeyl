@@ -850,7 +850,7 @@ def check_badge_eligibility(character, current_win_count, gym_badge_earned):
     count_left_for_badge = win_count - current_win_count
 
     if count_left_for_badge > 0:
-        print(f"You need to win {count_left_for_badge} more time(s) to earn the badge.")
+        print(f"\nYou need to win {count_left_for_badge} more time(s) to earn the badge.\n")
         return gym_badge_earned
     else:
         gym_badge_earned = True
@@ -861,7 +861,7 @@ def check_badge_eligibility(character, current_win_count, gym_badge_earned):
 def has_six_pokemons(character):
     more = 6 - len(character['Poke Ball'])
     if more > 0:
-        print(f"\nYou need to earn {more} more pokemon(s) to enter the gym.\n")
+        print(f"You need to earn {more} more pokemon(s) to enter the gym.")
 
     return not more
 
@@ -927,7 +927,7 @@ def battle_with_gym_leader(character):
                 current_win_count += 1
                 gym_badge_earned = check_badge_eligibility(character, current_win_count, gym_badge_earned)
                 gym_round += 1
-                selected_pokemon = take_out_pokemon(character['Poke Ball'])
+                gym_leader_pokemon = get_event_pokemon(character)
     return gym_badge_earned
 
 
