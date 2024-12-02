@@ -762,21 +762,18 @@ def get_user_choice(character, board, rows, columns):
 def validate_move(board, character, direction):
     directions = {1: (-1, -0), 2: (1, 0), 3: (0, -1), 4: (0, 1)}
 
+    new_position = None
     if direction in directions:
         dx, dy = directions[direction]
         new_position = (character['Current Location'][0] + dx, character['Current Location'][1] + dy)
 
-        return board.get(new_position, False)
+        return board.get(new_position, False), new_position
 
-    return False
+    return False, new_position
 
 
-def move_character(character, direction, board, rows, columns):
-    directions = {1: (-1, -0), 2: (1, 0), 3: (0, -1), 4: (0, 1)}
-
-    if direction in directions:
-        dx, dy = directions[direction]
-        character['Current Location'] = (character['Current Location'][0] + dx, character['Current Location'][1] + dy)
+def move_character(character, new_position, board, rows, columns):
+    character['Current Location'] = new_position
 
     print()
     display_current_location(board, character, rows, columns)
@@ -795,8 +792,9 @@ def game():
         display_current_location(board, character, rows, columns)
         direction = get_user_choice(character, board, rows, columns)
 
-        if validate_move(board, character, direction):
-            move_character(character, direction, board, rows, columns)
+        is_valid_move, new_position = validate_move(board, character, direction)
+        if is_valid_move:
+            move_character(character, new_position, board, rows, columns)
             is_special_location = check_current_location(board, character)
             if is_special_location:
                 achieved_goal = process_by_location_type(character, board)
@@ -898,7 +896,7 @@ def battle_with_gym_leader(character):
         process_result = True  # process_result: the ability to continue the game
         prev_round += 1
         print(f"\n❗️Round {gym_round} ❗\n")
-        print(f"Event pokemon status: {gym_leader_pokemon['currentHP']}\n")
+        print(f"Event pokemon status: {gym_leader_pokemon[0]}(HP: {gym_leader_pokemon[1]['currentHP']})\n")
         while process_result:
             print(f"{character['Character Name']}'s pokemon status: {selected_pokemon[0]}"
                   f"(HP: {character['Poke Ball'][selected_pokemon[0]]['currentHP']})\n")
