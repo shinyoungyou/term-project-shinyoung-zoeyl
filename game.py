@@ -4,7 +4,16 @@ import copy
 from constants import POTION_PRICE
 
 
-def set_up_game():
+def set_up_game() -> dict:
+    """
+    Set up the character's information.
+
+    :postcondition: ask a character's name
+    :postcondition: display game instruction
+    :postcondition: get the user's choice of which starting Pokémon the user wants
+    :postcondition: create a dictionary containing the character's information
+    :return: a dictionary containing the character's information
+    """
     character_name = input("What is your name? ").capitalize()
     print_instructions()
     character = {'Character Name': character_name, 'Money': 30, 'Current Level': 1, 'Potion': 0,
