@@ -220,7 +220,14 @@ def buy_potion(character):
         print("You can't buy with your current budget.")
 
 
-def starting_pokemon_collection(character_level):
+def starting_pokemon_collection(character_level: int) -> dict:
+    """
+    Provide a starting Pokémon collection tailored to the character_level.
+
+    :param character_level: an integer
+    :precondition: character_level must be a number between 1 and 3
+    :return: a dictionary containing starting Pokémon's information tailored to the character_level
+    """
     level1_starting_pokemon = {'Squirtle': {'type': 'water', 'currentHP': 40},
                                'Charmander': {'type': 'fire', 'currentHP': 40},
                                'Bulbasaur': {'type': 'grass', 'currentHP': 40}}
@@ -250,7 +257,16 @@ def current_pokemon_collection(character_level, level1, level2, level3):
     return current_level_collection
 
 
-def event_pokemon(character_level):
+def event_pokemon(character_level: int) -> dict:
+    """
+    Provide an event Pokémon collection tailored to the character_level.
+
+    :param character_level: an integer
+    :precondition: character_level must be a number between 1 and 3
+    :postcondition: set up collections about event Pokémon's information tailored to a level
+    :postcondition: get a collection tailored to the character_level
+    :return: a dictionary containing event Pokémon's information tailored to the character_level
+    """
     level1_pokemon = {'Pichu': {'type': 'electric', 'currentHP': 30},
                       'Shinx': {'type': 'electric', 'currentHP': 30},
                       'Mareep': {'type': 'electric', 'currentHP': 30},
@@ -319,11 +335,23 @@ def event_pokemon(character_level):
     return event_pokemon_collection
 
 
-def choose_skill_to_challenge(skill_collection):
-    number = 1  # don't need to add to the flowchart
+def choose_skill_to_challenge(skill_collection: list, character_level: int) -> dict:
+    """
+    Provide information about skill the user chose.
+
+    :param skill_collection: a list of dictionaries containing information about skills the user Pokémon can use.
+    :param character_level: an integer
+    :precondition: character_level must be a number between 1 and 3
+    :precondition: skill_collection must contain only information about skills related to the user Pokémon's type
+    :postcondition: display what skills the user Pokémon can use
+    :postcondition: ask what skill the user want to use
+    :return: a dictionary containing skill information chosen by the user
+    """
+    number = 1
     print("")
     for skill in skill_collection:
-        print(f"{number}. {skill['name']}(damage range: {skill['damage'][0]} ~ {skill['damage'][1]})")
+        print(f"{number}. {skill['name']}(damage range: {int(skill['damage'][0] * make_stronger(character_level))} ~ "
+              f"{int(skill['damage'][1] * make_stronger(character_level))})")
         number += 1
 
     while True:
@@ -331,10 +359,17 @@ def choose_skill_to_challenge(skill_collection):
         if 1 <= user_choice <= len(skill_collection):
             return skill_collection[user_choice - 1]
         else:
-            print(f"{user_choice} is not a valid choice! Please choose a valid option between 1 and {len(skill_collection)}.")
+            print(f"{user_choice} is not a valid choice! Please choose a valid option between 1 and "
+                  f"{len(skill_collection)}.")
 
 
 def get_probability():
+    """
+    Check probabilities such as skill accuracy or whether the event Pokémon will run away.
+
+    :postcondition: get a random boolean value
+    :return: a boolean value
+    """
     return random.choices([True, False], weights=[3, 1], k=1)[0]
 
 
@@ -352,7 +387,7 @@ def make_stronger(character_level):
     if character_level == 2:
         stronger = 1.3
     elif character_level == 3:
-        stronger = 1.5
+        stronger = 1.8
     else:
         stronger = 1
     return stronger
@@ -366,17 +401,16 @@ def get_money(character, event_type):
         earn_money *= random.randrange(25, 31)
     else:
         earn_money *= random.randrange(10, 20)
-    earn_money = round(earn_money)
-    character['Money'] += earn_money
-    print(f"You got {earn_money} dollars!")
+    character['Money'] += int(earn_money)
+    print(f"You got {int(earn_money)} dollars!")
 
 
 def get_attack_result(character_pokemon_skill, event_pokemon_info, character, event_type):
     print(f"\n{character_pokemon_skill['name']} hit!")
 
-    damage = make_stronger(character['Current Level']) * random.randrange(
-        character_pokemon_skill['damage'][0], character_pokemon_skill['damage'][1] + 1)
-    damage = round(damage)
+    damage = int(make_stronger(character['Current Level']) * random.randrange(
+        character_pokemon_skill['damage'][0], character_pokemon_skill['damage'][1] + 1))
+
     event_pokemon_info[1]['currentHP'] -= damage
 
     if event_pokemon_info[1]['currentHP'] <= 0:
@@ -392,7 +426,7 @@ def get_attack_result(character_pokemon_skill, event_pokemon_info, character, ev
 def fight(character_pokemon, event_pokemon_info, character, event_type):
     print(f"{event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
     skill_collection = get_skill_of(character_pokemon[1]['type'])
-    character_pokemon_skill = choose_skill_to_challenge(skill_collection)
+    character_pokemon_skill = choose_skill_to_challenge(skill_collection, character['Current Level'])
     if get_probability():
         return get_attack_result(character_pokemon_skill, event_pokemon_info, character, event_type)
     else:
@@ -504,9 +538,13 @@ def set_event_type():
     return random.choices(event_collection, weights=[15, 0, 0, 4], k=1)[0]
 
 
-def get_event_pokemon(character_level):
-    event_pokemon_collection = event_pokemon(character_level)
-    return copy.deepcopy(random.choices(list(event_pokemon_collection.items()), k=1)[0])
+def get_event_pokemon(character):
+    event_pokemon_collection = event_pokemon(character["Current Level"])
+
+    while True:
+        event_pokemon_info = copy.deepcopy(random.choices(list(event_pokemon_collection.items()), k=1)[0])
+        if event_pokemon_info[0] not in character["Poke Ball"].keys():
+            return event_pokemon_info
 
 
 def take_out_pokemon(character_pokemons):
@@ -559,19 +597,24 @@ def get_skill_of(pokemon_type):
     return skills_of[pokemon_type]
 
 
-def select_event_option(event_type, gym_round=None):
+def customize_user_options(event_type, gym_round=None):
     character_option = [fight, change_pokemon]
     if event_type == 'Gym Leader':
         if gym_round > 2:
             character_option.append("Run Away")
-    elif event_type == 'wildPokemon':
-        character_option.extend([throw_poke_ball, use_potion, "Run Away"])
     else:
         character_option.append(use_potion)
+        if event_type == 'wildPokemon':
+            character_option.extend([throw_poke_ball, "Run Away"])
+    return character_option
 
-    for i, option in enumerate(character_option):
+
+def select_event_option(event_type, gym_round=None):
+    character_option = customize_user_options(event_type, gym_round)
+
+    for number, option in enumerate(character_option):
         name = option if option == "Run Away" else option.__name__.replace("_", " ").title()
-        print(f"{i + 1}. {name}")
+        print(f"{number + 1}. {name}")
 
     while True:
         user_choice = check_input_is_digit("What do you want to do (Enter number)? ")
@@ -630,8 +673,8 @@ def check_status(character_pokemon):
 def get_attacked(event_pokemon_info, event_type, character, character_pokemon):
     skill_collection = get_skill_of(event_pokemon_info[1]['type'])
     event_pokemon_skill = random.choices(list(skill_collection), k=1)[0]
-    damage = (make_damage_stronger(event_type, character['Current Level'])
-              * random.choice(range(event_pokemon_skill['damage'][0], event_pokemon_skill['damage'][1] + 1)))
+    damage = int(make_damage_stronger(event_type, character['Current Level'])
+                 * random.choice(range(event_pokemon_skill['damage'][0], event_pokemon_skill['damage'][1] + 1)))
     damage = round(damage)
 
     print(f"{event_pokemon_info[0]} used {event_pokemon_skill['name']}!\n")
@@ -646,8 +689,8 @@ def get_attacked(event_pokemon_info, event_type, character, character_pokemon):
     return check_status(character_pokemon)
 
 
-def describe_event(event_type, character_level):
-    event_pokemon_info = get_event_pokemon(character_level)
+def describe_event(event_type, character):
+    event_pokemon_info = get_event_pokemon(character)
     if event_type == "wildPokemon":
         print(f"\nA wild {event_pokemon_info[0]} appeared!(HP: {event_pokemon_info[1]['currentHP']})\n")
     else:
@@ -662,7 +705,7 @@ def event_occurred(character):
     process_result = True
 
     if event_type:
-        event_pokemon_info = describe_event(event_type, character['Current Level'])
+        event_pokemon_info = describe_event(event_type, character)
 
         character_pokemon = take_out_pokemon(character['Poke Ball'])
 
