@@ -560,15 +560,20 @@ def get_skill_of(pokemon_type):
     return skills_of[pokemon_type]
 
 
-def select_event_option(event_type, gym_round=None):
+def customize_user_options(event_type, gym_round=None):
     character_option = [fight, change_pokemon]
     if event_type == 'Gym Leader':
         if gym_round > 2:
             character_option.append("Run Away")
-    elif event_type == 'wildPokemon':
-        character_option.extend([throw_poke_ball, use_potion, "Run Away"])
     else:
         character_option.append(use_potion)
+        if event_type == 'wildPokemon':
+            character_option.extend([throw_poke_ball, "Run Away"])
+    return character_option
+
+
+def select_event_option(event_type, gym_round=None):
+    character_option = customize_user_options(event_type, gym_round)
 
     for number, option in enumerate(character_option):
         name = option if option == "Run Away" else option.__name__.replace("_", " ").title()
