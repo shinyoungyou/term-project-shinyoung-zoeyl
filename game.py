@@ -11,7 +11,7 @@ def set_up_game() -> dict:
     :postcondition: ask a character's name
     :postcondition: display game instruction
     :postcondition: get the user's choice of which starting Pokémon the user wants
-    :postcondition: create a dictionary containing the character's information
+    :postcondition: set up a dictionary containing the character's information
     :return: a dictionary containing the character's information
     """
     character_name = input("What is your name? ").capitalize()
