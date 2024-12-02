@@ -234,13 +234,13 @@ def starting_pokemon_collection(character_level: int) -> dict:
                                'Charmander': {'type': 'fire', 'currentHP': 40},
                                'Bulbasaur': {'type': 'grass', 'currentHP': 40}}
 
-    level2_starting_pokemon = {'Wartortle': {'type': 'water', 'currentHP': 50},
-                               'Charmeleon': {'type': 'fire', 'currentHP': 50},
-                               'Ivysaur': {'type': 'grass', 'currentHP': 50}}
+    level2_starting_pokemon = {'Wartortle': {'type': 'water', 'currentHP': 65},
+                               'Charmeleon': {'type': 'fire', 'currentHP': 65},
+                               'Ivysaur': {'type': 'grass', 'currentHP': 65}}
 
-    level3_starting_pokemon = {'Blastoise': {'type': 'water', 'currentHP': 80},
-                               'Charizard': {'type': 'fire', 'currentHP': 80},
-                               'Venusaur': {'type': 'grass', 'currentHP': 80}}
+    level3_starting_pokemon = {'Blastoise': {'type': 'water', 'currentHP': 100},
+                               'Charizard': {'type': 'fire', 'currentHP': 100},
+                               'Venusaur': {'type': 'grass', 'currentHP': 100}}
 
     pokemon_collection = current_pokemon_collection(character_level, level1_starting_pokemon,
                                                     level2_starting_pokemon, level3_starting_pokemon)
@@ -753,7 +753,7 @@ def get_user_choice(character, board, rows, columns):
             print("\nCurrent your pokemons' status is...")
             for name, info in character['Poke Ball'].items():
                 print(f"{name}(HP: {info['currentHP']})")
-            print(f"\nYou have ${character['Money']} and You have (a) {character['Potion']} potion(s)!\n")
+            print(f"\nYou have ${character['Money']} and You have {character['Potion']} potion(s)!\n")
             display_current_location(board, character, rows, columns)
         else:
             print("\nPlease choose a valid direction!")
@@ -892,12 +892,12 @@ def battle_with_gym_leader(character):
 
     prev_round = 0
     gym_round = 1
+    selected_pokemon = take_out_pokemon(character['Poke Ball'])
+    gym_leader_pokemon = get_event_pokemon(character)
     while prev_round != gym_round and is_alive(character) and not gym_badge_earned:
         process_result = True  # process_result: the ability to continue the game
         prev_round += 1
         print(f"❗️Round {gym_round} ❗\n")
-        selected_pokemon = take_out_pokemon(character['Poke Ball'])
-        gym_leader_pokemon = get_event_pokemon(character)
         while process_result:
             print(f"{character['Character Name']}'s pokemon status: {selected_pokemon[0]}"
                   f"(HP: {character['Poke Ball'][selected_pokemon[0]]['currentHP']})\n")
@@ -909,7 +909,7 @@ def battle_with_gym_leader(character):
             elif user_choice == change_pokemon:
                 selected_pokemon = change_pokemon(character['Poke Ball'], selected_pokemon)
             elif user_choice == "Run Away":
-                print("Gym Leader: Running away, huh? I guess today's not your day. "
+                print("\nGym Leader: Running away, huh? I guess today's not your day. "
                       "Come back when you're ready to battle!")
                 break
 
@@ -917,8 +917,8 @@ def battle_with_gym_leader(character):
                 process_result = get_attacked(gym_leader_pokemon, "Gym Leader", character, selected_pokemon)
                 if not process_result:
                     print(f"Gym Leader: You lost in round {gym_round}.")
-                    print(character)
                     if is_alive(character):
+                        selected_pokemon = take_out_pokemon(character['Poke Ball'])
                         gym_round += 1
                     else:
                         print("Game over: All your Pokémon have fainted.")
@@ -927,6 +927,7 @@ def battle_with_gym_leader(character):
                 current_win_count += 1
                 gym_badge_earned = check_badge_eligibility(character, current_win_count, gym_badge_earned)
                 gym_round += 1
+                selected_pokemon = take_out_pokemon(character['Poke Ball'])
     return gym_badge_earned
 
 
