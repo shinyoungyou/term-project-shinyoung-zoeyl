@@ -517,6 +517,7 @@ def fight(character_pokemon: tuple, event_pokemon_info: tuple, character: dict, 
     :param character: a dictionary containing information about the character's status
     :param event_type: event_type must be either wild Pokémon, Team Rocket, Gym Leader or Strange trainer
     :precondition: the user Pokémon must have an HP greater than 0 in the character_pokemon
+    :precondition: character_pokemon represents the status of one of the user's Pokémon in battle
     :precondition: the event Pokémon must have an HP greater than 0 in the event_pokemon_info
     :precondition: character has a value about 'Current Level' key and 'Money' key
     :precondition: event_type must be either wild Pokémon, Team Rocket, Gym Leader or Strange trainer
@@ -537,16 +538,31 @@ def fight(character_pokemon: tuple, event_pokemon_info: tuple, character: dict, 
         return True
 
 
-def change_pokemon(pokeball, character_pokemon):
+def change_pokemon(pokeball: dict, character_pokemon: tuple):
+    """
+    Switch the user's current Pokémon to another one chosen by the user during the Pokémon battle.
+
+    :param pokeball: a dictionary containing information about Pokémon caught by the user
+    :param character_pokemon: a tuple containing the user Pokémon's name and a dictionary with its type and current hp
+    :precondition: pokeball should contain Pokémon's name, and its type and current hp
+    :precondition: the user Pokémon must have an HP greater than 0 in the character_pokemon
+    :precondition: character_pokemon represents the status of one of the user's Pokémon in battle
+    :postcondition: display the user's Pokémon that can be switched
+    :postcondition: get the user's choice of which Pokémon to switch to
+    :postcondition: update character_pokemon's information to reflect the Pokémon the user chose
+    :return: a tuple representing information of the Pokémon chosen by the user
+    """
     if len(pokeball) == 1:
         print("\nYou has no pokemon to switch to\n")
     else:
         print("\nYour pokemons' status...")
         for pokemon in pokeball.keys():
-            print(f"{pokemon}(HP: {pokeball[pokemon]['currentHP']})")
+            if pokemon != character_pokemon[0]:
+                print(f"{pokemon}(HP: {pokeball[pokemon]['currentHP']})")
 
         user_choice = input("\nWhich pokemon would you like to switch to (Entering Pokemon name)? ").capitalize()
-        while user_choice not in pokeball.keys() or pokeball[user_choice]['currentHP'] == 0:
+        while (user_choice not in pokeball.keys() or pokeball[user_choice]['currentHP'] == 0
+               or user_choice == character_pokemon[0]):
             print(f"\n{user_choice} is not included in your Poke Balls or has 0HP")
             user_choice = input("Which pokemon would you like (Entering Pokemon name)? ").capitalize()
 
