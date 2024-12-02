@@ -404,7 +404,15 @@ def level_maximum_hp(character_level: int) -> int:
     return maximum_hp
 
 
-def make_stronger(character_level):
+def make_stronger(character_level: int) -> int:
+    """
+    Determine how much stronger the character's skill damage will become.
+
+    :param character_level: an integer that represents user's current level
+    :precondition: character_level must be a number between 1 and 3
+    :postcondition: set up how much stronger the character's skill damage will become
+    :return: an integer that represent how much stronger the character's skill damage will become
+    """
     if character_level == 2:
         stronger = 1.3
     elif character_level == 3:
