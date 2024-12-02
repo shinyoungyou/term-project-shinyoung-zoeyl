@@ -544,7 +544,7 @@ def change_pokemon(pokeball: dict, character_pokemon: tuple):
 
     :param pokeball: a dictionary containing information about Pokémon caught by the user
     :param character_pokemon: a tuple containing the user Pokémon's name and a dictionary with its type and current HP
-    :precondition: pokeball should contain Pokémon's name, and its type and current hp
+    :precondition: pokeball should contain Pokémon's name, and their type and current hp
     :precondition: the user Pokémon must have an HP greater than 0 in the character_pokemon
     :precondition: character_pokemon represents the status of one of the user's Pokémon in battle
     :postcondition: display the user's Pokémon that can be switched
@@ -602,7 +602,7 @@ def use_potion(character: dict, character_pokemon: tuple) -> None:
     Restore the user's Pokémon's HP.
 
     :param character: a dictionary containing information about the character's status
-    :param character_pokemon: a tuple containing the user Pokémon's name and a dictionary with its type and current hp
+    :param character_pokemon: a tuple containing the user Pokémon's name and a dictionary with its type and current HP
     :precondition: the user Pokémon must have an HP greater than 0 in the character_pokemon
     :precondition: character has a value about 'Current Level' key and 'Potion' key
     :precondition: check_potion returns a boolean value, true
@@ -629,7 +629,16 @@ def use_potion(character: dict, character_pokemon: tuple) -> None:
                   f"(HP: {character_pokemon[1]["currentHP"]})\n{character['Potion']} potion(s) left!")
 
 
-def select_release_pokemon(character):
+def select_release_pokemon(character: dict) -> None:
+    """
+    Release one of the Pokémon the user has.
+
+    :param character: a dictionary containing information about the character's status
+    :precondition: character has a value about 'Poke Ball' key and 'Starting Pokemon' key
+    :postcondition: display the Pokémon the user has along with their HP
+    :postcondition: get the user's choice of which Pokémon the user wants to release
+    :postcondition: delete the information about the Pokémon chosen by the user from the 'Poke Ball'
+    """
     print("\nYou have...")
     for pokemon in character['Poke Ball'].keys():
         print(f"{pokemon}(HP: {character['Poke Ball'][pokemon]['currentHP']})")
