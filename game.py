@@ -40,7 +40,7 @@ def print_instructions():
     print("\nImportant notes to know before you begin:")
     print("- Stores are represented by S on the map.")
     print("- Gyms are represented by G on the map.")
-    # print("- To catch wild pokemon, .")
+    # print("- You can catch wild pokemons by throwing pokeball when their HP is less than 11.")
     print("- If all six of your Pokémon lose their HP, the game is over.")
     print("- You can only challenge a Gym Leader once you have a full team of six Pokémon.")
     print("- After defeating a Gym Leader, you will earn a Badge, unlocking the next level.")
@@ -97,7 +97,7 @@ def display_current_location(board, character, rows, columns):
     :precondition: character is a dictionary representing the character
     :precondition: rows is a positive integers
     :precondition: columns is a positive integers
-    :postcondition: prints the current location of character, store, and gym location
+    :postcondition: prints the current location of character, store, and gym
     """
     if not board:
         return
@@ -142,9 +142,9 @@ def is_alive(character):
     """
     Check if the character is alive
 
-    :param character: a dictionary representing character, including their pokemon
-    :precondition: character is a dictionary with a key "Balls" including pokemon's HP
-    :postcondition: returns True if at least one pokemon has HP greater than 0, else False
+    :param character: a dictionary representing character, including their Pokémon
+    :precondition: character is a dictionary with a key "Balls" including Pokémon's HP
+    :postcondition: returns True if at least one Pokémon has HP greater than 0, else False
     :return: True if the character is alive, else False
     """
     alive = True
@@ -175,6 +175,13 @@ def check_input_is_digit(input_message, error_message="Invalid input! Please ent
 
 
 def encounter_store(character):
+    """
+    Give user options between buy or use potion.
+
+    :param character: a dictionary representing the character
+    :precondition: character is a dictionary representing the character
+    :postcondition: prompts the user until they enter buy, use, or q
+    """
     actions = {
         'buy': lambda: buy_potion(character),
         'use': lambda: use_potion(character, select_pokemon(character['Poke Ball'])),
@@ -191,6 +198,15 @@ def encounter_store(character):
 
 
 def select_pokemon(pokeball):
+    """
+    Let user select a Pokémon.
+
+    :param pokeball: a dictionary representing the Pokémon
+    :precondition: pokeball is a dictionary representing the Pokémon
+    :postcondition: returns selected Pokémon name and the Pokémon's info
+    :return: a tuple of a string representing selected Pokémon name,
+             and a dictionary of the Pokémon's info
+    """
     print("\nYour pokemons' status...")
     for pokemon in pokeball.keys():
         print(f"{pokemon}(HP: {pokeball[pokemon]['currentHP']})")
