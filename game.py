@@ -258,7 +258,8 @@ def current_pokemon_collection(character_level: int, level1: dict, level2: dict,
     :param level3: a dictionary containing level3 Pokémon information
     :precondition: character_level must be a number between 1 and 3
     :precondition: Pokémon information should not be over wrapped between level1, level2 and level3
-    :return:
+    :postcondition: choose a Pokémon collection tailored to the character_level
+    :return: a dictionary containing Pokémon collection tailored to the character_level
     """
     if character_level == 2:
         current_level_collection = level2
