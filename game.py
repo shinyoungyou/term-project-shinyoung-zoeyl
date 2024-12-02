@@ -582,7 +582,6 @@ def check_potion(number_of_potion: int, character_level: int, character_pokemon:
     :param character_level: an integer that represents user's current level
     :param character_pokemon: a tuple containing the user Pokémon's name and a dictionary with its type and current HP
     :precondition: the user Pokémon must have an HP greater than 0 in the character_pokemon
-    :precondition: character_pokemon represents the status of one of the user's Pokémon in battle
     :precondition: character_level must be a number between 1 and 3
     :precondition: number_of_potion must be 0 or greater
     :postcondition: check if the user has no potion or the user's Pokémon has full HP
@@ -598,7 +597,18 @@ def check_potion(number_of_potion: int, character_level: int, character_pokemon:
     return validation
 
 
-def use_potion(character, character_pokemon):
+def use_potion(character: dict, character_pokemon: tuple) -> None:
+    """
+    Restore the user's Pokémon's HP.
+
+    :param character: a dictionary containing information about the character's status
+    :param character_pokemon: a tuple containing the user Pokémon's name and a dictionary with its type and current hp
+    :precondition: the user Pokémon must have an HP greater than 0 in the character_pokemon
+    :precondition: character has a value about 'Current Level' key and 'Potion' key
+    :precondition: check_potion returns a boolean value, true
+    :postcondition: check whether the user wants to use a potion on the Pokémon
+    :postcondition: add a certain amount to the Pokémon's HP
+    """
     if check_potion(character['Potion'], character['Current Level'], character_pokemon):
         print(f"\nYou have {character['Potion']} potion(s)!\n{character_pokemon[0]} has "
               f"{character_pokemon[1]["currentHP"]} HP.")
