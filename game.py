@@ -30,6 +30,7 @@ def print_instructions():
     print("Important notes to know before you begin:")
     print("- Stores are represented by S on the map.")
     print("- Gyms are represented by G on the map.")
+    # print("- To catch wild pokemon, .")
     print("- If all six of your Pokémon lose their HP, the game is over.")
     print("- You can only challenge a Gym Leader once you have a full team of six Pokémon.")
     print("- After defeating a Gym Leader, you will earn a Badge, unlocking the next level.")
@@ -52,12 +53,12 @@ def make_board(level):
     board = {}
 
     level_config = {
-        1: (6, 6, lambda i, j: (i == 0 and j < 5) or (1 <= i <= 4 and 1 <= j <= 4) or (i == 5 and j > 0),
-            (5, 5), (2, 2)),
-        2: (8, 5, lambda i, j: (i == 0 and j == 0) or (1 <= i <= 6 and 0 <= j <= 4) or (i == 7 and j == 4),
-            (7, 4), (2, 2)),
-        3: (10, 5, lambda i, j: (i == 0 and j == 4) or (1 <= i <= 8 and 0 <= j <= 4) or (i == 9 and j == 0),
-            (9, 0), (2, 2)),
+        1: (6, 6, lambda row, column: (row == 0 and column < 5) or (1 <= row <= 4 and 1 <= column <= 4) or
+                                      (row == 5 and column > 0), (5, 5), (2, 2)),
+        2: (8, 5, lambda row, column: (row == 0 and column == 0) or (1 <= row <= 6 and 0 <= column <= 4) or
+                                      (row == 7 and column == 4), (7, 4), (2, 2)),
+        3: (10, 5, lambda row, column: (row == 0 and column == 4) or (1 <= row <= 8 and 0 <= column <= 4) or
+                                       (row == 9 and column == 0), (9, 0), (2, 2)),
     }
 
     if level not in level_config:
@@ -163,6 +164,36 @@ def check_input_is_digit(input_message, error_message="Invalid input! Please ent
             print(error_message)
 
 
+def encounter_store(character):
+    actions = {
+        'buy': lambda: buy_potion(character),
+        'use': lambda: use_potion(character, select_pokemon(character['Poke Ball'])),
+        # 'q': lambda: print("Exiting the store...")
+    }
+
+    while True:
+        user_input = input("Enter 'buy' to buy a potion, 'use' to use a potion, or 'q' to quit: ").lower()
+        if user_input in actions:
+            actions[user_input]()
+        elif user_input == 'q':
+            break
+        else:
+            print("Invalid option. Please try again.")
+
+
+def select_pokemon(pokeball):
+    print("\nYour pokemons' status...")
+    for pokemon in pokeball.keys():
+        print(f"{pokemon}(HP: {pokeball[pokemon]['currentHP']})")
+
+    while True:
+        user_choice = input("Select pokemon to proceed by entering the pokemon name: ").capitalize()
+        if user_choice in pokeball.keys():
+            break
+
+    return user_choice, pokeball[user_choice]
+
+
 def buy_potion(character):
     """
     Calculate the change after a purchase.
@@ -171,12 +202,11 @@ def buy_potion(character):
     :precondition: character is a dictionary with a key "Money" representing the character's current budget
     :postcondition: updates the character's money if a potion is purchased
     """
-    user_input = input("Enter 'y' to buy a potion or 'n' to skip: ")
-
-    if user_input != 'y':
-        return
-
-    number_of_potions = check_input_is_digit("Enter the number of potions to purchase: ")
+    while True:
+        number_of_potions = check_input_is_digit("Enter the number of potions to purchase: ")
+        if number_of_potions > 0:
+            break
+        print("You need to buy at least one potion.")
 
     total_price = POTION_PRICE * number_of_potions
     print(f"Total price will be: ${total_price}")
@@ -334,9 +364,9 @@ def get_money(character, event_type):
     if event_type == 'wildPokemon':
         earn_money *= random.randrange(3, 7)
     elif event_type == 'Team Rocket':
-        earn_money *= random.randrange(11, 15)
+        earn_money *= random.randrange(20, 30)
     else:
-        earn_money *= random.randrange(7, 11)
+        earn_money *= random.randrange(10, 20)
     character['Money'] += earn_money
     print(f"You got {earn_money} dollars!")
 
@@ -402,27 +432,6 @@ def check_potion(number_of_potion, character_level, character_pokemon):
     return validation
 
 
-def change_pokemon__(pokeball, character_pokemon):
-    if len(pokeball) == 1:
-        print("\nYou has no pokemon to switch to\n")
-    else:
-        print("\nYour pokemons' status...")
-        for pokemon in pokeball.keys():
-            print(f"{pokemon}(HP: {pokeball[pokemon]['currentHP']})")
-
-        user_choice = input("\nwhat pokemon would you like to switch to (Entering Pokemon name)? ").capitalize()
-        while user_choice not in pokeball.keys() or pokeball[user_choice]['currentHP'] == 0:
-            print(f"\n{user_choice} is not included in your Poke Balls or has 0HP")
-            user_choice = input("what pokemon would you like (Entering Pokemon name)? ").capitalize()
-
-        print(f"\nGood job, {character_pokemon[0]}! Come back!\nGo, {user_choice}")
-
-        character_pokemon = (user_choice, pokeball[user_choice])
-        print(f"{user_choice}(HP: {character_pokemon[1]['currentHP']})\n")
-
-    return character_pokemon
-
-
 def use_potion(character, character_pokemon):
     if check_potion(character['Potion'], character['Current Level'], character_pokemon):
         print(f"\nYou have {character['Potion']} potion(s)!\n{character_pokemon[0]} has "
@@ -441,7 +450,7 @@ def use_potion(character, character_pokemon):
                 character_pokemon[1]["currentHP"] += 10
             character['Potion'] -= 1
             print(f"\n{character_pokemon[0]} restored HP!\n{character_pokemon[0]} "
-                  f"(HP: {character_pokemon[1]["currentHP"]}\n{character['Potion']} potion(s) left!")
+                  f"(HP: {character_pokemon[1]["currentHP"]})\n{character['Potion']} potion(s) left!")
 
 
 def select_release_pokemon(character):
@@ -492,7 +501,7 @@ def throw_poke_ball(event_pokemon_info, character):
 
 def set_event_type():
     event_collection = ("wildPokemon", "Team Rocket", "Strange trainer", False)
-    return random.choices(event_collection, weights=[8, 1, 1, 4], k=1)[0]
+    return random.choices(event_collection, weights=[15, 2, 3, 4], k=1)[0]
 
 
 def get_event_pokemon(character_level):
@@ -623,6 +632,7 @@ def get_attacked(event_pokemon_info, event_type, character, character_pokemon):
     event_pokemon_skill = random.choices(list(skill_collection), k=1)[0]
     damage = (make_damage_stronger(event_type, character['Current Level'])
               * random.choice(range(event_pokemon_skill['damage'][0], event_pokemon_skill['damage'][1] + 1)))
+    damage = round(damage)
 
     print(f"{event_pokemon_info[0]} used {event_pokemon_skill['name']}!\n")
 
@@ -746,7 +756,7 @@ def process_by_location_type(character, board):
             if gym_badge_earned:
                 level_up(character)
     elif current_location == "Store":
-        buy_potion(character)
+        encounter_store(character)
         # user_input = input("Enter y to use potion now, or n to skip: ")
         # if user_input == "y":
         #     use_potion(character)
@@ -826,12 +836,15 @@ def battle_with_gym_leader(character):
         selected_pokemon = take_out_pokemon(character['Poke Ball'])
         gym_leader_pokemon = get_event_pokemon(character['Current Level'])
         while process_result:
+            print(f"Current status: {selected_pokemon[0]}"
+                  f"(HP: {character['Poke Ball'][selected_pokemon[0]]['currentHP']})\n")
+
             user_choice = select_event_option("Gym Leader", gym_round)
 
             if user_choice == fight:
                 process_result = fight(selected_pokemon, gym_leader_pokemon, character, "Gym Leader")
             elif user_choice == change_pokemon:
-                change_pokemon(character, selected_pokemon)
+                change_pokemon(character['Poke Ball'], selected_pokemon)
             elif user_choice == "Run Away":
                 print("Gym Leader: Running away, huh? I guess today's not your day. "
                       "Come back when you're ready to battle!")
@@ -880,6 +893,7 @@ def evolve_pokemon(character):
 
 def level_up(character):
     character['Current Level'] += 1
+    character['Current Location'] = (0, 0)
     evolve_pokemon(character)
 
     if character['Current Level'] == 2:
