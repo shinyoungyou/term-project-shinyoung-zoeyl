@@ -470,7 +470,7 @@ def get_attack_result(character_pokemon_skill: dict, event_pokemon_info: tuple, 
     :postcondition: subtract the damage amount from the event Pokémon's hp
     :postcondition: check if the event Pokémon's hp is 0 or less
     :postcondition: get money if the event Pokémon's hp is 0 or less
-    :return: a boolean representing whether the event Pokémon has been defeated
+    :return: a boolean value false representing the event Pokémon has been defeated, true otherwise
     """
     print(f"\n{character_pokemon_skill['name']} hit!")
 
