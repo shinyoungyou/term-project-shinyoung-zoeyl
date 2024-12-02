@@ -1,6 +1,7 @@
 import itertools
 import random
 import copy
+from typing import Union
 from constants import POTION_PRICE
 
 
@@ -708,7 +709,7 @@ def throw_poke_ball(event_pokemon_info: tuple, character: dict) -> bool:
     return process_result
 
 
-def set_event_type() -> str or bool:
+def set_event_type() -> Union[str, bool]:
     """
     Determine what kind of event has occurred.
 
@@ -805,7 +806,20 @@ def get_skill_of(pokemon_type: str) -> list:
     return skills_of[pokemon_type]
 
 
-def customize_user_options(event_type, gym_round=None):
+def customize_user_options(event_type: str, gym_round: Union[int, None] = None) -> list:
+    """
+    Add an option to the user's options tailored to the event type.
+
+    :param event_type: a string that represents what kind of event occurs
+    :param gym_round: an integer representing the number of games played
+    :param gym_round: None if the event_type is not "Gym Leader"
+    :precondition: event_type must be either wild Pokémon, Team Rocket, Gym Leader or Strange trainer
+    :precondition: gym_round must be greater than 0 if its type is an integer
+    :postcondition: add "Run Away" option if gym_round is greater than 2
+    :postcondition: add use_potion option if event_type is not "Gym Leader"
+    :postcondition: add throw_poke_ball and "Run Away" options if event_type is 'wildPokemon'
+    :return: a list containing the options the user can choose
+    """
     character_option = [fight, change_pokemon]
     if event_type == 'Gym Leader':
         if gym_round > 2:
