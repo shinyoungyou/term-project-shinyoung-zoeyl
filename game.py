@@ -202,7 +202,7 @@ def buy_potion(character):
     :precondition: character is a dictionary with a key "Money" representing the character's current budget
     :postcondition: updates the character's money if a potion is purchased
     """
-    print(f"\nYour budget is {character['Money']}, and each potion price is {POTION_PRICE}.")
+    print(f"\nYour budget is ${character['Money']}, and each potion price is ${POTION_PRICE}.")
     while True:
         number_of_potions = check_input_is_digit("Enter the number of potions to purchase: ")
         if number_of_potions > 0:
@@ -881,13 +881,13 @@ def battle_with_gym_leader(character):
     current_win_count = 0
 
     while True:
-        user_input = input("Encountered a gym! Enter y to challenge, n to quit: ")
+        user_input = input("\nEncountered a gym! Enter y to challenge, n to quit: ")
         if user_input == 'y' or user_input == 'n':
             break
 
     if user_input == 'n':
         return gym_badge_earned
-    print("Gym Leader: Welcome to the gym! Here is one rule, you can't use potions to accurately assess your skills.")
+    print("\nGym Leader: Welcome to the gym! Here is one rule, you can't use potions to accurately assess your skills.")
 
     prev_round = 0
     gym_round = 1
@@ -896,7 +896,7 @@ def battle_with_gym_leader(character):
         prev_round += 1
         print(f"Round {gym_round}.")
         selected_pokemon = take_out_pokemon(character['Poke Ball'])
-        gym_leader_pokemon = get_event_pokemon(character['Current Level'])
+        gym_leader_pokemon = get_event_pokemon(character)
         while process_result:
             print(f"Current status: {selected_pokemon[0]}"
                   f"(HP: {character['Poke Ball'][selected_pokemon[0]]['currentHP']})\n")
