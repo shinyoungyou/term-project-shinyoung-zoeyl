@@ -251,7 +251,7 @@ def current_pokemon_collection(character_level, level1, level2, level3):
     return current_level_collection
 
 
-def event_pokemon(character_level):
+def event_pokemon(character_level: int) -> dict:
     """
     Provide an event Pokémon collection tailored to the character_level.
 
@@ -329,7 +329,7 @@ def event_pokemon(character_level):
     return event_pokemon_collection
 
 
-def choose_skill_to_challenge(skill_collection, character_level):
+def choose_skill_to_challenge(skill_collection: list, character_level: int) -> dict:
     """
     Provide information about skill the user chose.
 
