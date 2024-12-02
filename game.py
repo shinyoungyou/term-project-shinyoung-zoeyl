@@ -358,6 +358,12 @@ def choose_skill_to_challenge(skill_collection, character_level):
 
 
 def get_probability():
+    """
+    Check probabilities such as skill accuracy or whether the event Pokémon will run away.
+
+    :postcondition: get a random boolean value
+    :return: a boolean value
+    """
     return random.choices([True, False], weights=[3, 1], k=1)[0]
 
 
