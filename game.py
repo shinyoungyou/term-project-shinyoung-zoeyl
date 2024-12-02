@@ -489,10 +489,10 @@ def use_potion(character, character_pokemon):
 
         if user_answer == 'y':
             pokemon_maximum_hp = level_maximum_hp(character['Current Level'])
-            if character_pokemon[1]["currentHP"] > pokemon_maximum_hp - 10:
+            if character_pokemon[1]["currentHP"] > pokemon_maximum_hp - 15:
                 character_pokemon[1]["currentHP"] = pokemon_maximum_hp
             else:
-                character_pokemon[1]["currentHP"] += 10
+                character_pokemon[1]["currentHP"] += 15
             character['Potion'] -= 1
             print(f"\n{character_pokemon[0]} restored HP!\n{character_pokemon[0]}"
                   f"(HP: {character_pokemon[1]["currentHP"]})\n{character['Potion']} potion(s) left!")
