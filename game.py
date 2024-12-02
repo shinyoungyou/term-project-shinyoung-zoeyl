@@ -442,7 +442,8 @@ def fight(character_pokemon, event_pokemon_info, character, event_type):
     if get_probability():
         return get_attack_result(character_pokemon_skill, event_pokemon_info, character, event_type)
     else:
-        print(f"\n{character_pokemon_skill['name']} missed!\n")
+        print(f"\n{character_pokemon_skill['name']} missed!\n"
+              f"Event pokemon status: {event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
         return True
 
 
