@@ -252,6 +252,15 @@ def current_pokemon_collection(character_level, level1, level2, level3):
 
 
 def event_pokemon(character_level):
+    """
+    Provide an event Pokémon collection tailored to the character_level.
+
+    :param character_level: an integer
+    :precondition: character_level must be a number between 1 and 3
+    :postcondition: set up collections about event Pokémon's information tailored to a level
+    :postcondition: get a collection tailored to the character_level
+    :return: a dictionary containing event Pokémon's information tailored to the character_level
+    """
     level1_pokemon = {'Pichu': {'type': 'electric', 'currentHP': 30},
                       'Shinx': {'type': 'electric', 'currentHP': 30},
                       'Mareep': {'type': 'electric', 'currentHP': 30},
