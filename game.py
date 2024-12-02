@@ -385,7 +385,7 @@ def choose_skill_to_challenge(skill_collection: list, character_level: int) -> d
                   f"{len(skill_collection)}.")
 
 
-def get_probability():
+def get_probability() -> bool:
     """
     Check probabilities such as skill accuracy or whether the event Pokémon will run away.
 
@@ -431,13 +431,13 @@ def make_stronger(character_level: int) -> int:
     return stronger
 
 
-def get_money(character: dict, event_type: str):
+def get_money(character: dict, event_type: str) -> None:
     """
     Determine how much money the user receives.
 
     :param character: a dictionary containing information about the character's status
     :param event_type: a string that represents what kind of event occurs
-    :precondition: character has information about current user's level
+    :precondition: character has a value about 'Current Level' key and 'Money' key
     :precondition: event_type must be either wild Pokémon, Team Rocket, or Strange trainer
     :postcondition: set up how many times more money the user can receive
     :postcondition: multiply a random number from the range corresponding to the event type
@@ -454,7 +454,24 @@ def get_money(character: dict, event_type: str):
     print(f"You got ${int(earn_money)}!")
 
 
-def get_attack_result(character_pokemon_skill, event_pokemon_info, character, event_type):
+def get_attack_result(character_pokemon_skill: dict, event_pokemon_info: tuple, character: dict, event_type: str) \
+        -> bool:
+    """
+    Check whether the event Pokémon is defeated.
+
+    :param character_pokemon_skill: a dictionary containing skill name and skill damage range
+    :param event_pokemon_info: a tuple containing the event Pokémon's name and a dictionary with its type and current hp
+    :param character: a dictionary containing information about the character's status
+    :param event_type: a string that represents what kind of event occurs
+    :precondition: character has a value about 'Current Level' key and 'Money' key
+    :precondition: event_type must be either wild Pokémon, Team Rocket, Gym Leader or Strange trainer
+    :precondition: the event Pokémon must have an HP greater than 0 in the event_pokemon_info
+    :postcondition: determine how much damage the character deals to the event Pokémon
+    :postcondition: subtract the damage amount from the event Pokémon's hp
+    :postcondition: check if the event Pokémon's hp is 0 or less
+    :postcondition: get money if the event Pokémon's hp is 0 or less
+    :return: a boolean representing whether the event Pokémon has been defeated
+    """
     print(f"\n{character_pokemon_skill['name']} hit!")
 
     damage = int(make_stronger(character['Current Level']) * random.randrange(
