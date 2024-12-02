@@ -40,7 +40,7 @@ def print_instructions():
     print("\nImportant notes to know before you begin:")
     print("- Stores are represented by S on the map.")
     print("- Gyms are represented by G on the map.")
-    # print("- To catch wild pokemon, .")
+    # print("- You can catch wild pokemons by throwing pokeball when their HP is less than 11.")
     print("- If all six of your Pokémon lose their HP, the game is over.")
     print("- You can only challenge a Gym Leader once you have a full team of six Pokémon.")
     print("- After defeating a Gym Leader, you will earn a Badge, unlocking the next level.")
@@ -51,14 +51,16 @@ def print_instructions():
     print("- The mission is complete when you defeat the final Gym Leader at Level 3.")
 
 
-def make_board(level):
+def make_board(level: int) -> (dict, int, int):
     """
     Make a new game board for the given level.
 
     :param level: an integer between 1, 2, and 3, representing the current level
     :precondition: level is a positive integer between 1, 2, and 3
     :postcondition: creates a dictionary of new board for the given level
-    :return: a dictionary representing the game board
+    :return: a tuple of dictionary representing the game board,
+            an integer for the number of rows,
+            and an integer for the number of columns
     """
     board = {}
 
@@ -85,7 +87,7 @@ def make_board(level):
     return board, rows, columns
 
 
-def display_current_location(board, character, rows, columns):
+def display_current_location(board: dict, character: dict, rows: int, columns: int):
     """
     Display the current location of the game board.
 
@@ -97,7 +99,7 @@ def display_current_location(board, character, rows, columns):
     :precondition: character is a dictionary representing the character
     :precondition: rows is a positive integers
     :precondition: columns is a positive integers
-    :postcondition: prints the current location of character, store, and gym location
+    :postcondition: prints the current location of character, store, and gym
     """
     if not board:
         return
@@ -120,7 +122,7 @@ def display_current_location(board, character, rows, columns):
         print(row)
 
 
-def check_current_location(board, character):
+def check_current_location(board: dict, character: dict) -> bool | str:
     """
     Check the current location of the game board.
 
@@ -138,13 +140,13 @@ def check_current_location(board, character):
     return is_special_location
 
 
-def is_alive(character):
+def is_alive(character: dict) -> bool:
     """
     Check if the character is alive
 
-    :param character: a dictionary representing character, including their pokemon
-    :precondition: character is a dictionary with a key "Balls" including pokemon's HP
-    :postcondition: returns True if at least one pokemon has HP greater than 0, else False
+    :param character: a dictionary representing character, including their Pokémon
+    :precondition: character is a dictionary with a key "Balls" including Pokémon's HP
+    :postcondition: returns True if at least one Pokémon has HP greater than 0, else False
     :return: True if the character is alive, else False
     """
     alive = True
@@ -155,7 +157,8 @@ def is_alive(character):
     return alive
 
 
-def check_input_is_digit(input_message, error_message="Invalid input! Please enter a valid number: "):
+def check_input_is_digit(input_message: str,
+                         error_message: str = "Invalid input! Please enter a valid number: ") -> int:
     """
     Check if the user input is digit.
 
@@ -174,7 +177,14 @@ def check_input_is_digit(input_message, error_message="Invalid input! Please ent
             print(error_message)
 
 
-def encounter_store(character):
+def encounter_store(character: dict):
+    """
+    Give user options between buy or use potion, or quit.
+
+    :param character: a dictionary representing the character
+    :precondition: character is a dictionary representing the character
+    :postcondition: prompts the user until they enter buy, use, or q
+    """
     actions = {
         'buy': lambda: buy_potion(character),
         'use': lambda: use_potion(character, select_pokemon(character['Poke Ball'])),
@@ -191,6 +201,15 @@ def encounter_store(character):
 
 
 def select_pokemon(pokeball):
+    """
+    Let user select a Pokémon.
+
+    :param pokeball: a dictionary representing the Pokémon
+    :precondition: pokeball is a dictionary representing the Pokémon
+    :postcondition: provides selected Pokémon name and the Pokémon's info
+    :return: a tuple of a string representing selected Pokémon name,
+             and a dictionary of the Pokémon's info
+    """
     print("\nYour pokemons' status...")
     for pokemon in pokeball.keys():
         print(f"{pokemon}(HP: {pokeball[pokemon]['currentHP']})")
@@ -850,21 +869,18 @@ def get_user_choice(character, board, rows, columns):
 def validate_move(board, character, direction):
     directions = {1: (-1, -0), 2: (1, 0), 3: (0, -1), 4: (0, 1)}
 
+    new_position = None
     if direction in directions:
         dx, dy = directions[direction]
         new_position = (character['Current Location'][0] + dx, character['Current Location'][1] + dy)
 
-        return board.get(new_position, False)
+        return board.get(new_position, False), new_position
 
-    return False
+    return False, new_position
 
 
-def move_character(character, direction, board, rows, columns):
-    directions = {1: (-1, -0), 2: (1, 0), 3: (0, -1), 4: (0, 1)}
-
-    if direction in directions:
-        dx, dy = directions[direction]
-        character['Current Location'] = (character['Current Location'][0] + dx, character['Current Location'][1] + dy)
+def move_character(character, new_position, board, rows, columns):
+    character['Current Location'] = new_position
 
     print()
     display_current_location(board, character, rows, columns)
@@ -883,8 +899,9 @@ def game():
         display_current_location(board, character, rows, columns)
         direction = get_user_choice(character, board, rows, columns)
 
-        if validate_move(board, character, direction):
-            move_character(character, direction, board, rows, columns)
+        is_valid_move, new_position = validate_move(board, character, direction)
+        if is_valid_move:
+            move_character(character, new_position, board, rows, columns)
             is_special_location = check_current_location(board, character)
             if is_special_location:
                 achieved_goal = process_by_location_type(character, board)
@@ -986,7 +1003,7 @@ def battle_with_gym_leader(character):
         process_result = True  # process_result: the ability to continue the game
         prev_round += 1
         print(f"\n❗️Round {gym_round} ❗\n")
-        print(f"Event pokemon status: {gym_leader_pokemon['currentHP']}\n")
+        print(f"Event pokemon status: {gym_leader_pokemon[0]}(HP: {gym_leader_pokemon[1]['currentHP']})\n")
         while process_result:
             print(f"{character['Character Name']}'s pokemon status: {selected_pokemon[0]}"
                   f"(HP: {character['Poke Ball'][selected_pokemon[0]]['currentHP']})\n")
