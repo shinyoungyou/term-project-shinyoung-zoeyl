@@ -334,9 +334,9 @@ def get_money(character, event_type):
     if event_type == 'wildPokemon':
         earn_money *= random.randrange(3, 7)
     elif event_type == 'Team Rocket':
-        earn_money *= random.randrange(11, 15)
+        earn_money *= random.randrange(25, 31)
     else:
-        earn_money *= random.randrange(7, 11)
+        earn_money *= random.randrange(10, 20)
     character['Money'] += earn_money
     print(f"You got {earn_money} dollars!")
 
