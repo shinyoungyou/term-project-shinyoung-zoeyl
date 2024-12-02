@@ -431,7 +431,7 @@ def get_attack_result(character_pokemon_skill, event_pokemon_info, character, ev
             get_money(character, event_type)
         return False
     else:
-        print(f"{event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
+        print(f"\nEvent pokemon status: {event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
         return True
 
 
@@ -861,7 +861,7 @@ def check_badge_eligibility(character, current_win_count, gym_badge_earned):
 def has_six_pokemons(character):
     more = 6 - len(character['Poke Ball'])
     if more > 0:
-        print(f"You need to earn {more} more pokemon(s) to enter the gym")
+        print(f"\nYou need to earn {more} more pokemon(s) to enter the gym.\n")
 
     return not more
 
@@ -895,11 +895,11 @@ def battle_with_gym_leader(character):
     while prev_round != gym_round and is_alive(character) and not gym_badge_earned:
         process_result = True  # process_result: the ability to continue the game
         prev_round += 1
-        print(f"❗️Round {gym_round} ❗")
+        print(f"❗️Round {gym_round} ❗\n")
         selected_pokemon = take_out_pokemon(character['Poke Ball'])
         gym_leader_pokemon = get_event_pokemon(character)
         while process_result:
-            print(f"Current status: {selected_pokemon[0]}"
+            print(f"{character['Character Name']}'s pokemon status: {selected_pokemon[0]}"
                   f"(HP: {character['Poke Ball'][selected_pokemon[0]]['currentHP']})\n")
 
             user_choice = select_event_option("Gym Leader", gym_round)
@@ -952,7 +952,7 @@ def evolve_pokemon(character):
             character['Poke Ball'] = {}
             character['Poke Ball'][evolved_starting_pokemon_name] \
                 = available_starting_pokemons[evolved_starting_pokemon_name]
-            print(f"{current_starting_pokemon_name} has evolved into {evolved_starting_pokemon_name}!")
+            print(f"\n {current_starting_pokemon_name} has evolved into {evolved_starting_pokemon_name}!")
 
 
 def level_up(character):
@@ -965,7 +965,7 @@ def level_up(character):
     elif character['Current Level'] == 3:
         character['Current Location'] = (0, 4)
         character['Money'] += 70
-    print(f"You've leveled up to {character['Current Level']}!")
+    print(f"You've leveled up to {character['Current Level']}!\n")
 
 
 def choose_pokemon_to_challenge(character, pokemon_types):
