@@ -489,7 +489,24 @@ def get_attack_result(character_pokemon_skill: dict, event_pokemon_info: tuple, 
         return True
 
 
-def fight(character_pokemon, event_pokemon_info, character, event_type):
+def fight(character_pokemon: tuple, event_pokemon_info: tuple, character: dict, event_type: str) -> bool:
+    """
+    Check if the event is completed based on the user's selected 'fight' option.
+
+    :param character_pokemon: a tuple containing the user Pokémon's name and a dictionary with its type and current hp
+    :param event_pokemon_info: a tuple containing the event Pokémon's name and a dictionary with its type and current hp
+    :param character: a dictionary containing information about the character's status
+    :param event_type: event_type must be either wild Pokémon, Team Rocket, Gym Leader or Strange trainer
+    :precondition: the user Pokémon must have an HP greater than 0 in the character_pokemon
+    :precondition: the event Pokémon must have an HP greater than 0 in the event_pokemon_info
+    :precondition: character has a value about 'Current Level' key and 'Money' key
+    :precondition: event_type must be either wild Pokémon, Team Rocket, Gym Leader or Strange trainer
+    :postcondition: set up which skills the user Pokémon can use
+    :postcondition: get the user's choice of which skill to use
+    :postcondition: check whether the user Pokémon's skill hit
+    :postcondition: check if the event is completed by the user Pokémon's attack if the skill hit
+    :return: a boolean value true that represents the event is not finished, false otherwise
+    """
     print(f"\nEvent pokemon status: {event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
     skill_collection = get_skill_of(character_pokemon[1]['type'])
     character_pokemon_skill = choose_skill_to_challenge(skill_collection, character['Current Level'])
