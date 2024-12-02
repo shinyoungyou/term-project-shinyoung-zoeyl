@@ -1006,7 +1006,15 @@ def check_badge_eligibility(character, current_win_count, gym_badge_earned):
     return gym_badge_earned
 
 
-def has_six_pokemons(character):
+def has_six_pokemons(character: dict) -> bool:
+    """
+    Check if the character has six Pokèmons.
+
+    :param character: a dictionary representing character's info, including their Pokèmons' info
+    :precondition: character is a dictionary which has Pokèmons' info that the character has
+    :postcondition: counts the number of Pokèmons needed to enter the gym
+    :return: True if the character has six Pokèmons, otherwise False
+    """
     more = 6 - len(character['Poke Ball'])
     if more > 0:
         print(f"You need to earn {more} more pokemon(s) to enter the gym.")
