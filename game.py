@@ -168,7 +168,6 @@ def encounter_store(character):
     actions = {
         'buy': lambda: buy_potion(character),
         'use': lambda: use_potion(character, select_pokemon(character['Poke Ball'])),
-        # 'q': lambda: print("Exiting the store...")
     }
 
     while True:
@@ -367,6 +366,7 @@ def get_money(character, event_type):
         earn_money *= random.randrange(25, 31)
     else:
         earn_money *= random.randrange(10, 20)
+    earn_money = round(earn_money)
     character['Money'] += earn_money
     print(f"You got {earn_money} dollars!")
 
@@ -376,7 +376,7 @@ def get_attack_result(character_pokemon_skill, event_pokemon_info, character, ev
 
     damage = make_stronger(character['Current Level']) * random.randrange(
         character_pokemon_skill['damage'][0], character_pokemon_skill['damage'][1] + 1)
-
+    damage = round(damage)
     event_pokemon_info[1]['currentHP'] -= damage
 
     if event_pokemon_info[1]['currentHP'] <= 0:
@@ -501,7 +501,7 @@ def throw_poke_ball(event_pokemon_info, character):
 
 def set_event_type():
     event_collection = ("wildPokemon", "Team Rocket", "Strange trainer", False)
-    return random.choices(event_collection, weights=[15, 2, 3, 4], k=1)[0]
+    return random.choices(event_collection, weights=[15, 0, 0, 4], k=1)[0]
 
 
 def get_event_pokemon(character_level):
@@ -727,8 +727,12 @@ def game():
     character = set_up_game()
     board, rows, columns = make_board(character['Current Level'])
     achieved_goal = False
+    prev_level = character['Current Level']
 
     while is_alive(character) and not achieved_goal:
+        if prev_level != character['Current Level']:
+            board, rows, columns = make_board(character['Current Level'])
+            prev_level += 1
         display_current_location(board, character, rows, columns)
         direction = get_user_choice(character, board, rows, columns)
 
@@ -736,7 +740,7 @@ def game():
             move_character(character, direction, board, rows, columns)
             is_special_location = check_current_location(board, character)
             if is_special_location:
-                process_by_location_type(character, board)
+                achieved_goal = process_by_location_type(character, board)
             else:
                 event_occurred(character)
         else:
@@ -749,17 +753,19 @@ def game():
 
 
 def process_by_location_type(character, board):
+    achieved_goal = False
     current_location = board[character['Current Location']]
     if current_location == "Gym":
         if has_six_pokemons(character):
             gym_badge_earned = battle_with_gym_leader(character)
             if gym_badge_earned:
-                level_up(character)
+                if character['Current Level'] == 3:
+                    achieved_goal = True
+                else:
+                    level_up(character)
     elif current_location == "Store":
         encounter_store(character)
-        # user_input = input("Enter y to use potion now, or n to skip: ")
-        # if user_input == "y":
-        #     use_potion(character)
+    return achieved_goal
 
 
 def check_badge_eligibility(character, current_win_count, gym_badge_earned):
@@ -795,7 +801,7 @@ def check_badge_eligibility(character, current_win_count, gym_badge_earned):
 
 def has_six_pokemons(character):
     more = 6 - len(character['Poke Ball'])
-    if more:
+    if more > 0:
         print(f"You need to earn {more} more pokemon(s) to enter the gym")
 
     return not more
@@ -812,8 +818,6 @@ def battle_with_gym_leader(character):
     :postcondition: updates character's level and badge status based on the battle outcome
     :return: True if the gym badge is earned, False otherwise
     """
-    gym_badges = {'Level 1': False, 'Level 2': False,
-                  'Level 3': False}  # level 1에서 2번, level 2에서 3번, level 3에서 4번, -> 레벨업
     gym_badge_earned = False
     current_win_count = 0
 
@@ -832,7 +836,6 @@ def battle_with_gym_leader(character):
         process_result = True  # process_result: the ability to continue the game
         prev_round += 1
         print(f"Round {gym_round}.")
-        print(f"process_result: {process_result}")
         selected_pokemon = take_out_pokemon(character['Poke Ball'])
         gym_leader_pokemon = get_event_pokemon(character['Current Level'])
         while process_result:
@@ -844,7 +847,7 @@ def battle_with_gym_leader(character):
             if user_choice == fight:
                 process_result = fight(selected_pokemon, gym_leader_pokemon, character, "Gym Leader")
             elif user_choice == change_pokemon:
-                change_pokemon(character['Poke Ball'], selected_pokemon)
+                selected_pokemon = change_pokemon(character['Poke Ball'], selected_pokemon)
             elif user_choice == "Run Away":
                 print("Gym Leader: Running away, huh? I guess today's not your day. "
                       "Come back when you're ready to battle!")
@@ -864,7 +867,6 @@ def battle_with_gym_leader(character):
                 current_win_count += 1
                 gym_badge_earned = check_badge_eligibility(character, current_win_count, gym_badge_earned)
                 gym_round += 1
-    print(f"gym_badge_earned: {gym_badge_earned}")
     return gym_badge_earned
 
 
@@ -887,18 +889,21 @@ def evolve_pokemon(character):
         available_starting_pokemons = starting_pokemon_collection(character['Current Level'])
         if evolved_starting_pokemon_name in available_starting_pokemons:
             character['Starting Pokemon'] = evolved_starting_pokemon_name
-            character['Poke Ball'] = available_starting_pokemons[evolved_starting_pokemon_name]
+            character['Poke Ball'] = {}
+            character['Poke Ball'][evolved_starting_pokemon_name] \
+                = available_starting_pokemons[evolved_starting_pokemon_name]
             print(f"{current_starting_pokemon_name} has evolved into {evolved_starting_pokemon_name}!")
 
 
 def level_up(character):
     character['Current Level'] += 1
-    character['Current Location'] = (0, 0)
     evolve_pokemon(character)
 
     if character['Current Level'] == 2:
+        character['Current Location'] = (0, 0)
         character['Money'] += 50
     elif character['Current Level'] == 3:
+        character['Current Location'] = (0, 4)
         character['Money'] += 70
     print(f"You've leveled up to {character['Current Level']}!")
 
