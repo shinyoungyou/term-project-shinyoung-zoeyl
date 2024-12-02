@@ -402,27 +402,6 @@ def check_potion(number_of_potion, character_level, character_pokemon):
     return validation
 
 
-def change_pokemon__(pokeball, character_pokemon):
-    if len(pokeball) == 1:
-        print("\nYou has no pokemon to switch to\n")
-    else:
-        print("\nYour pokemons' status...")
-        for pokemon in pokeball.keys():
-            print(f"{pokemon}(HP: {pokeball[pokemon]['currentHP']})")
-
-        user_choice = input("\nwhat pokemon would you like to switch to (Entering Pokemon name)? ").capitalize()
-        while user_choice not in pokeball.keys() or pokeball[user_choice]['currentHP'] == 0:
-            print(f"\n{user_choice} is not included in your Poke Balls or has 0HP")
-            user_choice = input("what pokemon would you like (Entering Pokemon name)? ").capitalize()
-
-        print(f"\nGood job, {character_pokemon[0]}! Come back!\nGo, {user_choice}")
-
-        character_pokemon = (user_choice, pokeball[user_choice])
-        print(f"{user_choice}(HP: {character_pokemon[1]['currentHP']})\n")
-
-    return character_pokemon
-
-
 def use_potion(character, character_pokemon):
     if check_potion(character['Potion'], character['Current Level'], character_pokemon):
         print(f"\nYou have {character['Potion']} potion(s)!\n{character_pokemon[0]} has "
