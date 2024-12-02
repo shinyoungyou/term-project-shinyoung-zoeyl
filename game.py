@@ -4,7 +4,16 @@ import copy
 from constants import POTION_PRICE
 
 
-def set_up_game():
+def set_up_game() -> dict:
+    """
+    Set up the character's information.
+
+    :postcondition: ask a character's name
+    :postcondition: display game instruction
+    :postcondition: get the user's choice of which starting Pokémon the user wants
+    :postcondition: set up a dictionary containing the character's information
+    :return: a dictionary containing the character's information
+    """
     character_name = input("What is your name? ").capitalize()
     print_instructions()
     character = {'Character Name': character_name, 'Money': 30, 'Current Level': 1, 'Potion': 0,
@@ -258,7 +267,8 @@ def current_pokemon_collection(character_level: int, level1: dict, level2: dict,
     :param level3: a dictionary containing level3 Pokémon information
     :precondition: character_level must be a number between 1 and 3
     :precondition: Pokémon information should not be over wrapped between level1, level2 and level3
-    :return:
+    :postcondition: choose a Pokémon collection tailored to the character_level
+    :return: a dictionary containing Pokémon collection tailored to the character_level
     """
     if character_level == 2:
         current_level_collection = level2
@@ -375,7 +385,7 @@ def choose_skill_to_challenge(skill_collection: list, character_level: int) -> d
                   f"{len(skill_collection)}.")
 
 
-def get_probability():
+def get_probability() -> bool:
     """
     Check probabilities such as skill accuracy or whether the event Pokémon will run away.
 
@@ -385,7 +395,15 @@ def get_probability():
     return random.choices([True, False], weights=[5, 1], k=1)[0]
 
 
-def level_maximum_hp(character_level):
+def level_maximum_hp(character_level: int) -> int:
+    """
+    Check what maximum hp is based on the user's level.
+
+    :param character_level: an integer that represents user's current level
+    :precondition: character_level must be a number between 1 and 3
+    :postcondition: set up the maximum hp based on the user's level
+    :return: an integer that represents the maximum hp based on the character_level
+    """
     if character_level == 1:
         maximum_hp = 40
     elif character_level == 2:
@@ -395,7 +413,15 @@ def level_maximum_hp(character_level):
     return maximum_hp
 
 
-def make_stronger(character_level):
+def make_stronger(character_level: int) -> int:
+    """
+    Determine how much stronger the character's skill damage becomes.
+
+    :param character_level: an integer that represents user's current level
+    :precondition: character_level must be a number between 1 and 3
+    :postcondition: set up how much stronger the character's skill damage will become
+    :return: an integer that represent how much stronger the character's skill damage will become
+    """
     if character_level == 2:
         stronger = 1.3
     elif character_level == 3:
@@ -405,7 +431,18 @@ def make_stronger(character_level):
     return stronger
 
 
-def get_money(character, event_type):
+def get_money(character: dict, event_type: str) -> None:
+    """
+    Determine how much money the user receives.
+
+    :param character: a dictionary containing information about the character's status
+    :param event_type: a string that represents what kind of event occurs
+    :precondition: character has a value about 'Current Level' key and 'Money' key
+    :precondition: event_type must be either wild Pokémon, Team Rocket, or Strange trainer
+    :postcondition: set up how many times more money the user can receive
+    :postcondition: multiply a random number from the range corresponding to the event type
+    :postcondition: add the number to the value of the 'Money' key in the character
+    """
     earn_money = make_stronger(character['Current Level'])
     if event_type == 'wildPokemon':
         earn_money *= random.randrange(3, 7)
@@ -417,7 +454,24 @@ def get_money(character, event_type):
     print(f"You got ${int(earn_money)}!")
 
 
-def get_attack_result(character_pokemon_skill, event_pokemon_info, character, event_type):
+def get_attack_result(character_pokemon_skill: dict, event_pokemon_info: tuple, character: dict, event_type: str) \
+        -> bool:
+    """
+    Check whether the event Pokémon is defeated.
+
+    :param character_pokemon_skill: a dictionary containing skill name and skill damage range
+    :param event_pokemon_info: a tuple containing the event Pokémon's name and a dictionary with its type and current hp
+    :param character: a dictionary containing information about the character's status
+    :param event_type: a string that represents what kind of event occurs
+    :precondition: character has a value about 'Current Level' key and 'Money' key
+    :precondition: event_type must be either wild Pokémon, Team Rocket, Gym Leader or Strange trainer
+    :precondition: the event Pokémon must have an HP greater than 0 in the event_pokemon_info
+    :postcondition: determine how much damage the character deals to the event Pokémon
+    :postcondition: subtract the damage amount from the event Pokémon's hp
+    :postcondition: check if the event Pokémon's hp is 0 or less
+    :postcondition: get money if the event Pokémon's hp is 0 or less
+    :return: a boolean value false representing the event Pokémon has been defeated, true otherwise
+    """
     print(f"\n{character_pokemon_skill['name']} hit!")
 
     damage = int(make_stronger(character['Current Level']) * random.randrange(
@@ -435,7 +489,24 @@ def get_attack_result(character_pokemon_skill, event_pokemon_info, character, ev
         return True
 
 
-def fight(character_pokemon, event_pokemon_info, character, event_type):
+def fight(character_pokemon: tuple, event_pokemon_info: tuple, character: dict, event_type: str) -> bool:
+    """
+    Check if the event is completed based on the user's selected 'fight' option.
+
+    :param character_pokemon: a tuple containing the user Pokémon's name and a dictionary with its type and current hp
+    :param event_pokemon_info: a tuple containing the event Pokémon's name and a dictionary with its type and current hp
+    :param character: a dictionary containing information about the character's status
+    :param event_type: event_type must be either wild Pokémon, Team Rocket, Gym Leader or Strange trainer
+    :precondition: the user Pokémon must have an HP greater than 0 in the character_pokemon
+    :precondition: the event Pokémon must have an HP greater than 0 in the event_pokemon_info
+    :precondition: character has a value about 'Current Level' key and 'Money' key
+    :precondition: event_type must be either wild Pokémon, Team Rocket, Gym Leader or Strange trainer
+    :postcondition: set up which skills the user Pokémon can use
+    :postcondition: get the user's choice of which skill to use
+    :postcondition: check whether the user Pokémon's skill hit
+    :postcondition: check if the event is completed by the user Pokémon's attack if the skill hit
+    :return: a boolean value true that represents the event is not finished, false otherwise
+    """
     print(f"\nEvent pokemon status: {event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
     skill_collection = get_skill_of(character_pokemon[1]['type'])
     character_pokemon_skill = choose_skill_to_challenge(skill_collection, character['Current Level'])
@@ -706,6 +777,7 @@ def describe_event(event_type, character):
     event_pokemon_info = get_event_pokemon(character)
     if event_type == "wildPokemon":
         print(f"\nA wild {event_pokemon_info[0]} appeared!\n")
+        print(f"\nEvent pokemon status: {event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
     else:
         print(f"\nYou encountered a {event_type}!\n{event_type} sent out {event_pokemon_info[0]}!\n")
     return event_pokemon_info
