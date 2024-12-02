@@ -1087,9 +1087,13 @@ def battle_with_gym_leader(character):
     return gym_badge_earned
 
 
-def evolve_pokemon(character):
+def evolve_pokemon(character: dict):
     """
-    Handle pokemon evolution based on the character's level.
+    Evolve character's starting pokèmon based on the character's level.
+
+    :param character: a dictionary including character's info such as their poke ball and starting pokèmon
+    :precondition: character is a dictionary including 'Poke Ball', 'Starting Pokemon' keys
+    :postcondition: handles starting pokèmon evolution according to the character's level
     """
     evolution_map = {
         'Squirtle': 'Wartortle',
@@ -1116,7 +1120,7 @@ def level_up(character: dict):
     """
     Level up the character.
 
-    :param character: a dictionary representing character's info including current level and other related details
+    :param character: a dictionary including character's info, such as current level, and other related details
     :preconditoin: character is a dictionary including 'Current Level', 'Money', and other related details
     :postcondition: updates the character's information according to their next level
     """
