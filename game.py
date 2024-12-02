@@ -225,7 +225,7 @@ def starting_pokemon_collection(character_level: int) -> dict:
     """
     Provide a starting Pokémon collection tailored to the character_level.
 
-    :param character_level: an integer
+    :param character_level: an integer that represents user's current level
     :precondition: character_level must be a number between 1 and 3
     :return: a dictionary containing starting Pokémon's information tailored to the character_level
     """
@@ -247,7 +247,18 @@ def starting_pokemon_collection(character_level: int) -> dict:
     return pokemon_collection
 
 
-def current_pokemon_collection(character_level, level1, level2, level3):
+def current_pokemon_collection(character_level: int, level1: dict, level2: dict, level3: dict) -> dict:
+    """
+    Decide which Pokémon collection to use based on the character_level.
+
+    :param character_level: an integer that represents user's current level
+    :param level1: a dictionary containing level1 Pokémon information
+    :param level2: a dictionary containing level2 Pokémon information
+    :param level3: a dictionary containing level3 Pokémon information
+    :precondition: character_level must be a number between 1 and 3
+    :precondition: Pokémon information should not be over wrapped between level1, level2 and level3
+    :return:
+    """
     if character_level == 2:
         current_level_collection = level2
     elif character_level == 3:
@@ -262,7 +273,7 @@ def event_pokemon(character_level: int) -> dict:
     """
     Provide an event Pokémon collection tailored to the character_level.
 
-    :param character_level: an integer
+    :param character_level: an integer that represents user's current level
     :precondition: character_level must be a number between 1 and 3
     :postcondition: set up collections of event Pokémon information tailored to the user's level
     :postcondition: get a collection tailored to the character_level
@@ -341,7 +352,7 @@ def choose_skill_to_challenge(skill_collection: list, character_level: int) -> d
     Provide information about skill the user chose.
 
     :param skill_collection: a list of dictionaries containing information about skills the user Pokémon can use.
-    :param character_level: an integer
+    :param character_level: an integer that represents user's current level
     :precondition: character_level must be a number between 1 and 3
     :precondition: skill_collection must contain only information about skills related to the user Pokémon's type
     :postcondition: display what skills the user Pokémon can use
@@ -674,8 +685,8 @@ def check_status(character_pokemon):
 def get_attacked(event_pokemon_info, event_type, character, character_pokemon):
     skill_collection = get_skill_of(event_pokemon_info[1]['type'])
     event_pokemon_skill = random.choices(list(skill_collection), k=1)[0]
-    damage = int(make_damage_stronger(event_type, character['Current Level'])
-              * random.choice(range(event_pokemon_skill['damage'][0], event_pokemon_skill['damage'][1] + 1)))
+    damage = int(make_damage_stronger(event_type, character['Current Level']) *
+                 random.choice(range(event_pokemon_skill['damage'][0], event_pokemon_skill['damage'][1] + 1)))
     damage = round(damage)
 
     print(f"{event_pokemon_info[0]} used {event_pokemon_skill['name']}!\n")
