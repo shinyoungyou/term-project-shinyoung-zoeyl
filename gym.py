@@ -213,11 +213,34 @@ def handle_user_choice(user_choice: str, process_result: bool, selected_pokemon:
     :precondition: character is a dictionary which has 'Poke Ball' key and other character's details
     :postcondition: updates gym battle state according to the user choice
     :return: a tuple representing updated gym battle state according to the user choice
+
+    >>> test_user_choice = "Run Away"
+    >>> test_process_result = False
+    >>> test_selected_pokemon = ('Squirtle', {'type': 'water', 'currentHP': 40})
+    >>> test_gym_leader_pokemon = ('Weedle', {'type': 'grass', 'currentHP': 30})
+    >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
+    ...             'Current Location': (5, 5),
+    ...             'Starting Pokemon': 'Squirtle',
+    ...             'Poke Ball': {
+    ...                 'Squirtle': {'type': 'water', 'currentHP': 40},
+    ...                 'Pichu': {'type': 'electric', 'currentHP': 30},
+    ...                 'Shinx': {'type': 'electric', 'currentHP': 30},
+    ...                 'Mareep': {'type': 'electric', 'currentHP': 30},
+    ...                 'Caterpie': {'type': 'grass', 'currentHP': 30},
+    ...                 'Weedle': {'type': 'grass', 'currentHP': 30},
+    ...             }}
+    >>> updated_state = handle_user_choice(test_user_choice, test_process_result, test_selected_pokemon,
+    ... test_gym_leader_pokemon, test_character)
+    <BLANKLINE>
+    Gym Leader: Running away, huh? I guess today's not your day. Come back when you're ready to battle!
+    >>> stop_process = updated_state[2]
+    >>> stop_process
+    True
     """
     stop_process = False
-    if user_choice == fight:
+    if user_choice == "Fight":
         process_result = fight(selected_pokemon, gym_leader_pokemon, character, "Gym Leader")
-    elif user_choice == change_pokemon:
+    elif user_choice == "Change Pokemon":
         selected_pokemon = change_pokemon(character['Poke Ball'], selected_pokemon)
     elif user_choice == "Run Away":
         print("\nGym Leader: Running away, huh? I guess today's not your day. "
