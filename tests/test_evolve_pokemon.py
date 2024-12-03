@@ -32,11 +32,11 @@ class TestEvolvePokemon(TestCase):
                      'Starting Pokemon': 'Charmander',
                      'Poke Ball': {
                          'Charmander': {'type': 'fire', 'currentHP': 40},
-                         'Pichu': {'type': 'electric', 'currentHP': 30},
-                         'Shinx': {'type': 'electric', 'currentHP': 30},
-                         'Mareep': {'type': 'electric', 'currentHP': 30},
-                         'Caterpie': {'type': 'grass', 'currentHP': 30},
-                         'Weedle': {'type': 'grass', 'currentHP': 30},
+                         'Luxio': {'type': 'electric', 'currentHP': 50},
+                         'Flaaffy': {'type': 'electric', 'currentHP': 50},
+                         'Metapod': {'type': 'grass', 'currentHP': 50},
+                         'Kakuna': {'type': 'grass', 'currentHP': 50},
+                         'Grovyle': {'type': 'grass', 'currentHP': 50}
                      }}
         expected_evolved_pokemon_name = 'Charmeleon'
         evolve_pokemon(character)
@@ -50,11 +50,11 @@ class TestEvolvePokemon(TestCase):
                      'Starting Pokemon': 'Bulbasaur',
                      'Poke Ball': {
                          'Bulbasaur': {'type': 'grass', 'currentHP': 40},
-                         'Pichu': {'type': 'electric', 'currentHP': 30},
-                         'Shinx': {'type': 'electric', 'currentHP': 30},
-                         'Mareep': {'type': 'electric', 'currentHP': 30},
-                         'Caterpie': {'type': 'grass', 'currentHP': 30},
-                         'Weedle': {'type': 'grass', 'currentHP': 30},
+                         'Luxio': {'type': 'electric', 'currentHP': 50},
+                         'Flaaffy': {'type': 'electric', 'currentHP': 50},
+                         'Metapod': {'type': 'grass', 'currentHP': 50},
+                         'Kakuna': {'type': 'grass', 'currentHP': 50},
+                         'Grovyle': {'type': 'grass', 'currentHP': 50}
                      }}
         expected_evolved_pokemon_name = 'Ivysaur'
         evolve_pokemon(character)
@@ -64,15 +64,15 @@ class TestEvolvePokemon(TestCase):
     @patch('gym.starting_pokemon_collection', return_value={'Blastoise': {'type': 'water', 'currentHP': 100}})
     def test_evolve_pokemon_wartortle_has_evolved_into_blastoise_in_level_3(self, _):
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 3, 'Potion': 0,
-                     'Current Location': (5, 5),
+                     'Current Location': (7, 4),
                      'Starting Pokemon': 'Wartortle',
                      'Poke Ball': {
                          'Wartortle': {'type': 'water', 'currentHP': 65},
-                         'Pichu': {'type': 'electric', 'currentHP': 30},
-                         'Shinx': {'type': 'electric', 'currentHP': 30},
-                         'Mareep': {'type': 'electric', 'currentHP': 30},
-                         'Caterpie': {'type': 'grass', 'currentHP': 30},
-                         'Weedle': {'type': 'grass', 'currentHP': 30},
+                         'Luxray': {'type': 'electric', 'currentHP': 80},
+                         'Ampharos': {'type': 'electric', 'currentHP': 80},
+                         'Butterfree': {'type': 'grass', 'currentHP': 80},
+                         'Beedrill': {'type': 'grass', 'currentHP': 80},
+                         'Sceptile': {'type': 'grass', 'currentHP': 80},
                      }}
         expected_evolved_pokemon_name = 'Blastoise'
         evolve_pokemon(character)
@@ -82,15 +82,15 @@ class TestEvolvePokemon(TestCase):
     @patch('gym.starting_pokemon_collection', return_value={'Charizard': {'type': 'fire', 'currentHP': 100}})
     def test_evolve_pokemon_charmeleon_has_evolved_into_charizard_in_level_3(self, _):
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 3, 'Potion': 0,
-                     'Current Location': (5, 5),
+                     'Current Location': (7, 4),
                      'Starting Pokemon': 'Charmeleon',
                      'Poke Ball': {
                          'Charmeleon': {'type': 'fire', 'currentHP': 65},
-                         'Pichu': {'type': 'electric', 'currentHP': 30},
-                         'Shinx': {'type': 'electric', 'currentHP': 30},
-                         'Mareep': {'type': 'electric', 'currentHP': 30},
-                         'Caterpie': {'type': 'grass', 'currentHP': 30},
-                         'Weedle': {'type': 'grass', 'currentHP': 30},
+                         'Luxray': {'type': 'electric', 'currentHP': 80},
+                         'Ampharos': {'type': 'electric', 'currentHP': 80},
+                         'Butterfree': {'type': 'grass', 'currentHP': 80},
+                         'Beedrill': {'type': 'grass', 'currentHP': 80},
+                         'Sceptile': {'type': 'grass', 'currentHP': 80},
                      }}
         expected_evolved_pokemon_name = 'Charizard'
         evolve_pokemon(character)
@@ -100,15 +100,15 @@ class TestEvolvePokemon(TestCase):
     @patch('gym.starting_pokemon_collection', return_value={'Venusaur': {'type': 'grass', 'currentHP': 100}})
     def test_evolve_pokemon_ivysaur_has_evolved_into_venusaur_in_level_3(self, _):
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 3, 'Potion': 0,
-                     'Current Location': (5, 5),
+                     'Current Location': (7, 4),
                      'Starting Pokemon': 'Ivysaur',
                      'Poke Ball': {
                          'Bulbasaur': {'type': 'grass', 'currentHP': 40},
-                         'Pichu': {'type': 'electric', 'currentHP': 30},
-                         'Shinx': {'type': 'electric', 'currentHP': 30},
-                         'Mareep': {'type': 'electric', 'currentHP': 30},
-                         'Caterpie': {'type': 'grass', 'currentHP': 30},
-                         'Weedle': {'type': 'grass', 'currentHP': 30},
+                         'Luxray': {'type': 'electric', 'currentHP': 80},
+                         'Ampharos': {'type': 'electric', 'currentHP': 80},
+                         'Butterfree': {'type': 'grass', 'currentHP': 80},
+                         'Beedrill': {'type': 'grass', 'currentHP': 80},
+                         'Sceptile': {'type': 'grass', 'currentHP': 80},
                      }}
         expected_evolved_pokemon_name = 'Venusaur'
         evolve_pokemon(character)
