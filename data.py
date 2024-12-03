@@ -111,6 +111,13 @@ def get_skill_of(pokemon_type: str) -> list:
     :postcondition: set up skill collections based on Pokémon's type
     :postcondition: get skills base on the Pokémon's type
     :return: a list containing skills the Pokémon of the given pokemon_type can use
+
+    >>> d_pokemon_type = 'water'
+    >>> get_skill_of(d_pokemon_type)  # doctest: +ELLIPSIS
+    [{'name': 'Tackle', 'damage': (1, 3)}, {'name': 'Water Gun', 'damage': (4, 5)}, ...]
+    >>> d_pokemon_type = 'grass'
+    >>> get_skill_of(d_pokemon_type)  # doctest: +ELLIPSIS
+    [{'name': 'Tackle', 'damage': (1, 3)}, {'name': 'Seed Bomb', 'damage': (4, 5)}, ...]
     """
     skills_of = {
         'water': [
@@ -165,6 +172,17 @@ def current_pokemon_collection(character_level: int, level1: dict, level2: dict,
     :precondition: Pokémon information should not be over wrapped between level1, level2 and level3
     :postcondition: choose a Pokémon collection tailored to the character_level
     :return: a dictionary containing Pokémon collection tailored to the character_level
+
+    >>> d_level1 = {'Roggenrola': {'type': 'rock', 'currentHP': 30}}
+    >>> d_level2 = {'Boldore': {'type': 'rock', 'currentHP': 50}}
+    >>> d_level3 = {'Gigalith': {'type': 'rock', 'currentHP': 80}}
+    >>> current_pokemon_collection(1, d_level1, d_level2, d_level3)
+    {'Roggenrola': {'type': 'rock', 'currentHP': 30}}
+    >>> d_level1 = {'Roggenrola': {'type': 'rock', 'currentHP': 30}}
+    >>> d_level2 = {'Boldore': {'type': 'rock', 'currentHP': 50}}
+    >>> d_level3 = {'Gigalith': {'type': 'rock', 'currentHP': 80}}
+    >>> current_pokemon_collection(3, d_level1, d_level2, d_level3)
+    {'Gigalith': {'type': 'rock', 'currentHP': 80}}
     """
     if character_level == 2:
         current_level_collection = level2
