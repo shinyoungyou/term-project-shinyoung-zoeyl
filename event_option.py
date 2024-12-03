@@ -74,6 +74,11 @@ def make_stronger(character_level: int) -> int:
     :precondition: character_level must be a number between 1 and 3
     :postcondition: set up how much stronger the character's skill damage will become
     :return: an integer that represent how much stronger the character's skill damage will become
+
+    >>> make_stronger(3)
+    1.8
+    >>> make_stronger(2)
+    1.3
     """
     if character_level == 2:
         stronger = 1.3
