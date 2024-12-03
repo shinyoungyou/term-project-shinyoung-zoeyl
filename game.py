@@ -203,7 +203,7 @@ def encounter_store(character: dict[str, Any]):
 
 def select_pokemon(pokeball: dict) -> (str, dict):
     """
-    Let user select a Pokémon.
+    Ask user to select a Pokémon.
 
     :param pokeball: a dictionary representing collection of Pokémon(s)
     :precondition: pokeball is a dictionary representing collection of Pokémon(s)
@@ -1443,7 +1443,7 @@ def evolve_pokemon(character: dict[str, Any]):
             print(f"\n{current_starting_pokemon_name} has evolved into {evolved_starting_pokemon_name}!")
 
 
-def level_up(character: dict):
+def level_up(character: dict[str, Any]):
     """
     Level up the character.
 
@@ -1461,17 +1461,6 @@ def level_up(character: dict):
         character['Current Location'] = (0, 4)
         character['Money'] += 70
     print(f"You've leveled up to {character['Current Level']}!\n")
-
-
-def choose_pokemon_to_challenge(character, pokemon_types):
-    selected_pokemon = input(f"Choose a pokemon to challenge between {list(character['Balls'].keys())}: ").capitalize()
-
-    if selected_pokemon not in pokemon_types:
-        print("Invalid pokemon selection.")
-        return False
-
-    print(f"You have chosen {selected_pokemon}")
-    return selected_pokemon
 
 
 def test_gym():
@@ -1494,8 +1483,8 @@ def main():
     """
     Drive the program.
     """
-    # game()
-    test_gym()
+    game()
+    # test_gym()
 
 
 if __name__ == "__main__":
