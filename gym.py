@@ -1,4 +1,4 @@
-from typing import Callable, Any
+from typing import Any
 
 from data import starting_pokemon_collection
 from game import get_event_pokemon, get_attacked, is_alive, take_out_pokemon, fight, \
@@ -152,13 +152,13 @@ def display_round_intro(gym_round: int, gym_leader_pokemon: (str, dict[str, Any]
           f"(HP: {character['Poke Ball'][selected_pokemon[0]]['currentHP']})\n")
 
 
-def handle_user_choice(user_choice: Callable | str, process_result: bool, selected_pokemon: (str, dict[str, Any]),
+def handle_user_choice(user_choice: str, process_result: bool, selected_pokemon: (str, dict[str, Any]),
                        gym_leader_pokemon: (str, dict[str, Any]), character: dict[str, Any])\
                     -> (bool, (str, dict[str, Any]), bool):
     """
     Ask user to fight, change their pokèmon, or run away.
 
-    :param user_choice: a function or a string
+    :param user_choice: a string representing the user choice
     :param process_result: a boolean indicating whether the target won or lost the round
     :param selected_pokemon: a tuple including the name of randomly selected pokèmon for character, and their details
     :param gym_leader_pokemon: a tuple including gym leader pokèmon's name, and their details
