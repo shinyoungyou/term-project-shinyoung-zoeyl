@@ -305,6 +305,39 @@ def evolve_pokemon(character: dict[str, Any]):
     :param character: a dictionary including character's info such as their poke ball and starting pokèmon
     :precondition: character is a dictionary including 'Poke Ball', 'Starting Pokemon' keys, and other details for them
     :postcondition: handles starting pokèmon evolution according to the character's level
+
+    >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 2, 'Potion': 0,
+    ...             'Current Location': (5, 5),
+    ...             'Starting Pokemon': 'Squirtle',
+    ...             'Poke Ball': {
+    ...                 'Squirtle': {'type': 'water', 'currentHP': 40},
+    ...                 'Pichu': {'type': 'electric', 'currentHP': 30},
+    ...                 'Shinx': {'type': 'electric', 'currentHP': 30},
+    ...                 'Mareep': {'type': 'electric', 'currentHP': 30},
+    ...                 'Caterpie': {'type': 'grass', 'currentHP': 30},
+    ...                 'Weedle': {'type': 'grass', 'currentHP': 30},
+    ...             }}
+    >>> evolve_pokemon(test_character)
+    <BLANKLINE>
+    Squirtle has evolved into Wartortle!
+    >>> test_character['Starting Pokemon']
+    'Wartortle'
+    >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 3, 'Potion': 0,
+    ...             'Current Location': (5, 5),
+    ...             'Starting Pokemon': 'Wartortle',
+    ...             'Poke Ball': {
+    ...                 'Squirtle': {'type': 'water', 'currentHP': 40},
+    ...                 'Pichu': {'type': 'electric', 'currentHP': 30},
+    ...                 'Shinx': {'type': 'electric', 'currentHP': 30},
+    ...                 'Mareep': {'type': 'electric', 'currentHP': 30},
+    ...                 'Caterpie': {'type': 'grass', 'currentHP': 30},
+    ...                 'Weedle': {'type': 'grass', 'currentHP': 30},
+    ...             }}
+    >>> evolve_pokemon(test_character)
+    <BLANKLINE>
+    Wartortle has evolved into Blastoise!
+    >>> test_character['Starting Pokemon']
+    'Blastoise'
     """
     evolution_map = {
         'Squirtle': 'Wartortle',
