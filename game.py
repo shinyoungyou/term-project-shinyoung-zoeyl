@@ -1005,8 +1005,18 @@ def describe_event(event_type: str, character: dict) -> tuple:
     return event_pokemon_info
 
 
-def event_occurred(character):
-    # docstrings
+def event_occurred(character: dict) -> None:
+    """
+    Handle an event.
+
+    :param character: a dictionary containing information about the character's status
+    :postcondition: check if an event has occurred
+    :postcondition: set up an event Pokémon and the user's Pokémon for battle if an event has occurred
+    :postcondition: get the user's choice of which option the user wants
+    :postcondition: execute a function tailored the user choice
+    :postcondition: get attacked from the event Pokémon if the event Pokémon is not defeated
+    :postcondition: check if the user Pokémon fainted
+    """
     event_type = set_event_type()
     process_result = True
 
@@ -1016,7 +1026,6 @@ def event_occurred(character):
         character_pokemon = take_out_pokemon(character['Poke Ball'])
 
         while process_result:
-            # Check HP part I would like put like character_pokemon[1]['currentHP']
             print(f"\n{character['Character Name']}'s pokemon status: {character_pokemon[0]}"
                   f"(HP: {character['Poke Ball'][character_pokemon[0]]['currentHP']})\n")
 
@@ -1033,8 +1042,7 @@ def event_occurred(character):
             if process_result:
                 process_result = get_attacked(event_pokemon_info, event_type, character, character_pokemon)
     else:
-        print("\nNo event is occurred.")
-        print("\n------------------------------------------\n")
+        print("\nNo event is occurred.\n------------------------------------------\n")
 
 
 def get_user_choice(character, board, rows, columns):
