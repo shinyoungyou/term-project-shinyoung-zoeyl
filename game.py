@@ -1,7 +1,7 @@
 import random
 from typing import Any
 
-from board import display_current_location, make_board, check_current_location
+from board import display_current_location, make_board, check_if_current_location_is_special
 from common import check_input_is_digit, is_alive
 from data import starting_pokemon_collection
 from event_option import fight, throw_poke_ball, change_pokemon, get_event_pokemon, take_out_pokemon, \
@@ -261,7 +261,7 @@ def game():
         is_valid_move, new_position = validate_move(board, character, direction)
         if is_valid_move:
             move_character(character, new_position, board, rows, columns)
-            is_special_location = check_current_location(board, character)
+            is_special_location = check_if_current_location_is_special(board, character)
             if is_special_location:
                 achieved_goal = process_by_location_type(character, board)
             else:

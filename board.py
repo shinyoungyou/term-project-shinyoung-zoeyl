@@ -61,6 +61,7 @@ def display_current_location(board: dict[(int, int), bool | str], character: dic
     :precondition: rows is a positive integers
     :precondition: columns is a positive integers
     :postcondition: prints the current location of character, store, and gym
+
     >>> test_board = {(0, 0): True, (0, 1): True, (0, 2): True, (0, 3): True, (0, 4): True, (0, 5): False,
     ...              (1, 0): False, (1, 1): True, (1, 2): True, (1, 3): True, (1, 4): True, (1, 5): False,
     ...              (2, 0): False, (2, 1): True, (2, 2): 'Store', (2, 3): True, (2, 4): True, (2, 5): False,
@@ -105,16 +106,29 @@ def display_current_location(board: dict[(int, int), bool | str], character: dic
         print(row)
 
 
-def check_current_location(board: dict[(int, int), bool | str], character: dict[str, Any]) -> bool | str:
+def check_if_current_location_is_special(board: dict[(int, int), bool | str], character: dict[str, Any]) -> bool:
     """
-    Check the current location of the game board.
+    Check if the current location is store or gym
 
     :param board: a dictionary representing the game board
     :param character: a dictionary representing the character
     :precondition: board is a dictionary representing the game board
     :precondition: character is a dictionary representing the character
-    :postcondition: retrieves the description of current location from the board
-    :return: the description of current location between True, False, Store, and Gym
+    :postcondition: determins if the current location is store or gym
+    :return: True if the current location is store or gym, otherwise False
+
+    >>> test_board = {(0, 0): True, (0, 1): True, (0, 2): True, (0, 3): True, (0, 4): True, (0, 5): False,
+    ...              (1, 0): False, (1, 1): True, (1, 2): True, (1, 3): True, (1, 4): True, (1, 5): False,
+    ...              (2, 0): False, (2, 1): True, (2, 2): 'Store', (2, 3): True, (2, 4): True, (2, 5): False,
+    ...              (3, 0): False, (3, 1): True, (3, 2): True, (3, 3): True, (3, 4): True, (3, 5): False,
+    ...              (4, 0): False, (4, 1): True, (4, 2): True, (4, 3): True, (4, 4): True, (4, 5): False,
+    ...              (5, 0): False, (5, 1): True, (5, 2): True, (5, 3): True, (5, 4): True, (5, 5): 'Gym'}
+    >>> test_character = {"Current Location": (5, 5)}
+    >>> check_if_current_location_is_special(test_board, test_character)
+    True
+    >>> test_character = {"Current Location": (1, 0)}
+    >>> check_if_current_location_is_special(test_board, test_character)
+    False
     """
     is_special_location = False
     current_location = board[character["Current Location"]]
