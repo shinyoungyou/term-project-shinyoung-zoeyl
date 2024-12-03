@@ -1045,7 +1045,22 @@ def event_occurred(character: dict) -> None:
         print("\nNo event is occurred.\n------------------------------------------\n")
 
 
-def get_user_choice(character, board, rows, columns):
+def get_user_choice(character: dict, board: dict, rows: int, columns: int) -> int:
+    """
+    Get the user's choice of direction to move or check the user's status.
+
+    :param character: a dictionary containing information about the character's status
+    :param board: a dictionary representing the game board
+    :param rows: a positive integer representing number of rows of the game board
+    :param columns: a positive integer representing number of columns of the game board
+    :precondition: board is a dictionary representing the game board
+    :precondition: character is a dictionary representing character's info, including their current location
+    :precondition: rows is an integer greater than 0
+    :precondition: columns is an integer greater than 0
+    :postcondition: get the user's choice of which direction to move or check the user's status
+    :postcondition: display the user's status if the user choose number 5
+    :return: an integer that represents which direction the user wants to move
+    """
     while True:
         print("\n1. Up  2. Down  3. Left  4. Right  5. Check status")
         user_choice = check_input_is_digit("What number would you like to choose (Enter number)? ")
