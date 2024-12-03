@@ -473,6 +473,11 @@ def get_stronger_collection(character_level: int) -> tuple:
     :precondition: character_level must be a number between 1 and 3
     :postcondition: retrieve a collection of values showing the increase in the event Pokémon's skill damage
     :return: a tuple containing values representing the potential increase in the event Pokémon's skill damage
+
+    >>> get_stronger_collection(1)
+    (1, 1.3, 1.4, 1.5)
+    >>> get_stronger_collection(3)
+    (1.5, 1.7, 2, 2.5)
     """
     if character_level == 1:
         stronger_collection = (1, 1.3, 1.4, 1.5)
