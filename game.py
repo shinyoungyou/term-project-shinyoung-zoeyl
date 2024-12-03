@@ -1022,7 +1022,7 @@ def process_by_location_type(character: dict, board: dict) -> bool:
     current_location = board[character['Current Location']]
     if current_location == "Gym":
         if has_six_pokemons(character):
-            gym_badge_earned = battle_with_gym_leader(character)
+            gym_badge_earned = encounter_gym(character)
             if gym_badge_earned:
                 if character['Current Level'] == 3:
                     achieved_goal = True
@@ -1080,19 +1080,8 @@ def has_six_pokemons(character: dict) -> bool:
     return not more
 
 
-def battle_with_gym_leader(character):
-    """
-    Drive the battle with gym leader.
-
-    Give character a gym badge if they win, else do not.
-
-    :param character: a dictionary including character's current level and other related details
-    :precondition: character is a dictionary including Current Location, Current Level, Current EXP, Money, and Balls
-    :postcondition: updates character's level and badge status based on the battle outcome
-    :return: True if the gym badge is earned, False otherwise
-    """
+def encounter_gym(character):
     gym_badge_earned = False
-    current_win_count = 0
 
     while True:
         user_input = input("\nEncountered a gym! Enter y to challenge, n to quit: ")
@@ -1101,48 +1090,92 @@ def battle_with_gym_leader(character):
 
     if user_input == 'n':
         return gym_badge_earned
-    print("\nGym Leader: Welcome to the gym! "
-          "Here is one rule, you can't use potions to accurately assess your skills.\n")
 
+    print("\nGym Leader: Welcome to the gym! "
+          "Here is one rule: you can't use potions to accurately assess your skills.\n")
+
+    gym_badge_earned = battle_with_gym_leader(character, gym_badge_earned)
+    return gym_badge_earned
+
+
+def battle_with_gym_leader(character, gym_badge_earned):
+    """
+    handle the gtm battle.
+
+    """
+    current_win_count, prev_round, gym_round, selected_pokemon, gym_leader_pokemon = initialize_battle(character)
+    while prev_round != gym_round and is_alive(character) and not gym_badge_earned:
+        process_result = True  # process_result: the ability to continue the game
+        prev_round += 1
+        display_round_intro(gym_round, gym_leader_pokemon, selected_pokemon, character)
+        while process_result:
+            user_choice = select_event_option("Gym Leader", gym_round)
+
+            process_result, selected_pokemon, stop_process = (
+                handle_user_choice(user_choice, process_result, selected_pokemon, gym_leader_pokemon, character))
+
+            if stop_process:
+                break
+
+            if process_result:
+                process_result, selected_pokemon, gym_round, stop_process \
+                    = check_if_alive_when_lost_the_round(gym_leader_pokemon, character, selected_pokemon, gym_round)
+                if stop_process:
+                    break
+            else:
+                current_win_count, gym_badge_earned, gym_round, gym_leader_pokemon = (
+                    win_the_round(current_win_count, character, gym_badge_earned, gym_round))
+    return gym_badge_earned
+
+
+def initialize_battle(character):
+    current_win_count = 0
     prev_round = 0
     gym_round = 1
     selected_pokemon = take_out_pokemon(character['Poke Ball'])
     gym_leader_pokemon = get_event_pokemon(character)
-    while prev_round != gym_round and is_alive(character) and not gym_badge_earned:
-        process_result = True  # process_result: the ability to continue the game
-        prev_round += 1
-        print(f"\n❗️Round {gym_round} ❗\n")
-        print(f"Event pokemon status: {gym_leader_pokemon[0]}(HP: {gym_leader_pokemon[1]['currentHP']})\n")
-        while process_result:
-            print(f"{character['Character Name']}'s pokemon status: {selected_pokemon[0]}"
-                  f"(HP: {character['Poke Ball'][selected_pokemon[0]]['currentHP']})\n")
+    return current_win_count, prev_round, gym_round, selected_pokemon, gym_leader_pokemon
 
-            user_choice = select_event_option("Gym Leader", gym_round)
 
-            if user_choice == fight:
-                process_result = fight(selected_pokemon, gym_leader_pokemon, character, "Gym Leader")
-            elif user_choice == change_pokemon:
-                selected_pokemon = change_pokemon(character['Poke Ball'], selected_pokemon)
-            elif user_choice == "Run Away":
-                print("\nGym Leader: Running away, huh? I guess today's not your day. "
-                      "Come back when you're ready to battle!")
-                break
+def display_round_intro(gym_round, gym_leader_pokemon, selected_pokemon, character):
+    print(f"\n❗️Round {gym_round} ❗\n")
+    print(f"Event pokemon status: {gym_leader_pokemon[0]}(HP: {gym_leader_pokemon[1]['currentHP']})\n")
+    print(f"{character['Character Name']}'s pokemon status: {selected_pokemon[0]}"
+          f"(HP: {character['Poke Ball'][selected_pokemon[0]]['currentHP']})\n")
 
-            if process_result:
-                process_result = get_attacked(gym_leader_pokemon, "Gym Leader", character, selected_pokemon)
-                if not process_result:
-                    print(f"\nGym Leader: You lost in round {gym_round}.\n")
-                    if is_alive(character):
-                        selected_pokemon = take_out_pokemon(character['Poke Ball'])
-                        gym_round += 1
-                    else:
-                        break
-            else:
-                current_win_count += 1
-                gym_badge_earned = check_badge_eligibility(character, current_win_count, gym_badge_earned)
-                gym_round += 1
-                gym_leader_pokemon = get_event_pokemon(character)
-    return gym_badge_earned
+
+def handle_user_choice(user_choice, process_result, selected_pokemon, gym_leader_pokemon, character):
+    stop_process = False
+    if user_choice == fight:
+        process_result = fight(selected_pokemon, gym_leader_pokemon, character, "Gym Leader")
+    elif user_choice == change_pokemon:
+        selected_pokemon = change_pokemon(character['Poke Ball'], selected_pokemon)
+    elif user_choice == "Run Away":
+        print("\nGym Leader: Running away, huh? I guess today's not your day. "
+              "Come back when you're ready to battle!")
+        stop_process = True
+    return process_result, selected_pokemon, stop_process
+
+
+def check_if_alive_when_lost_the_round(gym_leader_pokemon, character, selected_pokemon, gym_round):
+    stop_process = False
+    process_result = get_attacked(gym_leader_pokemon, "Gym Leader", character, selected_pokemon)
+    if not process_result:
+        print(f"\nGym Leader: You lost in round {gym_round}.\n")
+        if is_alive(character):
+            selected_pokemon = take_out_pokemon(character['Poke Ball'])
+            gym_round += 1
+        else:
+            stop_process = True
+    return process_result, selected_pokemon, gym_round, stop_process
+
+
+def win_the_round(current_win_count, character, gym_badge_earned, gym_round):
+    current_win_count += 1
+    gym_badge_earned = check_badge_eligibility(character, current_win_count, gym_badge_earned)
+    gym_round += 1
+    gym_leader_pokemon = get_event_pokemon(character)
+    return current_win_count, gym_badge_earned, gym_round, gym_leader_pokemon
 
 
 def evolve_pokemon(character: dict):
@@ -1225,8 +1258,8 @@ def main():
     """
     Drive the program.
     """
-    game()
-    # test_gym()
+    # game()
+    test_gym()
 
 
 if __name__ == "__main__":
