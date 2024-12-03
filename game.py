@@ -950,7 +950,24 @@ def check_status(character_pokemon: tuple) -> bool:
     return status
 
 
-def get_attacked(event_pokemon_info, event_type, character, character_pokemon):
+def get_attacked(event_pokemon_info: tuple, event_type: str, character: dict, character_pokemon: tuple) -> bool:
+    """
+    Check if the user's Pokémon has fainted and the event is over.
+
+    :param event_pokemon_info: a tuple containing the event Pokémon's name and a dictionary with its type and current HP
+    :param event_type: a string that represents what kind of event occurs
+    :param character: a dictionary containing information about the character's status
+    :param character_pokemon: a tuple containing the user Pokémon's name and a dictionary with its type and current HP
+    :precondition: the user Pokémon must have an HP greater than 0 in the character_pokemon
+    :precondition: character_pokemon represents the status of one of the user's Pokémon in battle
+    :precondition: the event Pokémon must have an HP greater than 0 in the event_pokemon_info
+    :precondition: the user Pokémon must have an HP greater than 0 in the character_pokemon
+    :precondition: character_pokemon represents the status of one of the user's Pokémon in battle
+    :postcondition: set up the skill the event Pokémon will use to attack
+    :postcondition: check if the event Pokémon's skill hit
+    :postcondition: check the status of user's Pokémon
+    :return: a boolean value, false if the event is over due to the user's Pokémon fainting, true otherwise
+    """
     skill_collection = get_skill_of(event_pokemon_info[1]['type'])
     event_pokemon_skill = random.choices(list(skill_collection), k=1)[0]
     damage = int(make_damage_stronger(event_type, character['Current Level']) *
@@ -968,7 +985,17 @@ def get_attacked(event_pokemon_info, event_type, character, character_pokemon):
     return check_status(character_pokemon)
 
 
-def describe_event(event_type, character):
+def describe_event(event_type: str, character: dict) -> tuple:
+    """
+    Identify the event that has occurred.
+
+    :param event_type: a string that represents what kind of event occurs
+    :param character: a dictionary containing information about the character's status
+    :precondition: event_type must be either wild Pokémon, Team Rocket or Strange trainer
+    :postcondition: set up information about a random event Pokémon
+    :postcondition: display what event has occurred
+    :return: a tuple containing the event Pokémon's name and a dictionary containing its type and current HP
+    """
     event_pokemon_info = get_event_pokemon(character)
     if event_type == "wildPokemon":
         print(f"\nA wild {event_pokemon_info[0]} appeared!\n")
@@ -978,8 +1005,17 @@ def describe_event(event_type, character):
     return event_pokemon_info
 
 
-def event_occurred(character):
-    # docstrings
+def event_occurred(character: dict) -> None:
+    """
+    Handle an event.
+    :param character: a dictionary containing information about the character's status
+    :postcondition: check if an event has occurred
+    :postcondition: set up an event Pokémon and the user's Pokémon for battle if an event has occurred
+    :postcondition: get the user's choice of which option the user wants
+    :postcondition: execute a function tailored the user choice
+    :postcondition: get attacked from the event Pokémon if the event Pokémon is not defeated
+    :postcondition: check if the user Pokémon fainted
+    """
     event_type = set_event_type()
     process_result = True
 
@@ -989,7 +1025,6 @@ def event_occurred(character):
         character_pokemon = take_out_pokemon(character['Poke Ball'])
 
         while process_result:
-            # Check HP part I would like put like character_pokemon[1]['currentHP']
             print(f"\n{character['Character Name']}'s pokemon status: {character_pokemon[0]}"
                   f"(HP: {character['Poke Ball'][character_pokemon[0]]['currentHP']})\n")
 
@@ -1006,11 +1041,25 @@ def event_occurred(character):
             if process_result:
                 process_result = get_attacked(event_pokemon_info, event_type, character, character_pokemon)
     else:
-        print("\nNo event is occurred.")
-        print("\n------------------------------------------\n")
+        print("\nNo event is occurred.\n------------------------------------------\n")
 
 
-def get_user_choice(character, board, rows, columns):
+def get_user_choice(character: dict, board: dict, rows: int, columns: int) -> int:
+    """
+    Get the user's choice of direction to move or check the user's status.
+
+    :param character: a dictionary containing information about the character's status
+    :param board: a dictionary representing the game board
+    :param rows: a positive integer representing number of rows of the game board
+    :param columns: a positive integer representing number of columns of the game board
+    :precondition: board is a dictionary representing the game board
+    :precondition: character is a dictionary representing character's info, including their current location
+    :precondition: rows is an integer greater than 0
+    :precondition: columns is an integer greater than 0
+    :postcondition: get the user's choice of which direction to move or check the user's status
+    :postcondition: display the user's status if the user choose number 5
+    :return: an integer that represents which direction the user wants to move
+    """
     while True:
         print("\n1. Up  2. Down  3. Left  4. Right  5. Check status")
         user_choice = check_input_is_digit("What number would you like to choose (Enter number)? ")
