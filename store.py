@@ -75,7 +75,8 @@ def use_potion(character: dict, character_pokemon: tuple) -> None:
         user_answer = input("\nWould you like to use a potion (y/n)? ").lower()
         while user_answer not in ('y', 'n'):
             print(f"\n{user_answer} is not a valid option")
-            user_answer = input("Please choose a valid option (y/n): ").lower()
+            user_answer = input("Please choose a valid "
+                                "option (y/n): ").lower()
 
         if user_answer == 'y':
             pokemon_maximum_hp = level_maximum_hp(character['Current Level'])
