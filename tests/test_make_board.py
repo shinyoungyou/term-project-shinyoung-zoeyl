@@ -1,5 +1,6 @@
 from unittest import TestCase
 
+
 from board import make_board
 
 
