@@ -1,6 +1,7 @@
 import itertools
 import random
 import copy
+from typing import Callable, Union
 from constants import POTION_PRICE
 
 
@@ -542,7 +543,7 @@ def change_pokemon(pokeball: dict, character_pokemon: tuple):
     """
     Switch the user's current Pokémon to another one chosen by the user during the Pokémon battle.
 
-    :param pokeball: a dictionary containing information about Pokémon caught by the user
+    :param pokeball: a dictionary containing information about Pokémon the user has
     :param character_pokemon: a tuple containing the user Pokémon's name and a dictionary with its type and current HP
     :precondition: pokeball should contain Pokémon's name, and their type and current hp
     :precondition: the user Pokémon must have an HP greater than 0 in the character_pokemon
@@ -708,12 +709,28 @@ def throw_poke_ball(event_pokemon_info: tuple, character: dict) -> bool:
     return process_result
 
 
-def set_event_type():
+def set_event_type() -> Union[str, bool]:
+    """
+    Determine what kind of event has occurred.
+
+    :postcondition: choose a random event type
+    :return: a string representing the type of event if an event has occurred
+    :return: a boolean value, false if no event has occurred
+    """
     event_collection = ("wildPokemon", "Team Rocket", "Strange trainer", False)
     return random.choices(event_collection, weights=[18, 5, 7, 3], k=1)[0]
 
 
-def get_event_pokemon(character):
+def get_event_pokemon(character: dict) -> tuple:
+    """
+    Set up an event Pokémon.
+
+    :param character: a dictionary containing information about the character's status
+    :precondition: character has a value about 'Current Level' key and 'Poke Ball' key
+    :postcondition: get the event Pokémon collection tailored to current user's level
+    :postcondition: get a random event Pokémon from the event Pokémon collection
+    :return: a tuple representing information about the random event Pokémon
+    """
     event_pokemon_collection = event_pokemon(character["Current Level"])
 
     while True:
@@ -722,7 +739,15 @@ def get_event_pokemon(character):
             return event_pokemon_info
 
 
-def take_out_pokemon(character_pokemons):
+def take_out_pokemon(character_pokemons: dict) -> tuple:
+    """
+    Set up a user's Pokémon for battle
+
+    :param character_pokemons: a dictionary containing information about Pokémon the user has
+    :precondition: pokeball should contain Pokémon's name, and its type and current hp
+    :postcondition: choose a random user's Pokémon that has HP greater than 0 from the character_pokemons
+    :return: a tuple containing the random user's Pokémon's name, type, and HP
+    """
     player_pokemon = random.choice(list(character_pokemons.items()))
     while player_pokemon[1]['currentHP'] == 0:
         player_pokemon = random.choice(list(character_pokemons.items()))
@@ -730,7 +755,16 @@ def take_out_pokemon(character_pokemons):
     return player_pokemon
 
 
-def get_skill_of(pokemon_type):
+def get_skill_of(pokemon_type: str) -> list:
+    """
+    Provide skills that can be used based on the Pokémon's type.
+
+    :param pokemon_type: a string representing the type of Pokémon
+    :precondition: pokemon_type must be one of Water, Fire, Grass, Electric, Flying, Ice, or Rock
+    :postcondition: set up skill collections based on Pokémon's type
+    :postcondition: get skills base on the Pokémon's type
+    :return: a list containing skills the Pokémon of the given pokemon_type can use
+    """
     skills_of = {
         'water': [
             {'name': 'Tackle', 'damage': (1, 3)},
@@ -772,7 +806,20 @@ def get_skill_of(pokemon_type):
     return skills_of[pokemon_type]
 
 
-def customize_user_options(event_type, gym_round=None):
+def customize_user_options(event_type: str, gym_round: Union[int, None] = None) -> list:
+    """
+    Add an option to the user's options tailored to the event type.
+
+    :param event_type: a string that represents what kind of event occurs
+    :param gym_round: an integer representing the number of games played
+    :param gym_round: None if the event_type is not "Gym Leader"
+    :precondition: event_type must be either wild Pokémon, Team Rocket, Gym Leader or Strange trainer
+    :precondition: gym_round must be greater than 0 if its type is an integer
+    :postcondition: add "Run Away" option if gym_round is greater than 2
+    :postcondition: add use_potion option if event_type is not "Gym Leader"
+    :postcondition: add throw_poke_ball and "Run Away" options if event_type is 'wildPokemon'
+    :return: a list containing the options the user can choose
+    """
     character_option = [fight, change_pokemon]
     if event_type == 'Gym Leader':
         if gym_round > 2:
@@ -784,7 +831,20 @@ def customize_user_options(event_type, gym_round=None):
     return character_option
 
 
-def select_event_option(event_type, gym_round=None):
+def select_event_option(event_type: str, gym_round: Union[int, None] = None) -> Union[Callable[[], None], str]:
+    """
+    Decide what to do when an event occurs.
+
+    :param event_type: a string that represents what kind of event occurs
+    :param gym_round: an integer representing the number of games played
+    :param gym_round: None if the event_type is not "Gym Leader"
+    :precondition: gym_round must be greater than 0 if its type is an integer
+    :precondition: event_type must be either wild Pokémon, Team Rocket, Gym Leader or Strange trainer
+    :postcondition: display the options the user can choose from
+    :postcondition: get the user's choice of which option the user wants
+    :return: a function that represents the option the user wants to do
+    :return: a string representing the user's intention to escape the event
+    """
     character_option = customize_user_options(event_type, gym_round)
 
     for number, option in enumerate(character_option):
@@ -798,7 +858,26 @@ def select_event_option(event_type, gym_round=None):
         print(f"\nInvalid choice! Please enter a number between 1 and {len(character_option)}.")
 
 
-def proceed_event_option(user_choice, character_pokemon, character, event_pokemon_info, event_type):
+def proceed_event_option(user_choice: Union[Callable[[], None], str], character_pokemon: tuple, character: dict,
+                         event_pokemon_info: tuple, event_type: str) -> bool:
+    """
+    Execute the function corresponding to the user's selected option.
+
+    :param user_choice: a function that represents the option the user wants to do
+    :param user_choice: a string representing the user's intention to escape the event
+    :param character_pokemon: a tuple containing the user Pokémon's name and a dictionary with its type and current hp
+    :param character: a dictionary containing information about the character's status
+    :param event_pokemon_info: a tuple containing the event Pokémon's name and a dictionary with its type and current hp
+    :param event_type: a string that represents what kind of event occurs
+    :precondition: the user Pokémon must have an HP greater than 0 in the character_pokemon
+    :precondition: the event Pokémon must have an HP greater than 0 in the event_pokemon_info
+    :precondition: character_pokemon represents the status of one of the user's Pokémon in battle
+    :precondition: event_type must be either wild Pokémon, Team Rocket, Gym Leader or Strange trainer
+    :precondition: user_choice must be either fight, throw_poke_ball, change_pokemon, "Run Away", or use_potion
+    :postcondition: execute the function corresponding to the user's selected option
+    :postcondition: finish the event if user_choice is "Run Away"
+    :return: a boolean value, false if the event has finished, true otherwise
+    """
     if user_choice == fight:
         process_result = fight(character_pokemon, event_pokemon_info, character, event_type)
     elif user_choice == throw_poke_ball:
@@ -809,7 +888,15 @@ def proceed_event_option(user_choice, character_pokemon, character, event_pokemo
     return process_result
 
 
-def get_stronger_collection(character_level):
+def get_stronger_collection(character_level: int) -> tuple:
+    """
+    Provide stronger number collection based on the user's level.
+
+    :param character_level: an integer that represents user's current level
+    :precondition: character_level must be a number between 1 and 3
+    :postcondition: retrieve a collection of values showing the increase in the event Pokémon's skill damage
+    :return: a tuple containing values representing the potential increase in the event Pokémon's skill damage
+    """
     if character_level == 1:
         stronger_collection = (1, 1.3, 1.4, 1.5)
     elif character_level == 2:
@@ -820,7 +907,17 @@ def get_stronger_collection(character_level):
     return stronger_collection
 
 
-def make_damage_stronger(event_type, character_level):
+def make_damage_stronger(event_type: str, character_level: int) -> int:
+    """
+    Determine how strong the event Pokémon skill will be based on the event_type.
+
+    :param event_type: a string that represents what kind of event occurs
+    :param character_level: an integer that represents user's current level
+    :precondition: event_type must be either wild Pokémon, Team Rocket, Gym Leader or Strange trainer
+    :precondition: character_level must be a number between 1 and 3
+    :postcondition: get the corresponding tuple index value based on the event type
+    :return: an integer representing how much stronger the event Pokémon's skill becomes
+    """
     stronger_collection = get_stronger_collection(character_level)
 
     if event_type == 'Team Rocket':
@@ -835,7 +932,15 @@ def make_damage_stronger(event_type, character_level):
     return stronger
 
 
-def check_status(character_pokemon):
+def check_status(character_pokemon: tuple) -> bool:
+    """
+    Check if the user's Pokémon has fainted.
+
+    :param character_pokemon: a tuple containing the user Pokémon's name and a dictionary with its type and current hp
+    :precondition: character_pokemon represents the status of one of the user's Pokémon in battle
+    :postcondition: check the status of user's Pokémon
+    :return: a boolean value, false if the user's Pokémon has fainted, true otherwise
+    """
     if character_pokemon[1]['currentHP'] <= 0:
         character_pokemon[1]['currentHP'] = 0
         print(f"{character_pokemon[0]} fainted!")
