@@ -985,7 +985,17 @@ def get_attacked(event_pokemon_info: tuple, event_type: str, character: dict, ch
     return check_status(character_pokemon)
 
 
-def describe_event(event_type, character):
+def describe_event(event_type: str, character: dict) -> tuple:
+    """
+    Identify the event that has occurred.
+
+    :param event_type: a string that represents what kind of event occurs
+    :param character: a dictionary containing information about the character's status
+    :precondition: event_type must be either wild Pokémon, Team Rocket or Strange trainer
+    :postcondition: set up information about a random event Pokémon
+    :postcondition: display what event has occurred
+    :return: a tuple containing the event Pokémon's name and a dictionary containing its type and current HP
+    """
     event_pokemon_info = get_event_pokemon(character)
     if event_type == "wildPokemon":
         print(f"\nA wild {event_pokemon_info[0]} appeared!\n")
