@@ -38,10 +38,10 @@ class TestCheckInputIsDigit(TestCase):
         actual = mock_output.getvalue()
         self.assertIn(expected, actual)
 
-    @patch('builtins.input', side_effect=['abc', 'python', '', '3'])
+    @patch('builtins.input', side_effect=['abc', 'python', 'java', '', '3'])
     @patch('sys.stdout', new_callable=io.StringIO)
     def test_check_input_is_digit_inputs_include_empty_string(self, mock_output, _):
-        expected = "Invalid input! Please enter a valid number: \n" * 3
+        expected = "Invalid input! Please enter a valid number: \n" * 4
         check_input_is_digit("Enter the number of potions to purchase: ")
         actual = mock_output.getvalue()
         self.assertIn(expected, actual)

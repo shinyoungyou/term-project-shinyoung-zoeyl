@@ -12,6 +12,16 @@ def make_board(level: int) -> (dict, int, int):
     :return: a tuple of dictionary representing the game board,
             an integer for the number of rows,
             and an integer for the number of columns
+
+    >>> test_board, test_rows, test_columns = make_board(1)
+    >>> test_board[(5, 5)], test_board[(2, 2)], test_board[(1, 0)], test_board[(0, 1)]
+    ('Gym', 'Store', False, True)
+    >>> test_board, test_rows, test_columns = make_board(2)
+    >>> test_board[(7, 4)], test_board[(2, 2)], test_board[(1, 0)], test_board[(0, 1)]
+    ('Gym', 'Store', True, False)
+    >>> test_board, test_rows, test_columns = make_board(3)
+    >>> test_board[(9, 0)], test_board[(2, 2)], test_board[(1, 0)], test_board[(0, 1)]
+    ('Gym', 'Store', True, False)
     """
     board = {}
 
@@ -25,7 +35,7 @@ def make_board(level: int) -> (dict, int, int):
     }
 
     if level not in level_config:
-        return board
+        return board, 0, 0
 
     rows, columns, is_accessible, gym_location, store_location = level_config[level]
 
