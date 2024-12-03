@@ -1,7 +1,7 @@
 import itertools
 import random
 import copy
-from typing import Union
+from typing import Callable, Union
 from constants import POTION_PRICE
 
 
@@ -831,7 +831,19 @@ def customize_user_options(event_type: str, gym_round: Union[int, None] = None) 
     return character_option
 
 
-def select_event_option(event_type, gym_round=None):
+def select_event_option(event_type: str, gym_round: Union[int, None] = None) -> Callable[[], None]:
+    """
+    Decide what to do when an event occurs.
+
+    :param event_type: a string that represents what kind of event occurs
+    :param gym_round: an integer representing the number of games played
+    :param gym_round: None if the event_type is not "Gym Leader"
+    :precondition: gym_round must be greater than 0 if its type is an integer
+    :precondition: event_type must be either wild Pokémon, Team Rocket, Gym Leader or Strange trainer
+    :postcondition: display the options the user can choose from
+    :postcondition: get the user's choice of which option the user wants
+    :return: a function that represents the option the user wants to do
+    """
     character_option = customize_user_options(event_type, gym_round)
 
     for number, option in enumerate(character_option):
