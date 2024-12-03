@@ -182,8 +182,8 @@ def encounter_store(character: dict):
     """
     Give user with options between buy or use potion, or quit the store.
 
-    :param character: a dictionary containing the character's details, including 'Money', 'Poke Ball'
-    :precondition: character is a dictionary representing the character
+    :param character: a dictionary representing the character
+    :precondition: character is a dictionary containing the character's details, including 'Money', 'Poke Ball'
     :postcondition: executes selected option between buy potion, use potion, or quit
     """
     actions = {
@@ -1185,7 +1185,15 @@ def has_six_pokemons(character: dict) -> bool:
     return not more
 
 
-def encounter_gym(character):
+def encounter_gym(character: dict) -> bool:
+    """
+    Ask user to choose whether to challenge or quit.
+
+    :param character: a dictionary representing character's info
+    :precondition: character is a dictionary containing the character's details
+    :postcondition: proceeds the gym battle if user chose to challenge
+    :return: True if the user earned a gym badge as a result of the battle, otherwise False
+    """
     gym_badge_earned = False
 
     while True:
@@ -1203,10 +1211,16 @@ def encounter_gym(character):
     return gym_badge_earned
 
 
-def battle_with_gym_leader(character, gym_badge_earned):
+def battle_with_gym_leader(character: dict, gym_badge_earned: bool) -> bool:
     """
-    handle the gtm battle.
+    Handle the gym battle between the user and the gym leader.
 
+    :param character: a dictionary representing character's info
+    :param gym_badge_earned: a boolean representing if the user earned a gym badge
+    :precondition: character is a dictionary containing the character's details
+    :precondition: gym_badge_earned is True if the user earned a gym badge, otherwise False
+    :postcondition: checks if the user earned a gym badge as a result of the battle
+    :return: True if the user earned a gym badge, otherwise False
     """
     current_win_count, prev_round, gym_round, selected_pokemon, gym_leader_pokemon = initialize_battle(character)
     while prev_round != gym_round and is_alive(character) and not gym_badge_earned:
@@ -1233,7 +1247,15 @@ def battle_with_gym_leader(character, gym_badge_earned):
     return gym_badge_earned
 
 
-def initialize_battle(character):
+def initialize_battle(character: dict) -> (int, int, int, dict, dict):
+    """
+    Initiate the gym battle.
+
+    :param character: a dictionary including character's details such as their pokèmons
+    :precondition: character is a dictionary which has 'Poke Ball' key, and other character's details
+    :postcondition: sets up the initial state for a gym battle
+    :return: a tuple representing the initial state for a gym battle
+    """
     current_win_count = 0
     prev_round = 0
     gym_round = 1
