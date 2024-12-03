@@ -424,6 +424,12 @@ def check_status(character_pokemon: tuple) -> bool:
     :precondition: character_pokemon represents the status of one of the user's Pokémon in battle
     :postcondition: check the status of user's Pokémon
     :return: a boolean value, false if the user's Pokémon has fainted, true otherwise
+
+    >>> check_status(('Marshtomp', {'type': 'water', 'currentHP': 50}))
+    True
+    >>> check_status(('Totodile', {'type': 'water', 'currentHP': 0}))
+    Totodile fainted!
+    False
     """
     if character_pokemon[1]['currentHP'] <= 0:
         character_pokemon[1]['currentHP'] = 0
