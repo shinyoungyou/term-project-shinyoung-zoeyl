@@ -890,7 +890,7 @@ def proceed_event_option(user_choice: Union[Callable[[], None], str], character_
 
 def get_stronger_collection(character_level: int) -> tuple:
     """
-    Determine how strong the event Pokémon will be based on the user's level.
+    Provide stronger number collection based on the user's level.
 
     :param character_level: an integer that represents user's current level
     :precondition: character_level must be a number between 1 and 3
@@ -907,7 +907,17 @@ def get_stronger_collection(character_level: int) -> tuple:
     return stronger_collection
 
 
-def make_damage_stronger(event_type, character_level):
+def make_damage_stronger(event_type: str, character_level: int) -> int:
+    """
+    Determine how strong the event Pokémon skill will be based on the event_type.
+
+    :param event_type: a string that represents what kind of event occurs
+    :param character_level: an integer that represents user's current level
+    :precondition: event_type must be either wild Pokémon, Team Rocket, Gym Leader or Strange trainer
+    :precondition: character_level must be a number between 1 and 3
+    :postcondition: get the corresponding tuple index value based on the event type
+    :return: an integer representing how much stronger the event Pokémon's skill becomes
+    """
     stronger_collection = get_stronger_collection(character_level)
 
     if event_type == 'Team Rocket':
