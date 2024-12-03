@@ -101,6 +101,18 @@ def check_potion(number_of_potion: int, character_level: int, character_pokemon:
     :precondition: number_of_potion must be 0 or greater
     :postcondition: check if the user has no potion or the user's Pokémon has full HP
     :return: a boolean value, true if the user can use a potion on the Pokémon, false otherwise
+
+    >>> test_character_pokemon = ('Squirtle', {'type': 'water', 'currentHP': 20})
+    >>> test_validation = check_potion(0, 1, test_character_pokemon)
+    <BLANKLINE>
+    You don't have any potion!
+    <BLANKLINE>
+    >>> test_validation
+    False
+    >>> test_character_pokemon = ('Squirtle', {'type': 'water', 'currentHP': 30})
+    >>> test_validation = check_potion(1, 1, test_character_pokemon)
+    >>> test_validation
+    True
     """
     validation = False
     if number_of_potion == 0:
