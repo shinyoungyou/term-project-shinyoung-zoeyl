@@ -888,7 +888,15 @@ def proceed_event_option(user_choice: Union[Callable[[], None], str], character_
     return process_result
 
 
-def get_stronger_collection(character_level):
+def get_stronger_collection(character_level: int) -> tuple:
+    """
+    Determine how strong the event Pokémon will be based on the user's level.
+
+    :param character_level: an integer that represents user's current level
+    :precondition: character_level must be a number between 1 and 3
+    :postcondition: retrieve a collection of values showing the increase in the event Pokémon's skill damage
+    :return: a tuple containing values representing the potential increase in the event Pokémon's skill damage
+    """
     if character_level == 1:
         stronger_collection = (1, 1.3, 1.4, 1.5)
     elif character_level == 2:
