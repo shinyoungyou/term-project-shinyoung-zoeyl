@@ -932,7 +932,15 @@ def make_damage_stronger(event_type: str, character_level: int) -> int:
     return stronger
 
 
-def check_status(character_pokemon):
+def check_status(character_pokemon: tuple) -> bool:
+    """
+    Check if the user's Pokémon has fainted.
+
+    :param character_pokemon: a tuple containing the user Pokémon's name and a dictionary with its type and current hp
+    :precondition: character_pokemon represents the status of one of the user's Pokémon in battle
+    :postcondition: check the status of user's Pokémon
+    :return: a boolean value, false if the user's Pokémon has fainted, true otherwise
+    """
     if character_pokemon[1]['currentHP'] <= 0:
         character_pokemon[1]['currentHP'] = 0
         print(f"{character_pokemon[0]} fainted!")
