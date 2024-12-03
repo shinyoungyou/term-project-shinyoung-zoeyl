@@ -14,8 +14,7 @@ class TestIsAlive(TestCase):
                      'Shinx': {'type': 'electric', 'currentHP': 0},
                      'Mareep': {'type': 'electric', 'currentHP': 0},
                      'Caterpie': {'type': 'grass', 'currentHP': 0},
-                     'Weedle': {'type': 'grass', 'currentHP': 0},
-                 }}
+                     'Weedle': {'type': 'grass', 'currentHP': 0}}}
         actual = is_alive(character)
         self.assertEqual(expected, actual)
 
@@ -27,8 +26,7 @@ class TestIsAlive(TestCase):
                      'Shinx': {'type': 'electric', 'currentHP': 0},
                      'Mareep': {'type': 'electric', 'currentHP': 0},
                      'Caterpie': {'type': 'grass', 'currentHP': 0},
-                     'Weedle': {'type': 'grass', 'currentHP': 0},
-                 }}
+                     'Weedle': {'type': 'grass', 'currentHP': 0}}}
         actual = is_alive(character)
         self.assertEqual(expected, actual)
 
@@ -40,8 +38,7 @@ class TestIsAlive(TestCase):
                      'Shinx': {'type': 'electric', 'currentHP': 10},
                      'Mareep': {'type': 'electric', 'currentHP': 0},
                      'Caterpie': {'type': 'grass', 'currentHP': 0},
-                     'Weedle': {'type': 'grass', 'currentHP': 0},
-                 }}
+                     'Weedle': {'type': 'grass', 'currentHP': 0}}}
         actual = is_alive(character)
         self.assertEqual(expected, actual)
 
@@ -53,8 +50,7 @@ class TestIsAlive(TestCase):
                      'Shinx': {'type': 'electric', 'currentHP': 10},
                      'Mareep': {'type': 'electric', 'currentHP': 10},
                      'Caterpie': {'type': 'grass', 'currentHP': 10},
-                     'Weedle': {'type': 'grass', 'currentHP': 0},
-                 }}
+                     'Weedle': {'type': 'grass', 'currentHP': 0}}}
         actual = is_alive(character)
         self.assertEqual(expected, actual)
 
@@ -66,8 +62,7 @@ class TestIsAlive(TestCase):
                      'Shinx': {'type': 'electric', 'currentHP': 10},
                      'Mareep': {'type': 'electric', 'currentHP': 10},
                      'Caterpie': {'type': 'grass', 'currentHP': 10},
-                     'Weedle': {'type': 'grass', 'currentHP': 10},
-                 }}
+                     'Weedle': {'type': 'grass', 'currentHP': 10}}}
         actual = is_alive(character)
         self.assertEqual(expected, actual)
 
