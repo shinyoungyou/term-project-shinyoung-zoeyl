@@ -367,6 +367,39 @@ def level_up(character: dict[str, Any]):
     :param character: a dictionary including character's info, such as current level, and other related details
     :preconditoin: character is a dictionary including 'Current Level', 'Money', and other related details
     :postcondition: updates the character's information according to their next level
+
+    >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
+    ...                   'Current Location': (5, 5),
+    ...                   'Starting Pokemon': 'Squirtle',
+    ...                   'Poke Ball': {
+    ...                       'Squirtle': {'type': 'water', 'currentHP': 40},
+    ...                       'Pichu': {'type': 'electric', 'currentHP': 30},
+    ...                       'Shinx': {'type': 'electric', 'currentHP': 30},
+    ...                       'Mareep': {'type': 'electric', 'currentHP': 30},
+    ...                       'Caterpie': {'type': 'grass', 'currentHP': 30},
+    ...                       'Weedle': {'type': 'grass', 'currentHP': 30},
+    ...                   }}
+    >>> level_up(test_character)
+    <BLANKLINE>
+    Squirtle has evolved into Wartortle!
+    You've leveled up to 2!
+    <BLANKLINE>
+     >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 2, 'Potion': 0,
+     ...                  'Current Location': (7, 4),
+     ...                  'Starting Pokemon': 'Wartortle',
+     ...                  'Poke Ball': {
+     ...                      'Wartortle': {'type': 'water', 'currentHP': 65},
+     ...                      'Luxray': {'type': 'electric', 'currentHP': 80},
+     ...                      'Ampharos': {'type': 'electric', 'currentHP': 80},
+     ...                      'Butterfree': {'type': 'grass', 'currentHP': 80},
+     ...                      'Beedrill': {'type': 'grass', 'currentHP': 80},
+     ...                      'Sceptile': {'type': 'grass', 'currentHP': 80},
+     ...                  }}
+    >>> level_up(test_character)
+    <BLANKLINE>
+    Wartortle has evolved into Blastoise!
+    You've leveled up to 3!
+    <BLANKLINE>
     """
     character['Current Level'] += 1
     evolve_pokemon(character)
