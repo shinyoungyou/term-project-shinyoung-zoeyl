@@ -51,6 +51,11 @@ def level_maximum_hp(character_level: int) -> int:
     :precondition: character_level must be a number between 1 and 3
     :postcondition: set up the maximum hp based on the user's level
     :return: an integer that represents the maximum hp based on the character_level
+
+    >>> level_maximum_hp(3)
+    100
+    >>> level_maximum_hp(1)
+    40
     """
     if character_level == 1:
         maximum_hp = 40
