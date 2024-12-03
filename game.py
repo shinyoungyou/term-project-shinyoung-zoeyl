@@ -1335,7 +1335,8 @@ def display_round_intro(gym_round: int, gym_leader_pokemon: (str, dict[str, Any]
 
 
 def handle_user_choice(user_choice: Callable | str, process_result: bool, selected_pokemon: (str, dict[str, Any]),
-                       gym_leader_pokemon: (str, dict[str, Any]), character: dict[str, Any]):
+                       gym_leader_pokemon: (str, dict[str, Any]), character: dict[str, Any])\
+                    -> (bool, (str, dict[str, Any]), bool):
     """
     Ask user to fight, change their pokèmon, or run away.
 
@@ -1349,8 +1350,8 @@ def handle_user_choice(user_choice: Callable | str, process_result: bool, select
     :precondition: selected_pokemon is a tuple including a string and a dictionary
     :precondition: gym_leader_pokemon is a tuple including a string and a dictionary
     :precondition: character is a dictionary which has 'Poke Ball' key and other character's details
-    :postcondition: passes the updated gym battle state according to the user choice
-    :return: updated gym battle state according to the user choice
+    :postcondition: updates gym battle state according to the user choice
+    :return: a tuple representing updated gym battle state according to the user choice
     """
     stop_process = False
     if user_choice == fight:
@@ -1364,7 +1365,24 @@ def handle_user_choice(user_choice: Callable | str, process_result: bool, select
     return process_result, selected_pokemon, stop_process
 
 
-def check_if_alive_when_lost_the_round(gym_leader_pokemon, character, selected_pokemon, gym_round):
+def check_if_alive_when_lost_the_round(gym_leader_pokemon: (str, dict[str, Any]), character: dict[str, Any],
+                                       selected_pokemon: (str, dict[str, Any]), gym_round: int)\
+                                    -> (bool, (str, dict[str, Any]), int, bool):
+    """
+    Check if character is still alive when they lost the round.
+
+    :param gym_leader_pokemon: a tuple including gym leader pokèmon's name, and their details
+    :param character: a dictionary representing character's details such as their name and their poke ball
+    :param selected_pokemon: a tuple including the name of randomly selected pokèmon for character, and their details
+    :param gym_round: a positive integer representing the current gym round
+    :precondition: gym_leader_pokemon is a tuple including a string and a dictionary
+    :precondition: character is a dictionary which has 'Poke Ball' key and other character's details
+    :precondition: selected_pokemon is a tuple including a string and a dictionary
+    :precondition: gym_round is an integer greater than 0
+    :postcondition: updates the gym battle state reflecting whether the user lost the round
+             and whether their pokèmon is still alive
+    :return: a tuple representing updated the gym battle state
+    """
     stop_process = False
     process_result = get_attacked(gym_leader_pokemon, "Gym Leader", character, selected_pokemon)
     if not process_result:
@@ -1377,7 +1395,18 @@ def check_if_alive_when_lost_the_round(gym_leader_pokemon, character, selected_p
     return process_result, selected_pokemon, gym_round, stop_process
 
 
-def win_the_round(current_win_count, character, gym_badge_earned, gym_round):
+def win_the_round(current_win_count: int, character: dict[str, Any], gym_badge_earned: bool, gym_round: int)\
+              -> (int, bool, int, (str, dict[str, Any])):
+    """
+    Make changes to the gym battle state as the outcome when the user wins.
+
+    :param current_win_count: a positive integer representing the current winning count
+    :param character: a dictionary including character's details
+    :param gym_badge_earned: a boolean representing if the gym badge earned
+    :param gym_round: a positive integer representing the current gym round
+    :postcondition: updates the gym battle state as the outcome when the user wins
+    :return: a tuple representing updated the gym battle state
+    """
     current_win_count += 1
     gym_badge_earned = check_badge_eligibility(character, current_win_count, gym_badge_earned)
     gym_round += 1
@@ -1385,12 +1414,12 @@ def win_the_round(current_win_count, character, gym_badge_earned, gym_round):
     return current_win_count, gym_badge_earned, gym_round, gym_leader_pokemon
 
 
-def evolve_pokemon(character: dict):
+def evolve_pokemon(character: dict[str, Any]):
     """
     Evolve character's starting pokèmon based on the character's level.
 
     :param character: a dictionary including character's info such as their poke ball and starting pokèmon
-    :precondition: character is a dictionary including 'Poke Ball', 'Starting Pokemon' keys
+    :precondition: character is a dictionary including 'Poke Ball', 'Starting Pokemon' keys, and other details for them
     :postcondition: handles starting pokèmon evolution according to the character's level
     """
     evolution_map = {
