@@ -213,11 +213,34 @@ def handle_user_choice(user_choice: str, process_result: bool, selected_pokemon:
     :precondition: character is a dictionary which has 'Poke Ball' key and other character's details
     :postcondition: updates gym battle state according to the user choice
     :return: a tuple representing updated gym battle state according to the user choice
+
+    >>> test_user_choice = "Run Away"
+    >>> test_process_result = False
+    >>> test_selected_pokemon = ('Squirtle', {'type': 'water', 'currentHP': 40})
+    >>> test_gym_leader_pokemon = ('Weedle', {'type': 'grass', 'currentHP': 30})
+    >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
+    ...             'Current Location': (5, 5),
+    ...             'Starting Pokemon': 'Squirtle',
+    ...             'Poke Ball': {
+    ...                 'Squirtle': {'type': 'water', 'currentHP': 40},
+    ...                 'Pichu': {'type': 'electric', 'currentHP': 30},
+    ...                 'Shinx': {'type': 'electric', 'currentHP': 30},
+    ...                 'Mareep': {'type': 'electric', 'currentHP': 30},
+    ...                 'Caterpie': {'type': 'grass', 'currentHP': 30},
+    ...                 'Weedle': {'type': 'grass', 'currentHP': 30},
+    ...             }}
+    >>> updated_state = handle_user_choice(test_user_choice, test_process_result, test_selected_pokemon,
+    ... test_gym_leader_pokemon, test_character)
+    <BLANKLINE>
+    Gym Leader: Running away, huh? I guess today's not your day. Come back when you're ready to battle!
+    >>> stop_process = updated_state[2]
+    >>> stop_process
+    True
     """
     stop_process = False
-    if user_choice == fight:
+    if user_choice == "Fight":
         process_result = fight(selected_pokemon, gym_leader_pokemon, character, "Gym Leader")
-    elif user_choice == change_pokemon:
+    elif user_choice == "Change Pokemon":
         selected_pokemon = change_pokemon(character['Poke Ball'], selected_pokemon)
     elif user_choice == "Run Away":
         print("\nGym Leader: Running away, huh? I guess today's not your day. "
@@ -282,6 +305,39 @@ def evolve_pokemon(character: dict[str, Any]):
     :param character: a dictionary including character's info such as their poke ball and starting pokèmon
     :precondition: character is a dictionary including 'Poke Ball', 'Starting Pokemon' keys, and other details for them
     :postcondition: handles starting pokèmon evolution according to the character's level
+
+    >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 2, 'Potion': 0,
+    ...             'Current Location': (5, 5),
+    ...             'Starting Pokemon': 'Squirtle',
+    ...             'Poke Ball': {
+    ...                 'Squirtle': {'type': 'water', 'currentHP': 40},
+    ...                 'Pichu': {'type': 'electric', 'currentHP': 30},
+    ...                 'Shinx': {'type': 'electric', 'currentHP': 30},
+    ...                 'Mareep': {'type': 'electric', 'currentHP': 30},
+    ...                 'Caterpie': {'type': 'grass', 'currentHP': 30},
+    ...                 'Weedle': {'type': 'grass', 'currentHP': 30},
+    ...             }}
+    >>> evolve_pokemon(test_character)
+    <BLANKLINE>
+    Squirtle has evolved into Wartortle!
+    >>> test_character['Starting Pokemon']
+    'Wartortle'
+    >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 3, 'Potion': 0,
+    ...             'Current Location': (5, 5),
+    ...             'Starting Pokemon': 'Wartortle',
+    ...             'Poke Ball': {
+    ...                 'Squirtle': {'type': 'water', 'currentHP': 40},
+    ...                 'Pichu': {'type': 'electric', 'currentHP': 30},
+    ...                 'Shinx': {'type': 'electric', 'currentHP': 30},
+    ...                 'Mareep': {'type': 'electric', 'currentHP': 30},
+    ...                 'Caterpie': {'type': 'grass', 'currentHP': 30},
+    ...                 'Weedle': {'type': 'grass', 'currentHP': 30},
+    ...             }}
+    >>> evolve_pokemon(test_character)
+    <BLANKLINE>
+    Wartortle has evolved into Blastoise!
+    >>> test_character['Starting Pokemon']
+    'Blastoise'
     """
     evolution_map = {
         'Squirtle': 'Wartortle',
@@ -311,6 +367,39 @@ def level_up(character: dict[str, Any]):
     :param character: a dictionary including character's info, such as current level, and other related details
     :preconditoin: character is a dictionary including 'Current Level', 'Money', and other related details
     :postcondition: updates the character's information according to their next level
+
+    >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
+    ...                   'Current Location': (5, 5),
+    ...                   'Starting Pokemon': 'Squirtle',
+    ...                   'Poke Ball': {
+    ...                       'Squirtle': {'type': 'water', 'currentHP': 40},
+    ...                       'Pichu': {'type': 'electric', 'currentHP': 30},
+    ...                       'Shinx': {'type': 'electric', 'currentHP': 30},
+    ...                       'Mareep': {'type': 'electric', 'currentHP': 30},
+    ...                       'Caterpie': {'type': 'grass', 'currentHP': 30},
+    ...                       'Weedle': {'type': 'grass', 'currentHP': 30},
+    ...                   }}
+    >>> level_up(test_character)
+    <BLANKLINE>
+    Squirtle has evolved into Wartortle!
+    You've leveled up to 2!
+    <BLANKLINE>
+     >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 2, 'Potion': 0,
+     ...                  'Current Location': (7, 4),
+     ...                  'Starting Pokemon': 'Wartortle',
+     ...                  'Poke Ball': {
+     ...                      'Wartortle': {'type': 'water', 'currentHP': 65},
+     ...                      'Luxray': {'type': 'electric', 'currentHP': 80},
+     ...                      'Ampharos': {'type': 'electric', 'currentHP': 80},
+     ...                      'Butterfree': {'type': 'grass', 'currentHP': 80},
+     ...                      'Beedrill': {'type': 'grass', 'currentHP': 80},
+     ...                      'Sceptile': {'type': 'grass', 'currentHP': 80},
+     ...                  }}
+    >>> level_up(test_character)
+    <BLANKLINE>
+    Wartortle has evolved into Blastoise!
+    You've leveled up to 3!
+    <BLANKLINE>
     """
     character['Current Level'] += 1
     evolve_pokemon(character)
