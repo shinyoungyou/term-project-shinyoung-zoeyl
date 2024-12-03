@@ -87,6 +87,17 @@ def proceed_event_option(user_choice: str, character_pokemon: tuple, character: 
     :postcondition: execute the function corresponding to the user's selected option
     :postcondition: finish the event if user_choice is "Run Away"
     :return: a boolean value, false if the event has finished, true otherwise
+
+    >>> d_user_choice = "Run Away"
+    >>> d_character_pokemon = ("Squirtle", {'type': 'water', 'currentHP': 40})
+    >>> d_character = {'Character Name': "zoey", 'Poke Ball': {'Squirtle': {'type': 'water', 'currentHP': 40}}}
+    >>> d_event_pokemon_info = ("Pichu", {'type': 'electric', 'currentHP': 30})
+    >>> d_event_type = "wildPokemon"
+    >>> proceed_event_option(d_user_choice, d_character_pokemon, d_character, d_event_pokemon_info, d_event_type)
+    <BLANKLINE>
+    You escaped from Pichu!
+    <BLANKLINE>
+    False
     """
     if user_choice == "Fight":
         process_result = fight(character_pokemon, event_pokemon_info, character, event_type)
