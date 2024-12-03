@@ -12,7 +12,7 @@ class Test(TestCase):
 
         user_choice = "Fight"
         character_pokemon = ("Squirtle", {'type': 'water', 'currentHP': 40})
-        character = {'Character Name': "user", 'Poke Ball': {'Squirtle': {'type': 'water', 'currentHP': 40}}, 'Current Level': 1}
+        character = {'Poke Ball': {'Squirtle': {'type': 'water', 'currentHP': 40}}, 'Current Level': 1}
         event_pokemon_info = ("Pichu", {'type': 'electric', 'currentHP': 30})
         event_type = "wildPokemon"
 
@@ -27,7 +27,7 @@ class Test(TestCase):
 
         user_choice = "Throw Poke Ball"
         character_pokemon = ("Squirtle", {'type': 'water', 'currentHP': 40})
-        character = {'Character Name': "user", 'Poke Ball': {'Squirtle': {'type': 'water', 'currentHP': 40}}, 'Current Level': 1}
+        character = {'Poke Ball': {'Squirtle': {'type': 'water', 'currentHP': 40}}, 'Current Level': 1}
         event_pokemon_info = ("Pichu", {'type': 'electric', 'currentHP': 30})
         event_type = "wildPokemon"
 
