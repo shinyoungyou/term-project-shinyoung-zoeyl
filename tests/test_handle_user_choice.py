@@ -1,6 +1,7 @@
 from unittest import TestCase
 from unittest.mock import patch
 
+
 from gym import handle_user_choice
 
 
