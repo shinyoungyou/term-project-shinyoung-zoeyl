@@ -111,6 +111,13 @@ def get_skill_of(pokemon_type: str) -> list:
     :postcondition: set up skill collections based on Pokémon's type
     :postcondition: get skills base on the Pokémon's type
     :return: a list containing skills the Pokémon of the given pokemon_type can use
+
+    >>> d_pokemon_type = 'water'
+    >>> get_skill_of(d_pokemon_type)  # doctest: +ELLIPSIS
+    [{'name': 'Tackle', 'damage': (1, 3)}, {'name': 'Water Gun', 'damage': (4, 5)}, ...]
+    >>> d_pokemon_type = 'grass'
+    >>> get_skill_of(d_pokemon_type)  # doctest: +ELLIPSIS
+    [{'name': 'Tackle', 'damage': (1, 3)}, {'name': 'Seed Bomb', 'damage': (4, 5)}, ...]
     """
     skills_of = {
         'water': [
