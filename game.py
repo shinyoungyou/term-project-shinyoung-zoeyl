@@ -1,9 +1,12 @@
-import itertools
 import random
 import copy
 from typing import Callable, Union, Any
-from constants import POTION_PRICE
+
+from board import display_current_location, make_board, check_current_location
+from common import check_input_is_digit
+from data import starting_pokemon_collection, get_skill_of, event_pokemon
 from gym import encounter_gym, level_up, has_six_pokemons
+from store import use_potion, encounter_store
 
 
 def set_up_game() -> dict:
@@ -42,7 +45,7 @@ def print_instructions():
     print("\nImportant notes to know before you begin:")
     print("- Stores are represented by S on the map.")
     print("- Gyms are represented by G on the map.")
-    # print("- You can catch wild pokemons by throwing pokeball when their HP is less than 11.")
+    # print("- You can catch wild pokèmons by throwing pokeball when their HP is less than 11.")
     print("- If all six of your Pokémon lose their HP, the game is over.")
     print("- You can only challenge a Gym Leader once you have a full team of six Pokémon.")
     print("- After defeating a Gym Leader, you will earn a Badge, unlocking the next level.")
@@ -51,95 +54,6 @@ def print_instructions():
     print("  - Level 2: Defeat the gym leader three times to earn a badge.")
     print("  - Level 3: Defeat the gym leader four times to earn a badge and complete the mission.")
     print("- The mission is complete when you defeat the final Gym Leader at Level 3.")
-
-
-def make_board(level: int) -> (dict, int, int):
-    """
-    Make a new game board for the given level.
-
-    :param level: an integer between 1, 2, and 3, representing the current level
-    :precondition: level is a positive integer between 1, 2, and 3
-    :postcondition: creates a dictionary of new board for the given level
-    :return: a tuple of dictionary representing the game board,
-            an integer for the number of rows,
-            and an integer for the number of columns
-    """
-    board = {}
-
-    level_config = {
-        1: (6, 6, lambda row, column: (row == 0 and column < 5) or (1 <= row <= 4 and 1 <= column <= 4) or
-                                      (row == 5 and column > 0), (5, 5), (2, 2)),
-        2: (8, 5, lambda row, column: (row == 0 and column == 0) or (1 <= row <= 6 and 0 <= column <= 4) or
-                                      (row == 7 and column == 4), (7, 4), (2, 2)),
-        3: (10, 5, lambda row, column: (row == 0 and column == 4) or (1 <= row <= 8 and 0 <= column <= 4) or
-                                       (row == 9 and column == 0), (9, 0), (2, 2)),
-    }
-
-    if level not in level_config:
-        return board
-
-    rows, columns, is_accessible, gym_location, store_location = level_config[level]
-
-    for i, j in itertools.product(range(rows), range(columns)):
-        board[(i, j)] = True if is_accessible(i, j) else False
-
-    board[gym_location] = "Gym"
-    board[store_location] = "Store"
-
-    return board, rows, columns
-
-
-def display_current_location(board: dict[(int, int), bool | str], character: dict[str, Any], rows: int, columns: int):
-    """
-    Display the current location of the game board.
-
-    :param board: a dictionary representing the game board
-    :param character: a dictionary representing the character
-    :param rows: a positive integer representing the number of rows
-    :param columns: a positive integer representing the number of columns
-    :precondition: board is a dictionary representing the game board
-    :precondition: character is a dictionary representing the character
-    :precondition: rows is a positive integers
-    :precondition: columns is a positive integers
-    :postcondition: prints the current location of character, store, and gym
-    """
-    if not board:
-        return
-
-    for i in range(rows):
-        row = ""
-        for j in range(columns):
-            location = board.get((i, j), False)
-
-            if location is False:
-                row += "    "
-            elif (i, j) == character["Current Location"]:
-                row += "[🤠]"
-            elif location == "Store":
-                row += "[💊]"
-            elif location == "Gym":
-                row += "[🥊]"
-            else:
-                row += "[  ]"
-        print(row)
-
-
-def check_current_location(board: dict[(int, int), bool | str], character: dict[str, Any]) -> bool | str:
-    """
-    Check the current location of the game board.
-
-    :param board: a dictionary representing the game board
-    :param character: a dictionary representing the character
-    :precondition: board is a dictionary representing the game board
-    :precondition: character is a dictionary representing the character
-    :postcondition: retrieves the description of current location from the board
-    :return: the description of current location between True, False, Store, and Gym
-    """
-    is_special_location = False
-    current_location = board[character["Current Location"]]
-    if current_location == "Store" or current_location == "Gym":
-        is_special_location = True
-    return is_special_location
 
 
 def is_alive(character: dict[str, Any]) -> bool:
@@ -157,49 +71,6 @@ def is_alive(character: dict[str, Any]) -> bool:
         alive = False
 
     return alive
-
-
-def check_input_is_digit(input_message: str,
-                         error_message: str = "Invalid input! Please enter a valid number: ") -> int:
-    """
-    Check if the user input is digit.
-
-    :param input_message: a string representing the input message
-    :param error_message: a string representing the error message
-    :precondition input_message: a string representing the input message
-    :precondition error_message: a string representing the error message
-    :postcondition: prompts the user until they enter a valid digit
-    :return: an integer representing valid input
-    """
-    while True:
-        user_input = input(input_message)
-        if user_input.isdigit():
-            return int(user_input)
-        else:
-            print(error_message)
-
-
-def encounter_store(character: dict[str, Any]):
-    """
-    Give user with options between buy or use potion, or quit the store.
-
-    :param character: a dictionary representing the character
-    :precondition: character is a dictionary containing the character's details, including 'Money', 'Poke Ball'
-    :postcondition: executes selected option between buy potion, use potion, or quit
-    """
-    actions = {
-        'buy': lambda: buy_potion(character),
-        'use': lambda: use_potion(character, select_pokemon(character['Poke Ball'])),
-    }
-
-    while True:
-        user_input = input("\nEnter 'buy' to buy a potion, 'use' to use a potion, or 'q' to quit: ").lower()
-        if user_input in actions:
-            actions[user_input]()
-        elif user_input == 'q':
-            break
-        else:
-            print("Invalid option. Please try again.")
 
 
 def select_pokemon(pokeball: dict) -> (str, dict):
@@ -224,60 +95,6 @@ def select_pokemon(pokeball: dict) -> (str, dict):
     return user_choice, pokeball[user_choice]
 
 
-def buy_potion(character: dict[str, Any]):
-    """
-    Calculate the change after a purchase.
-
-    :param character: a dictionary representing character, including their money
-    :precondition: character is a dictionary with a key "Money" representing the character's current budget
-    :postcondition: updates the character's money if any potion is purchased
-    """
-    print(f"\nYour budget is ${character['Money']}, and each potion price is ${POTION_PRICE}.")
-    while True:
-        number_of_potions = check_input_is_digit("Enter the number of potions to purchase: ")
-        if number_of_potions > 0:
-            break
-        print("You need to buy at least one potion.")
-
-    total_price = POTION_PRICE * number_of_potions
-    print(f"\nTotal price will be: ${total_price}")
-    budget = character["Money"]
-    change = budget - total_price
-
-    if change >= 0:
-        character["Potion"] += 1 * number_of_potions
-        print(f"Purchase successful! Your remaining budget is ${change}")
-        character["Money"] = change
-    else:
-        print("You can't buy with your current budget.")
-
-
-def starting_pokemon_collection(character_level: int) -> dict:
-    """
-    Provide a starting Pokémon collection tailored to the character_level.
-
-    :param character_level: an integer that represents user's current level
-    :precondition: character_level must be a number between 1 and 3
-    :return: a dictionary containing starting Pokémon's information tailored to the character_level
-    """
-    level1_starting_pokemon = {'Squirtle': {'type': 'water', 'currentHP': 40},
-                               'Charmander': {'type': 'fire', 'currentHP': 40},
-                               'Bulbasaur': {'type': 'grass', 'currentHP': 40}}
-
-    level2_starting_pokemon = {'Wartortle': {'type': 'water', 'currentHP': 65},
-                               'Charmeleon': {'type': 'fire', 'currentHP': 65},
-                               'Ivysaur': {'type': 'grass', 'currentHP': 65}}
-
-    level3_starting_pokemon = {'Blastoise': {'type': 'water', 'currentHP': 100},
-                               'Charizard': {'type': 'fire', 'currentHP': 100},
-                               'Venusaur': {'type': 'grass', 'currentHP': 100}}
-
-    pokemon_collection = current_pokemon_collection(character_level, level1_starting_pokemon,
-                                                    level2_starting_pokemon, level3_starting_pokemon)
-
-    return pokemon_collection
-
-
 def current_pokemon_collection(character_level: int, level1: dict, level2: dict, level3: dict) -> dict:
     """
     Decide which Pokémon collection to use based on the character_level.
@@ -299,84 +116,6 @@ def current_pokemon_collection(character_level: int, level1: dict, level2: dict,
         current_level_collection = level1
 
     return current_level_collection
-
-
-def event_pokemon(character_level: int) -> dict:
-    """
-    Provide an event Pokémon collection tailored to the character_level.
-
-    :param character_level: an integer that represents user's current level
-    :precondition: character_level must be a number between 1 and 3
-    :postcondition: set up collections of event Pokémon information tailored to the user's level
-    :postcondition: get a collection tailored to the character_level
-    :return: a dictionary containing event Pokémon's information tailored to the character_level
-    """
-    level1_pokemon = {'Pichu': {'type': 'electric', 'currentHP': 30},
-                      'Shinx': {'type': 'electric', 'currentHP': 30},
-                      'Mareep': {'type': 'electric', 'currentHP': 30},
-                      'Caterpie': {'type': 'grass', 'currentHP': 30},
-                      'Weedle': {'type': 'grass', 'currentHP': 30},
-                      'Treecko': {'type': 'grass', 'currentHP': 30},
-                      'Pidgey': {'type': 'flying', 'currentHP': 30},
-                      'Pidove': {'type': 'flying', 'currentHP': 30},
-                      'Slowpoke': {'type': 'water', 'currentHP': 30},
-                      'Horsea': {'type': 'water', 'currentHP': 30},
-                      'Mudkip': {'type': 'water', 'currentHP': 30},
-                      'Cyndaquil': {'type': 'fire', 'currentHP': 30},
-                      'Totodile': {'type': 'fire', 'currentHP': 30},
-                      'Magby': {'type': 'fire', 'currentHP': 30},
-                      'Swinub': {'type': 'ice', 'currentHP': 30},
-                      'Spheal': {'type': 'ice', 'currentHP': 30},
-                      'Vanillite': {'type': 'ice', 'currentHP': 30},
-                      'Geodude': {'type': 'rock', 'currentHP': 30},
-                      'Aron': {'type': 'rock', 'currentHP': 30},
-                      'Roggenrola': {'type': 'rock', 'currentHP': 30}}
-
-    level2_pokemon = {'Pikachu': {'type': 'electric', 'currentHP': 50},
-                      'Luxio': {'type': 'electric', 'currentHP': 50},
-                      'Flaaffy': {'type': 'electric', 'currentHP': 50},
-                      'Metapod': {'type': 'grass', 'currentHP': 50},
-                      'Kakuna': {'type': 'grass', 'currentHP': 50},
-                      'Grovyle': {'type': 'grass', 'currentHP': 50},
-                      'Pidgeotto': {'type': 'flying', 'currentHP': 50},
-                      'Tranquill': {'type': 'flying', 'currentHP': 50},
-                      'Slowbro': {'type': 'water', 'currentHP': 50},
-                      'Seadra': {'type': 'water', 'currentHP': 50},
-                      'Marshtomp': {'type': 'water', 'currentHP': 50},
-                      'Quilava': {'type': 'fire', 'currentHP': 50},
-                      'Croconaq': {'type': 'fire', 'currentHP': 50},
-                      'Magmar': {'type': 'fire', 'currentHP': 50},
-                      'Piloswine': {'type': 'ice', 'currentHP': 50},
-                      'Sealeo': {'type': 'ice', 'currentHP': 50},
-                      'Vanillish': {'type': 'ice', 'currentHP': 50},
-                      'Graveler': {'type': 'rock', 'currentHP': 50},
-                      'Lairon': {'type': 'rock', 'currentHP': 50},
-                      'Boldore': {'type': 'rock', 'currentHP': 50}}
-
-    level3_pokemon = {'Raichu': {'type': 'electric', 'currentHP': 80},
-                      'Luxray': {'type': 'electric', 'currentHP': 80},
-                      'Ampharos': {'type': 'electric', 'currentHP': 80},
-                      'Butterfree': {'type': 'grass', 'currentHP': 80},
-                      'Beedrill': {'type': 'grass', 'currentHP': 80},
-                      'Sceptile': {'type': 'grass', 'currentHP': 80},
-                      'Pidgeot': {'type': 'flying', 'currentHP': 80},
-                      'Pidove': {'type': 'flying', 'currentHP': 80},
-                      'Slowking': {'type': 'water', 'currentHP': 80},
-                      'Kingdra': {'type': 'water', 'currentHP': 80},
-                      'Swampert': {'type': 'water', 'currentHP': 80},
-                      'Typhlosion': {'type': 'fire', 'currentHP': 80},
-                      'Reraligatr': {'type': 'fire', 'currentHP': 80},
-                      'Magmortar': {'type': 'fire', 'currentHP': 80},
-                      'Mamoswine': {'type': 'ice', 'currentHP': 80},
-                      'Walrein': {'type': 'ice', 'currentHP': 80},
-                      'Vanilluxe': {'type': 'ice', 'currentHP': 80},
-                      'Golem': {'type': 'rock', 'currentHP': 80},
-                      'Aggron': {'type': 'rock', 'currentHP': 80},
-                      'Gigalith': {'type': 'rock', 'currentHP': 80}}
-    event_pokemon_collection = current_pokemon_collection(character_level, level1_pokemon,
-                                                          level2_pokemon, level3_pokemon)
-
-    return event_pokemon_collection
 
 
 def choose_skill_to_challenge(skill_collection: list, character_level: int) -> dict:
@@ -576,61 +315,6 @@ def change_pokemon(pokeball: dict, character_pokemon: tuple):
     return character_pokemon
 
 
-def check_potion(number_of_potion: int, character_level: int, character_pokemon: tuple) -> bool:
-    """
-    Check whether the user can use a potion.
-
-    :param number_of_potion: an integer representing the number of potions the user has
-    :param character_level: an integer that represents user's current level
-    :param character_pokemon: a tuple containing the user Pokémon's name and a dictionary with its type and current HP
-    :precondition: the user Pokémon must have an HP greater than 0 in the character_pokemon
-    :precondition: character_level must be a number between 1 and 3
-    :precondition: number_of_potion must be 0 or greater
-    :postcondition: check if the user has no potion or the user's Pokémon has full HP
-    :return: a boolean value, true if the user can use a potion on the Pokémon, false otherwise
-    """
-    validation = False
-    if number_of_potion == 0:
-        print("\nYou don't have any potion!\n")
-    elif character_pokemon[1]["currentHP"] == level_maximum_hp(character_level):
-        print(f"\n{character_pokemon[0]} has full HP!\n")
-    else:
-        validation = True
-    return validation
-
-
-def use_potion(character: dict, character_pokemon: tuple) -> None:
-    """
-    Restore the user's Pokémon's HP.
-
-    :param character: a dictionary containing information about the character's status
-    :param character_pokemon: a tuple containing the user Pokémon's name and a dictionary with its type and current HP
-    :precondition: the user Pokémon must have an HP greater than 0 in the character_pokemon
-    :precondition: character has a value about 'Current Level' key and 'Potion' key
-    :precondition: check_potion returns a boolean value, true
-    :postcondition: check whether the user wants to use a potion on the Pokémon
-    :postcondition: add a certain amount to the Pokémon's HP
-    """
-    if check_potion(character['Potion'], character['Current Level'], character_pokemon):
-        print(f"\nYou have {character['Potion']} potion(s)!\n{character_pokemon[0]} has "
-              f"{character_pokemon[1]["currentHP"]} HP.")
-
-        user_answer = input("\nWould you like to use a potion (y/n)? ").lower()
-        while user_answer not in ('y', 'n'):
-            print(f"\n{user_answer} is not a valid option")
-            user_answer = input("Please choose a valid option (y/n): ").lower()
-
-        if user_answer == 'y':
-            pokemon_maximum_hp = level_maximum_hp(character['Current Level'])
-            if character_pokemon[1]["currentHP"] > pokemon_maximum_hp - 15:
-                character_pokemon[1]["currentHP"] = pokemon_maximum_hp
-            else:
-                character_pokemon[1]["currentHP"] += 15
-            character['Potion'] -= 1
-            print(f"\n{character_pokemon[0]} restored HP!\n{character_pokemon[0]}"
-                  f"(HP: {character_pokemon[1]["currentHP"]})\n{character['Potion']} potion(s) left!")
-
-
 def select_release_pokemon(character: dict) -> None:
     """
     Release one of the Pokémon the user has.
@@ -754,57 +438,6 @@ def take_out_pokemon(character_pokemons: dict) -> tuple:
         player_pokemon = random.choice(list(character_pokemons.items()))
     print(f"Go, {player_pokemon[0]}!")
     return player_pokemon
-
-
-def get_skill_of(pokemon_type: str) -> list:
-    """
-    Provide skills that can be used based on the Pokémon's type.
-
-    :param pokemon_type: a string representing the type of Pokémon
-    :precondition: pokemon_type must be one of Water, Fire, Grass, Electric, Flying, Ice, or Rock
-    :postcondition: set up skill collections based on Pokémon's type
-    :postcondition: get skills base on the Pokémon's type
-    :return: a list containing skills the Pokémon of the given pokemon_type can use
-    """
-    skills_of = {
-        'water': [
-            {'name': 'Tackle', 'damage': (1, 3)},
-            {'name': 'Water Gun', 'damage': (4, 5)},
-            {'name': 'Aqua Jet', 'damage': (6, 7)}
-        ],
-        'fire': [
-            {'name': 'Tackle', 'damage': (1, 3)},
-            {'name': 'Flamethrower', 'damage': (4, 5)},
-            {'name': 'Fire Punch', 'damage': (6, 7)}
-        ],
-        'grass': [
-            {'name': 'Tackle', 'damage': (1, 3)},
-            {'name': 'Seed Bomb', 'damage': (4, 5)},
-            {'name': 'Solar Beam', 'damage': (6, 7)}
-        ],
-        'electric': [
-            {'name': 'Tackle', 'damage': (1, 3)},
-            {'name': 'Thunderbolt', 'damage': (4, 5)},
-            {'name': 'Electro Ball', 'damage': (6, 7)}
-        ],
-        'flying': [
-            {'name': 'Pluck', 'damage': (1, 3)},
-            {'name': 'Gust', 'damage': (4, 5)},
-            {'name': 'Aerial Ace', 'damage': (6, 7)}
-        ],
-        'ice': [
-            {'name': 'Tackle', 'damage': (1, 3)},
-            {'name': 'Blizzard', 'damage': (4, 5)},
-            {'name': 'Ice Fang', 'damage': (6, 7)}
-        ],
-        'rock': [
-            {'name': 'Tackle', 'damage': (1, 3)},
-            {'name': 'Rock Throw', 'damage': (4, 5)},
-            {'name': 'Rock Tomb', 'damage': (6, 7)}
-        ]
-    }
-
-    return skills_of[pokemon_type]
 
 
 def customize_user_options(event_type: str, gym_round: Union[int, None] = None) -> list:
@@ -1105,7 +738,8 @@ def validate_move(board: dict[(int, int), bool | str], character: dict[str, Any]
     return False, new_position
 
 
-def move_character(character: dict[str, Any], new_position: (int, int), board: dict[(int, int), bool | str], rows: int, columns: int):
+def move_character(character: dict[str, Any], new_position: (int, int),
+                   board: dict[(int, int), bool | str], rows: int, columns: int):
     """
     Move character.
 
@@ -1161,7 +795,8 @@ def game():
             print("GAME OVER")
 
 
-def process_by_location_type(character: dict[str, Any], board: dict[(int, int), bool | str][(int, int), bool | str]) -> bool:
+def process_by_location_type(character: dict[str, Any],
+                             board: dict[(int, int), bool | str][(int, int), bool | str]) -> bool:
     """
     Process actions when character's location is gym or store.
 

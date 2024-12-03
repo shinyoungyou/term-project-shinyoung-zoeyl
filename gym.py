@@ -1,5 +1,9 @@
 from typing import Callable, Any
 
+from data import starting_pokemon_collection
+from game import get_event_pokemon, get_attacked, is_alive, take_out_pokemon, fight, \
+    change_pokemon, select_event_option
+
 
 def check_badge_eligibility(character: dict[str, Any], current_win_count: int, gym_badge_earned: bool) -> bool:
     """
@@ -19,7 +23,7 @@ def check_badge_eligibility(character: dict[str, Any], current_win_count: int, g
     win_count = {1: 2, 2: 3, 3: 4}.get(current_level)
     if win_count is None:
         print("Invalid level")
-        return
+        return gym_badge_earned
 
     count_left_for_badge = win_count - current_win_count
 
