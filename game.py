@@ -865,9 +865,9 @@ def proceed_event_option(user_choice: Union[Callable[[], None], str], character_
 
     :param user_choice: a function that represents the option the user wants to do
     :param user_choice: a string representing the user's intention to escape the event
-    :param character_pokemon: a tuple containing the user Pokémon's name and a dictionary with its type and current hp
+    :param character_pokemon: a tuple containing the user Pokémon's name and a dictionary with its type and current HP
     :param character: a dictionary containing information about the character's status
-    :param event_pokemon_info: a tuple containing the event Pokémon's name and a dictionary with its type and current hp
+    :param event_pokemon_info: a tuple containing the event Pokémon's name and a dictionary with its type and current HP
     :param event_type: a string that represents what kind of event occurs
     :precondition: the user Pokémon must have an HP greater than 0 in the character_pokemon
     :precondition: the event Pokémon must have an HP greater than 0 in the event_pokemon_info
@@ -936,7 +936,7 @@ def check_status(character_pokemon: tuple) -> bool:
     """
     Check if the user's Pokémon has fainted.
 
-    :param character_pokemon: a tuple containing the user Pokémon's name and a dictionary with its type and current hp
+    :param character_pokemon: a tuple containing the user Pokémon's name and a dictionary with its type and current HP
     :precondition: character_pokemon represents the status of one of the user's Pokémon in battle
     :postcondition: check the status of user's Pokémon
     :return: a boolean value, false if the user's Pokémon has fainted, true otherwise
