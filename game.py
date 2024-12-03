@@ -1,5 +1,6 @@
 import random
 import copy
+from typing import Any
 from board import display_current_location, make_board, check_current_location
 from common import check_input_is_digit
 from data import starting_pokemon_collection, get_skill_of, event_pokemon
@@ -438,7 +439,7 @@ def take_out_pokemon(character_pokemons: dict) -> tuple:
     return player_pokemon
 
 
-def customize_user_options(event_type: str, gym_round: Union[int, None] = None) -> list:
+def customize_user_options(event_type: str, gym_round: (int or None) = None) -> list:
     """
     Add an option to the user's options tailored to the event type.
 
