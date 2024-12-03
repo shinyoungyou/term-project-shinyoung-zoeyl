@@ -17,6 +17,25 @@ def check_badge_eligibility(character: dict[str, Any], current_win_count: int, g
     :param gym_badge_earned: gym_badge_earned is a boolean
     :postcondition: updates gym_badge_earned to True if the character is eligible for the badge
     :return: True if the gym badge is earned, else False
+
+    >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
+    ...             'Current Location': (5, 5),
+    ...             'Starting Pokemon': 'Squirtle',
+    ...             'Poke Ball': {
+    ...                 'Squirtle': {'type': 'water', 'currentHP': 40},
+    ...                 'Pichu': {'type': 'electric', 'currentHP': 30},
+    ...                 'Shinx': {'type': 'electric', 'currentHP': 30},
+    ...                 'Mareep': {'type': 'electric', 'currentHP': 30},
+    ...                 'Caterpie': {'type': 'grass', 'currentHP': 30},
+    ...                 'Weedle': {'type': 'grass', 'currentHP': 30},
+    ...             }}
+    >>> check_badge_eligibility(test_character, 1, False)
+    <BLANKLINE>
+    You need to win 1 more time(s) to earn the badge.
+    <BLANKLINE>
+    False
+    >>> check_badge_eligibility(test_character, 2, False)
+    True
     """
     current_level = character["Current Level"]
 
