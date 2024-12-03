@@ -831,7 +831,7 @@ def customize_user_options(event_type: str, gym_round: Union[int, None] = None) 
     return character_option
 
 
-def select_event_option(event_type: str, gym_round: Union[int, None] = None) -> Callable[[], None]:
+def select_event_option(event_type: str, gym_round: Union[int, None] = None) -> Union[Callable[[], None], str]:
     """
     Decide what to do when an event occurs.
 
@@ -843,6 +843,7 @@ def select_event_option(event_type: str, gym_round: Union[int, None] = None) -> 
     :postcondition: display the options the user can choose from
     :postcondition: get the user's choice of which option the user wants
     :return: a function that represents the option the user wants to do
+    :return: a string representing the user's intention to escape the event
     """
     character_option = customize_user_options(event_type, gym_round)
 
@@ -857,7 +858,26 @@ def select_event_option(event_type: str, gym_round: Union[int, None] = None) -> 
         print(f"\nInvalid choice! Please enter a number between 1 and {len(character_option)}.")
 
 
-def proceed_event_option(user_choice, character_pokemon, character, event_pokemon_info, event_type):
+def proceed_event_option(user_choice: Union[Callable[[], None], str], character_pokemon: tuple, character: dict,
+                         event_pokemon_info: tuple, event_type: str) -> bool:
+    """
+    Execute the function corresponding to the user's selected option.
+
+    :param user_choice: a function that represents the option the user wants to do
+    :param user_choice: a string representing the user's intention to escape the event
+    :param character_pokemon: a tuple containing the user Pokémon's name and a dictionary with its type and current hp
+    :param character: a dictionary containing information about the character's status
+    :param event_pokemon_info: a tuple containing the event Pokémon's name and a dictionary with its type and current hp
+    :param event_type: a string that represents what kind of event occurs
+    :precondition: the user Pokémon must have an HP greater than 0 in the character_pokemon
+    :precondition: the event Pokémon must have an HP greater than 0 in the event_pokemon_info
+    :precondition: character_pokemon represents the status of one of the user's Pokémon in battle
+    :precondition: event_type must be either wild Pokémon, Team Rocket, Gym Leader or Strange trainer
+    :precondition: user_choice must be either fight, throw_poke_ball, change_pokemon, "Run Away", or use_potion
+    :postcondition: execute the function corresponding to the user's selected option
+    :postcondition: finish the event if user_choice is "Run Away"
+    :return: a boolean value, false if the event has finished, true otherwise
+    """
     if user_choice == fight:
         process_result = fight(character_pokemon, event_pokemon_info, character, event_type)
     elif user_choice == throw_poke_ball:
