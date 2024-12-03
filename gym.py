@@ -109,6 +109,7 @@ def encounter_gym(character: dict[str, Any]) -> bool:
         user_input = input("\nEncountered a gym! Enter y to challenge, n to quit: ")
         if user_input == 'y' or user_input == 'n':
             break
+        print("Please Enter y or n.")
 
     if user_input == 'n':
         return gym_badge_earned
