@@ -172,6 +172,17 @@ def current_pokemon_collection(character_level: int, level1: dict, level2: dict,
     :precondition: Pokémon information should not be over wrapped between level1, level2 and level3
     :postcondition: choose a Pokémon collection tailored to the character_level
     :return: a dictionary containing Pokémon collection tailored to the character_level
+
+    >>> d_level1 = {'Roggenrola': {'type': 'rock', 'currentHP': 30}}
+    >>> d_level2 = {'Boldore': {'type': 'rock', 'currentHP': 50}}
+    >>> d_level3 = {'Gigalith': {'type': 'rock', 'currentHP': 80}}
+    >>> current_pokemon_collection(1, d_level1, d_level2, d_level3)
+    {'Roggenrola': {'type': 'rock', 'currentHP': 30}}
+    >>> d_level1 = {'Roggenrola': {'type': 'rock', 'currentHP': 30}}
+    >>> d_level2 = {'Boldore': {'type': 'rock', 'currentHP': 50}}
+    >>> d_level3 = {'Gigalith': {'type': 'rock', 'currentHP': 80}}
+    >>> current_pokemon_collection(3, d_level1, d_level2, d_level3)
+    {'Gigalith': {'type': 'rock', 'currentHP': 80}}
     """
     if character_level == 2:
         current_level_collection = level2
