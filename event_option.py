@@ -399,6 +399,11 @@ def customize_user_options(event_type: str, gym_round: (int or None) = None) -> 
     :postcondition: add use_potion option if event_type is not "Gym Leader"
     :postcondition: add throw_poke_ball and "Run Away" options if event_type is 'wildPokemon'
     :return: a list containing the options the user can choose
+
+    >>> customize_user_options("wildPokemon")
+    ['Fight', 'Change Pokemon', 'Use Potion', 'Throw Poke Ball', 'Run Away']
+    >>> customize_user_options("Gym Leader", 3)
+    ['Fight', 'Change Pokemon', 'Run Away']
     """
     character_option = ["Fight", "Change Pokemon"]
     if event_type == 'Gym Leader':
