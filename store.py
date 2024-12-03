@@ -2,7 +2,7 @@ from typing import Any
 
 from common import check_input_is_digit
 from constants import POTION_PRICE
-from game import level_maximum_hp, select_pokemon
+from event_option import level_maximum_hp
 
 
 def encounter_store(character: dict[str, Any]):
@@ -109,3 +109,25 @@ def check_potion(number_of_potion: int, character_level: int, character_pokemon:
     else:
         validation = True
     return validation
+
+
+def select_pokemon(pokeball: dict) -> (str, dict):
+    """
+    Ask user to select a Pokémon.
+
+    :param pokeball: a dictionary representing collection of Pokémon(s)
+    :precondition: pokeball is a dictionary representing collection of Pokémon(s)
+    :postcondition: provides selected Pokémon name and the Pokémon's info
+    :return: a tuple of a string representing selected Pokémon name,
+             and a dictionary of the Pokémon's info
+    """
+    print("\nYour pokemons' status...")
+    for pokemon in pokeball.keys():
+        print(f"{pokemon}(HP: {pokeball[pokemon]['currentHP']})")
+
+    while True:
+        user_choice = input("\nSelect pokemon to proceed by entering the pokemon name: ").capitalize()
+        if user_choice in pokeball.keys():
+            break
+
+    return user_choice, pokeball[user_choice]

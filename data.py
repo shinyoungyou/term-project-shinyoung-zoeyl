@@ -1,6 +1,3 @@
-from game import current_pokemon_collection
-
-
 def starting_pokemon_collection(character_level: int) -> dict:
     """
     Provide a starting Pokémon collection tailored to the character_level.
@@ -154,3 +151,26 @@ def get_skill_of(pokemon_type: str) -> list:
     }
 
     return skills_of[pokemon_type]
+
+
+def current_pokemon_collection(character_level: int, level1: dict, level2: dict, level3: dict) -> dict:
+    """
+    Decide which Pokémon collection to use based on the character_level.
+
+    :param character_level: an integer that represents user's current level
+    :param level1: a dictionary containing level1 Pokémon information
+    :param level2: a dictionary containing level2 Pokémon information
+    :param level3: a dictionary containing level3 Pokémon information
+    :precondition: character_level must be a number between 1 and 3
+    :precondition: Pokémon information should not be over wrapped between level1, level2 and level3
+    :postcondition: choose a Pokémon collection tailored to the character_level
+    :return: a dictionary containing Pokémon collection tailored to the character_level
+    """
+    if character_level == 2:
+        current_level_collection = level2
+    elif character_level == 3:
+        current_level_collection = level3
+    else:
+        current_level_collection = level1
+
+    return current_level_collection

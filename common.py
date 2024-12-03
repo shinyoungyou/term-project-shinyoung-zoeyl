@@ -1,3 +1,6 @@
+from typing import Any
+
+
 def check_input_is_digit(input_message: str,
                          error_message: str = "Invalid input! Please enter a valid number: ") -> int:
     """
@@ -16,3 +19,30 @@ def check_input_is_digit(input_message: str,
             return int(user_input)
         else:
             print(error_message)
+
+
+def is_alive(character: dict[str, Any]) -> bool:
+    """
+    Check if the character is alive
+
+    :param character: a dictionary representing character, including their Pokémon
+    :precondition: character is a dictionary with a key "Balls" including Pokémon's HP
+    :postcondition: returns True if at least one Pokémon has HP greater than 0, else False
+    :return: True if the character is alive, else False
+
+    >>> test_character = {"Poke Ball": {"Pikachu": {"currentHP": 10}, "Bulbasaur": {"currentHP": 0}}}
+    >>> is_alive(test_character)
+    True
+    >>> test_character = {"Poke Ball": {"Pikachu": {"currentHP": 0}, "Bulbasaur": {"currentHP": 0}}}
+    >>> is_alive(test_character)
+    False
+    >>> test_character = {"Poke Ball": {"Charmander": {"currentHP": 50}}}
+    >>> is_alive(test_character)
+    True
+    """
+    alive = True
+
+    if not any(pokemon['currentHP'] > 0 for pokemon in character["Poke Ball"].values()):
+        alive = False
+
+    return alive

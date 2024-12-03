@@ -1,8 +1,8 @@
 from typing import Any
 
+from common import is_alive
 from data import starting_pokemon_collection
-from game import get_event_pokemon, get_attacked, is_alive, take_out_pokemon, fight, \
-    change_pokemon, select_event_option
+from event_option import select_event_option, take_out_pokemon, get_event_pokemon, fight, change_pokemon, get_attacked
 
 
 def check_badge_eligibility(character: dict[str, Any], current_win_count: int, gym_badge_earned: bool) -> bool:
