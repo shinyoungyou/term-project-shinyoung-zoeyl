@@ -65,7 +65,7 @@ class TestBuyPotion(TestCase):
         actual = mock_output.getvalue()
         self.assertIn(expected, actual)
 
-    @patch('builtins.input', side_effect=['4'])  # Added 'q' to terminate the loop
+    @patch('builtins.input', side_effect=['4'])
     @patch('sys.stdout', new_callable=io.StringIO)
     def test_buy_potion_character_has_30_dollars_and_wants_to_buy_4_potions(self, mock_output, _):
         expected = "You can't buy with your current budget."
@@ -84,7 +84,7 @@ class TestBuyPotion(TestCase):
         actual = mock_output.getvalue()
         self.assertIn(expected, actual)
 
-    @patch('builtins.input', side_effect=['0', '1'])  # Added 'q' to terminate the loop
+    @patch('builtins.input', side_effect=['0', '1'])
     @patch('sys.stdout', new_callable=io.StringIO)
     def test_buy_potion_character_has_30_dollars_and_wants_to_buy_0_potion(self, mock_output, _):
         expected = "You need to buy at least one potion."
