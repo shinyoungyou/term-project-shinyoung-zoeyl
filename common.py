@@ -30,15 +30,15 @@ def is_alive(character: dict[str, Any]) -> bool:
     :postcondition: returns True if at least one Pokémon has HP greater than 0, else False
     :return: True if the character is alive, else False
 
+    >>> test_character = {"Poke Ball": {"Pikachu": {"currentHP": 10}, "Bulbasaur": {"currentHP": 10}}}
+    >>> is_alive(test_character)
+    True
     >>> test_character = {"Poke Ball": {"Pikachu": {"currentHP": 10}, "Bulbasaur": {"currentHP": 0}}}
     >>> is_alive(test_character)
     True
     >>> test_character = {"Poke Ball": {"Pikachu": {"currentHP": 0}, "Bulbasaur": {"currentHP": 0}}}
     >>> is_alive(test_character)
     False
-    >>> test_character = {"Poke Ball": {"Charmander": {"currentHP": 50}}}
-    >>> is_alive(test_character)
-    True
     """
     alive = True
 
