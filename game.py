@@ -145,13 +145,13 @@ def validate_move(board: dict[(int, int), bool | str], character: dict[str, Any]
              and a tuple representing the corresponding new position,
              including an integer representing X-coordinate, and an integer representing Y-coordinate
 
-    >>> board = {(0, 0): True, (0, 1): True, (0, 2): True, (0, 3): True, (0, 4): True, (0, 5): False,
+    >>> test_board = {(0, 0): True, (0, 1): True, (0, 2): True, (0, 3): True, (0, 4): True, (0, 5): False,
     ...          (1, 0): False, (1, 1): True, (1, 2): True, (1, 3): True, (1, 4): True, (1, 5): False,
     ...          (2, 0): False, (2, 1): True, (2, 2): 'Store', (2, 3): True, (2, 4): True, (2, 5): False,
     ...          (3, 0): False, (3, 1): True, (3, 2): True, (3, 3): True, (3, 4): True, (3, 5): False,
     ...          (4, 0): False, (4, 1): True, (4, 2): True, (4, 3): True, (4, 4): True, (4, 5): False,
     ...          (5, 0): False, (5, 1): True, (5, 2): True, (5, 3): True, (5, 4): True, (5, 5): 'Gym'}
-    >>> character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
+    >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
     ...              'Current Location': (0, 0),
     ...              'Starting Pokemon': 'Squirtle',
     ...              'Poke Ball': {
@@ -162,9 +162,9 @@ def validate_move(board: dict[(int, int), bool | str], character: dict[str, Any]
     ...                  'Caterpie': {'type': 'grass', 'currentHP': 30},
     ...                  'Weedle': {'type': 'grass', 'currentHP': 30},
     ...              }}
-    >>> validate_move(board, character, 1)
+    >>> validate_move(test_board, test_character, 1)
     (False, None)
-    >>> validate_move(board, character, 4)
+    >>> validate_move(test_board, test_character, 4)
     (True, (0, 1))
     """
     directions = {1: (-1, -0), 2: (1, 0), 3: (0, -1), 4: (0, 1)}
@@ -181,7 +181,7 @@ def validate_move(board: dict[(int, int), bool | str], character: dict[str, Any]
 
 
 def move_character(character: dict[str, Any], new_position: (int, int),
-                   board: dict[(int, int), bool | str], rows: int, columns: int):
+                   board: dict[(int, int), bool | str], rows: int, columns: int) -> None:
     """
     Move character.
 
