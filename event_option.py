@@ -106,7 +106,7 @@ def get_money(character: dict, event_type: str) -> None:
     else:
         earn_money *= random.randrange(10, 20)
     character['Money'] += int(earn_money)
-    print(f"You got ${int(earn_money)}!")
+    print(f"You got ${int(earn_money)}!\n")
 
 
 def get_attack_result(character_pokemon_skill: dict, event_pokemon_info: tuple, character: dict, event_type: str) \
@@ -135,7 +135,7 @@ def get_attack_result(character_pokemon_skill: dict, event_pokemon_info: tuple, 
     event_pokemon_info[1]['currentHP'] -= damage
 
     if event_pokemon_info[1]['currentHP'] <= 0:
-        print(f"You defeated the {event_pokemon_info[0]}")
+        print(f"You defeated the {event_pokemon_info[0]}\n")
         if event_type != "Gym Leader":
             get_money(character, event_type)
         return False
