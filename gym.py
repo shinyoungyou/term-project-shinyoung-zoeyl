@@ -109,7 +109,7 @@ def encounter_gym(character: dict[str, Any]) -> bool:
 
     while True:
         user_input = input("\nEncountered a gym! Enter y to challenge, n to quit: ")
-        if user_input == 'y' or user_input == 'n':
+        if user_input in ('y', 'n'):
             break
         print("Please Enter y or n.")
 
@@ -177,7 +177,7 @@ def initialize_battle(character: dict) -> tuple:
 
 
 def display_round_intro(gym_round: int, gym_leader_pokemon: (str, dict[str, Any]),
-                        selected_pokemon: (str, dict[str, Any]), character: dict[str, Any]):
+                        selected_pokemon: (str, dict[str, Any]), character: dict[str, Any]) -> None:
     """
     Display the status of gym leader pokèmon and selected pokèmon.
 
@@ -300,7 +300,7 @@ def win_the_round(current_win_count: int, character: dict[str, Any], gym_badge_e
     return current_win_count, gym_badge_earned, gym_round, gym_leader_pokemon
 
 
-def evolve_pokemon(character: dict[str, Any]):
+def evolve_pokemon(character: dict[str, Any]) -> None:
     """
     Evolve character's starting pokèmon based on the character's level.
 
@@ -362,7 +362,7 @@ def evolve_pokemon(character: dict[str, Any]):
             print(f"\n{current_starting_pokemon_name} has evolved into {evolved_starting_pokemon_name}!")
 
 
-def level_up(character: dict[str, Any]):
+def level_up(character: dict[str, Any]) -> None:
     """
     Level up the character.
 
