@@ -38,6 +38,11 @@ def event_pokemon(character_level: int) -> dict:
     :postcondition: set up collections of event Pokémon information tailored to the user's level
     :postcondition: get a collection tailored to the character_level
     :return: a dictionary containing event Pokémon's information tailored to the character_level
+    
+    >>> event_pokemon(2)  # doctest: +ELLIPSIS
+    {'Pikachu': {'type': 'electric', 'currentHP': 50}, 'Luxio': {'type': 'electric', 'currentHP': 50}, ...}
+    >>> event_pokemon(3)  # doctest: +ELLIPSIS
+    {'Raichu': {'type': 'electric', 'currentHP': 80}, 'Luxray': {'type': 'electric', 'currentHP': 80}, ...}
     """
     level1_pokemon = {'Pichu': {'type': 'electric', 'currentHP': 30},
                       'Shinx': {'type': 'electric', 'currentHP': 30},
