@@ -72,6 +72,11 @@ def make_damage_stronger(event_type: str, character_level: int) -> int:
     :precondition: character_level must be a number between 1 and 3
     :postcondition: get the corresponding tuple index value based on the event type
     :return: an integer representing how much stronger the event Pokémon's skill becomes
+
+    >>> make_damage_stronger("Team Rocket", 2)
+    1.7
+    >>> make_damage_stronger("Gym Leader", 1)
+    1.5
     """
     stronger_collection = get_stronger_collection(character_level)
 
