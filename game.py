@@ -41,6 +41,22 @@ def print_instructions():
     Print the game instructions.
 
     :postcondition: displays the game instructions in detail
+
+    >>> print_instructions()
+    <BLANKLINE>
+    Welcome to the world of Pokemon! Embark on an exciting journey to become a Pokemon Champion.
+    <BLANKLINE>
+    Important notes to know before you begin:
+    - Stores are represented by S on the map.
+    - Gyms are represented by G on the map.
+    - If all six of your Pokémon lose their HP, the game is over.
+    - You can only challenge a Gym Leader once you have a full team of six Pokémon.
+    - After defeating a Gym Leader, you will earn a Badge, unlocking the next level.
+    - Badge Requirements by Level:
+      - Level 1: Defeat the gym leader twice to earn a badge.
+      - Level 2: Defeat the gym leader three times to earn a badge.
+      - Level 3: Defeat the gym leader four times to earn a badge and complete the mission.
+    - The mission is complete when you defeat the final Gym Leader at Level 3.
     """
     print("\nWelcome to the world of Pokemon! Embark on an exciting journey to become a Pokemon Champion.")
     print("\nImportant notes to know before you begin:")
