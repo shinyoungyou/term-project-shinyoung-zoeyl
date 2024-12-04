@@ -20,10 +20,10 @@ Hello Chris!
 
 | Required Element                         | module (line)             |
 |------------------------------------------|---------------------------|
-| immutable data structures                |                           |         
+| immutable data structures                | prepare_event(53)         |         
 | mutable data structures                  | data (122)                |         
 | exceptions and exception handling        | common (16)               |         
-| minimised scope                          |                           |         
+| minimised scope                          | common (16)               |         
 | atomic, independent,  reusable functions | common (4)                |         
 | flat code                                | game (201)                |         
 | comprehensions                           | board (42)                |         
@@ -34,5 +34,5 @@ Hello Chris!
 | a function from itertools                | board (42)                |         
 | random module                            | event_option (40)         |         
 | function annotations                     | event_pokemon_attack (65) |         
-| doctest/unit tests (see pdf)             |                           |         
+| doctest/unit tests (see pdf)             | 21 / 53                   |         
 | f-strings, format(), or old formatting   | store (54)                |         
