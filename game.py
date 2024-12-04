@@ -4,9 +4,10 @@ from typing import Any
 from board import display_current_location, make_board, check_if_current_location_is_special
 from common import check_input_is_digit, is_alive
 from data import starting_pokemon_collection
-from event_option import fight, throw_poke_ball, change_pokemon, get_event_pokemon, take_out_pokemon, \
-    select_event_option, get_attacked
+from event_option import fight, throw_poke_ball, change_pokemon
+from event_pokemon_attack import get_attacked
 from gym import encounter_gym, level_up, has_six_pokemons
+from prepare_event import get_event_pokemon, take_out_pokemon, select_event_option
 from store import use_potion, encounter_store
 
 
