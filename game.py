@@ -33,7 +33,7 @@ def set_up_game() -> dict:
     print()
     character['Poke Ball'] = {user_choice: starting_pokemon[user_choice]}
     character['Starting Pokemon'] = user_choice
-    return character
+    return character, 1
 
 
 def print_instructions():
@@ -208,10 +208,9 @@ def game():
     """
     Drive the game.
     """
-    character = set_up_game()
+    character, prev_level = set_up_game()
     board, rows, columns = make_board(character['Current Level'])
     achieved_goal = False
-    prev_level = character['Current Level']
 
     while is_alive(character) and not achieved_goal:
         if prev_level != character['Current Level']:
