@@ -39,8 +39,7 @@ def make_board(level: int) -> (dict, int, int):
 
     rows, columns, is_accessible, gym_location, store_location = level_config[level]
 
-    for i, j in itertools.product(range(rows), range(columns)):
-        board[(i, j)] = True if is_accessible(i, j) else False
+    board = {(i, j): is_accessible(i, j) for i, j in itertools.product(range(rows), range(columns))}
 
     board[gym_location] = "Gym"
     board[store_location] = "Store"
