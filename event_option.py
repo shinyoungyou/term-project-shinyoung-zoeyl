@@ -140,7 +140,7 @@ def get_attack_result(character_pokemon_skill: dict, event_pokemon_info: tuple, 
             get_money(character, event_type)
         return False
     else:
-        print(f"\nEvent pokemon status: {event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
+        print(f"Event pokemon status: {event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
         return True
 
 
