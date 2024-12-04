@@ -8,7 +8,7 @@ from store import select_pokemon
 
 class TestSelectPokemon(TestCase):
 
-    @patch('builtins.input', side_effect=['Squirtle'])
+    @patch('builtins.input', return_value='Squirtle')
     def test_select_pokemon_user_selects_valid_option(self, _):
         pokeball = {
             'Squirtle': {'type': 'water', 'currentHP': 10},
