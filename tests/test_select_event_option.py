@@ -40,7 +40,8 @@ class Test(TestCase):
     @patch('prepare_event.customize_user_options')
     @patch('prepare_event.check_input_is_digit')
     @patch('sys.stdout', new_callable=io.StringIO)
-    def test_select_event_option_user_choice_is_invalid(self, mock_output, mock_check_input_is_digit, mock_customize_user_options):
+    def test_select_event_option_user_choice_is_invalid(self, mock_output, mock_check_input_is_digit,
+                                                        mock_customize_user_options):
         mock_customize_user_options.return_value = ["Fight", "Change Pokemon", "Use Potion", "Throw Poke Ball",
                                                     "Run Away"]
         mock_check_input_is_digit.side_effect = [7, 3]
