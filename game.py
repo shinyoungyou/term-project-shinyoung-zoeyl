@@ -1,4 +1,3 @@
-from typing import Any
 from board import display_current_location, make_board, check_if_current_location_is_special
 from common import check_input_is_digit, is_alive
 from data import starting_pokemon_collection
@@ -44,11 +43,12 @@ def print_instructions() -> None:
 
     >>> print_instructions()
     <BLANKLINE>
-    Welcome to the world of Pokemon! Embark on an exciting journey to become a Pokemon Champion.
+    Welcome to the world of Pokèmon! Embark on an exciting journey to become a Pokèmon Champion.
     <BLANKLINE>
     Important notes to know before you begin:
     - Stores are represented by S on the map.
     - Gyms are represented by G on the map.
+    - You can catch wild pokèmons by throwing pokeball when their HP is less than 11.
     - If all six of your Pokémon lose their HP, the game is over.
     - You can only challenge a Gym Leader once you have a full team of six Pokémon.
     - After defeating a Gym Leader, you will earn a Badge, unlocking the next level.
@@ -58,7 +58,7 @@ def print_instructions() -> None:
       - Level 3: Defeat the gym leader four times to earn a badge and complete the mission.
     - The mission is complete when you defeat the final Gym Leader at Level 3.
     """
-    print("\nWelcome to the world of Pokemon! Embark on an exciting journey to become a Pokemon Champion.")
+    print("\nWelcome to the world of Pokèmon! Embark on an exciting journey to become a Pokèmon Champion.")
     print("\nImportant notes to know before you begin:")
     print("- Stores are represented by S on the map.")
     print("- Gyms are represented by G on the map.")
