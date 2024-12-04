@@ -1,11 +1,9 @@
-from typing import Any
-
 from common import check_input_is_digit
 from constants import POTION_PRICE
 from event_option import level_maximum_hp
 
 
-def encounter_store(character: dict[str, Any]) -> None:
+def encounter_store(character: dict) -> None:
     """
     Give user with options between buy or use potion, or quit the store.
 
@@ -28,7 +26,7 @@ def encounter_store(character: dict[str, Any]) -> None:
             print("Invalid option. Please try again.")
 
 
-def buy_potion(character: dict[str, Any]) -> None:
+def buy_potion(character: dict) -> None:
     """
     Calculate the change after a purchase.
 

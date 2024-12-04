@@ -9,7 +9,7 @@ class TestCheckBadgeEligibility(TestCase):
         expected = False
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
                      'Current Location': (5, 5),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 40},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -27,7 +27,7 @@ class TestCheckBadgeEligibility(TestCase):
         expected = False
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
                      'Current Location': (5, 5),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 40},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -45,7 +45,7 @@ class TestCheckBadgeEligibility(TestCase):
         expected = True
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
                      'Current Location': (5, 5),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 40},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -63,7 +63,7 @@ class TestCheckBadgeEligibility(TestCase):
         expected = False
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 2, 'Potion': 0,
                      'Current Location': (7, 4),
-                     'Starting Pokemon': 'Wartortle',
+                     'Starting Pokèmon': 'Wartortle',
                      'Poke Ball': {
                          'Wartortle': {'type': 'water', 'currentHP': 65},
                          'Luxray': {'type': 'electric', 'currentHP': 80},
@@ -81,7 +81,7 @@ class TestCheckBadgeEligibility(TestCase):
         expected = True
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 2, 'Potion': 0,
                      'Current Location': (7, 4),
-                     'Starting Pokemon': 'Wartortle',
+                     'Starting Pokèmon': 'Wartortle',
                      'Poke Ball': {
                          'Wartortle': {'type': 'water', 'currentHP': 65},
                          'Luxray': {'type': 'electric', 'currentHP': 80},
@@ -99,7 +99,7 @@ class TestCheckBadgeEligibility(TestCase):
         expected = True
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 3, 'Potion': 0,
                      'Current Location': (9, 0),
-                     'Starting Pokemon': 'Blastoise',
+                     'Starting Pokèmon': 'Blastoise',
                      'Poke Ball': {
                          'Blastoise': {'type': 'water', 'currentHP': 100},
                          'Luxray': {'type': 'electric', 'currentHP': 80},

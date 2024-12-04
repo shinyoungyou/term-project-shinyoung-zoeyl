@@ -215,7 +215,7 @@ def select_release_pokemon(character: dict) -> None:
     Release one of the Pokémon the user has.
 
     :param character: a dictionary containing information about the character's status
-    :precondition: character has a value about 'Poke Ball' key and 'Starting Pokemon' key
+    :precondition: character has a value about 'Poke Ball' key and 'Starting Pokèmon' key
     :postcondition: display the Pokémon the user has along with their HP
     :postcondition: get the user's choice of which Pokémon the user wants to release
     :postcondition: delete the information about the Pokémon chosen by the user from the 'Poke Ball'
@@ -223,11 +223,11 @@ def select_release_pokemon(character: dict) -> None:
     print("\nYou have...")
     for pokemon in character['Poke Ball'].keys():
         print(f"{pokemon}(HP: {character['Poke Ball'][pokemon]['currentHP']})")
-    print("You can't choose the Starting Pokémon!")
+    print("You can't choose the Starting Pokèmon!")
 
     user_choice_pokemon = input("what Pokémon would you release (Entering Pokémon name)? ").capitalize()
     while (user_choice_pokemon not in character['Poke Ball'].keys() or user_choice_pokemon
-           == character['Starting Pokemon']):
+           == character['Starting Pokèmon']):
         print(f"\n{user_choice_pokemon} can't be chosen!")
         user_choice_pokemon = input(
             "Please choose a Pokémon that is in your Poké Ball except your Starting Pokémon "
@@ -243,7 +243,7 @@ def check_total_of_user_pokemons(character: dict, event_pokemon_info: tuple) -> 
 
     :param character: a dictionary containing information about the character's status
     :param event_pokemon_info: a tuple containing the event Pokémon's name and a dictionary with its type and current HP
-    :precondition: character has a value about 'Poke Ball' key and 'Starting Pokemon' key
+    :precondition: character has a value about 'Poke Ball' key and 'Starting Pokèmon' key
     :precondition: the event Pokémon must have an HP 10 or less in the event_pokemon_info
     :precondition: the event Pokémon must have an HP greater than 0 in the event_pokemon_info
     :postcondition: get the user's choice to release one of the user's Pokémon if the user has six Pokémon
@@ -271,7 +271,7 @@ def throw_poke_ball(event_pokemon_info: tuple, character: dict) -> bool:
     :param event_pokemon_info: a tuple containing the event Pokémon's name and a dictionary with its type and current HP
     :param character: a dictionary containing information about the character's status
     :precondition: the event Pokémon must have an HP greater than 0 in the event_pokemon_info
-    :precondition: character has a value about 'Current Level' key, 'Starting Pokemon' key and 'Poke Ball' key
+    :precondition: character has a value about 'Current Level' key, 'Starting Pokèmon' key and 'Poke Ball' key
     :postcondition: check if the event Pokémon has HP greater than 10
     :postcondition: check if the user has Pokémon more than five, if the event Pokémon has HP less than 11
     :return: a boolean value, false if the user caught the event Pokémon successfully, true otherwise

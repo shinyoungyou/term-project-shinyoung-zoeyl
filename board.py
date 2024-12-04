@@ -1,5 +1,4 @@
 import itertools
-from typing import Any
 
 
 def make_board(level: int) -> (dict, int, int):
@@ -47,7 +46,7 @@ def make_board(level: int) -> (dict, int, int):
     return board, rows, columns
 
 
-def display_current_location(board: dict[(int, int), bool | str], character: dict[str, Any], rows: int, columns: int):
+def display_current_location(board: dict, character: dict, rows: int, columns: int) -> None:
     """
     Display the current location of the game board.
 
@@ -82,7 +81,7 @@ def display_current_location(board: dict[(int, int), bool | str], character: dic
         print(row)
 
 
-def check_if_current_location_is_special(board: dict[(int, int), bool | str], character: dict[str, Any]) -> bool:
+def check_if_current_location_is_special(board: dict, character: dict) -> bool:
     """
     Check if the current location is store or gym
 

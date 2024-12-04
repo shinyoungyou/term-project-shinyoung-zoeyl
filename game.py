@@ -1,4 +1,3 @@
-from typing import Any
 from board import display_current_location, make_board, check_if_current_location_is_special
 from common import check_input_is_digit, is_alive
 from data import starting_pokemon_collection
@@ -28,15 +27,15 @@ def set_up_game() -> (dict, int):
     print("\nWhich pokemon would you like to go together?\nSquirtle(Water) | Charmander(Fire) | Bulbasaur(Grass)")
     user_choice = input("Please type pokemon name: ").capitalize()
     while user_choice not in starting_pokemon:
-        print(f"\n{user_choice} is not included in Starting pokemon")
+        print(f"\n{user_choice} is not included in Starting Pokèmon")
         user_choice = input("what pokemon would you like? ").capitalize()
     print()
     character['Poke Ball'] = {user_choice: starting_pokemon[user_choice]}
-    character['Starting Pokemon'] = user_choice
+    character['Starting Pokèmon'] = user_choice
     return character, 1
 
 
-def print_instructions():
+def print_instructions() -> None:
     """
     Print the game instructions.
 
@@ -44,11 +43,12 @@ def print_instructions():
 
     >>> print_instructions()
     <BLANKLINE>
-    Welcome to the world of Pokemon! Embark on an exciting journey to become a Pokemon Champion.
+    Welcome to the world of Pokèmon! Embark on an exciting journey to become a Pokèmon Champion.
     <BLANKLINE>
     Important notes to know before you begin:
     - Stores are represented by S on the map.
     - Gyms are represented by G on the map.
+    - You can catch wild pokèmons by throwing pokeball when their HP is less than 11.
     - If all six of your Pokémon lose their HP, the game is over.
     - You can only challenge a Gym Leader once you have a full team of six Pokémon.
     - After defeating a Gym Leader, you will earn a Badge, unlocking the next level.
@@ -58,11 +58,11 @@ def print_instructions():
       - Level 3: Defeat the gym leader four times to earn a badge and complete the mission.
     - The mission is complete when you defeat the final Gym Leader at Level 3.
     """
-    print("\nWelcome to the world of Pokemon! Embark on an exciting journey to become a Pokemon Champion.")
+    print("\nWelcome to the world of Pokèmon! Embark on an exciting journey to become a Pokèmon Champion.")
     print("\nImportant notes to know before you begin:")
     print("- Stores are represented by S on the map.")
     print("- Gyms are represented by G on the map.")
-    # print("- You can catch wild pokèmons by throwing pokeball when their HP is less than 11.")
+    print("- You can catch wild pokèmons by throwing pokeball when their HP is less than 11.")
     print("- If all six of your Pokémon lose their HP, the game is over.")
     print("- You can only challenge a Gym Leader once you have a full team of six Pokémon.")
     print("- After defeating a Gym Leader, you will earn a Badge, unlocking the next level.")
@@ -145,7 +145,7 @@ def get_user_choice(character: dict, board: dict, rows: int, columns: int) -> in
             print("\nPlease choose a valid direction!")
 
 
-def validate_move(board: dict[(int, int), bool | str], character: dict[str, Any], direction: int) -> (bool, (int, int)):
+def validate_move(board: dict, character: dict, direction: int) -> (bool, (int, int)):
     """
     Validate user move.
 
@@ -169,7 +169,7 @@ def validate_move(board: dict[(int, int), bool | str], character: dict[str, Any]
     ...          (5, 0): False, (5, 1): True, (5, 2): True, (5, 3): True, (5, 4): True, (5, 5): 'Gym'}
     >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
     ...              'Current Location': (0, 0),
-    ...              'Starting Pokemon': 'Squirtle',
+    ...              'Starting Pokèmon': 'Squirtle',
     ...              'Poke Ball': {
     ...                  'Squirtle': {'type': 'water', 'currentHP': 40},
     ...                  'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -196,8 +196,8 @@ def validate_move(board: dict[(int, int), bool | str], character: dict[str, Any]
     return valid_move, new_position
 
 
-def move_character(character: dict[str, Any], new_position: (int, int),
-                   board: dict[(int, int), bool | str], rows: int, columns: int) -> None:
+def move_character(character: dict, new_position: (int, int),
+                   board: dict, rows: int, columns: int) -> None:
     """
     Move character.
 
@@ -252,8 +252,8 @@ def game():
             print("\nGAME OVER: You don't have any Pokémon to continue the adventure")
 
 
-def process_by_location_type(character: dict[str, Any],
-                             board: dict[(int, int), bool | str]) -> bool:
+def process_by_location_type(character: dict,
+                             board: dict) -> bool:
     """
     Process actions when character's location is gym or store.
 

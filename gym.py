@@ -7,7 +7,7 @@ from prepare_event import select_event_option, take_out_pokemon, get_event_pokem
 from event_pokemon_attack import get_attacked
 
 
-def check_badge_eligibility(character: dict[str, Any], current_win_count: int, gym_badge_earned: bool) -> bool:
+def check_badge_eligibility(character: dict, current_win_count: int, gym_badge_earned: bool) -> bool:
     """
     Check if the character is eligible to earn a gym badge.
 
@@ -22,7 +22,7 @@ def check_badge_eligibility(character: dict[str, Any], current_win_count: int, g
 
     >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
     ...             'Current Location': (5, 5),
-    ...             'Starting Pokemon': 'Squirtle',
+    ...             'Starting Pokèmon': 'Squirtle',
     ...             'Poke Ball': {
     ...                 'Squirtle': {'type': 'water', 'currentHP': 40},
     ...                 'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -57,7 +57,7 @@ def check_badge_eligibility(character: dict[str, Any], current_win_count: int, g
     return gym_badge_earned
 
 
-def has_six_pokemons(character: dict[str, Any]) -> bool:
+def has_six_pokemons(character: dict) -> bool:
     """
     Check if the character has six Pokèmons.
 
@@ -68,7 +68,7 @@ def has_six_pokemons(character: dict[str, Any]) -> bool:
 
     >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
     ...             'Current Location': (5, 5),
-    ...             'Starting Pokemon': 'Squirtle',
+    ...             'Starting Pokèmon': 'Squirtle',
     ...             'Poke Ball': {
     ...                 'Squirtle': {'type': 'water', 'currentHP': 40},
     ...                 'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -81,7 +81,7 @@ def has_six_pokemons(character: dict[str, Any]) -> bool:
     True
     >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
     ...             'Current Location': (5, 5),
-    ...             'Starting Pokemon': 'Squirtle',
+    ...             'Starting Pokèmon': 'Squirtle',
     ...             'Poke Ball': {
     ...                 'Squirtle': {'type': 'water', 'currentHP': 40},
     ...             }}
@@ -96,7 +96,7 @@ def has_six_pokemons(character: dict[str, Any]) -> bool:
     return not more
 
 
-def encounter_gym(character: dict[str, Any]) -> bool:
+def encounter_gym(character: dict) -> bool:
     """
     Ask user to choose whether to challenge or quit.
 
@@ -123,7 +123,7 @@ def encounter_gym(character: dict[str, Any]) -> bool:
     return gym_badge_earned
 
 
-def battle_with_gym_leader(character: dict[str, Any], gym_badge_earned: bool) -> bool:
+def battle_with_gym_leader(character: dict, gym_badge_earned: bool) -> bool:
     """
     Handle the gym battle between the user and the gym leader.
 
@@ -159,7 +159,7 @@ def battle_with_gym_leader(character: dict[str, Any], gym_badge_earned: bool) ->
     return gym_badge_earned
 
 
-def initialize_battle(character: dict) -> tuple:
+def initialize_battle(character: dict) -> (int, int, int, tuple, tuple):
     """
     Initiate the gym battle.
 
@@ -176,8 +176,8 @@ def initialize_battle(character: dict) -> tuple:
     return current_win_count, prev_round, gym_round, selected_pokemon, gym_leader_pokemon
 
 
-def display_round_intro(gym_round: int, gym_leader_pokemon: (str, dict[str, Any]),
-                        selected_pokemon: (str, dict[str, Any]), character: dict[str, Any]) -> None:
+def display_round_intro(gym_round: int, gym_leader_pokemon: (str, dict),
+                        selected_pokemon: (str, dict), character: dict) -> None:
     """
     Display the status of gym leader pokèmon and selected pokèmon.
 
@@ -195,7 +195,7 @@ def display_round_intro(gym_round: int, gym_leader_pokemon: (str, dict[str, Any]
     >>> test_selected_pokemon = ('Squirtle', {'type': 'water', 'currentHP': 40})
     >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
     ...                   'Current Location': (5, 5),
-    ...                   'Starting Pokemon': 'Squirtle',
+    ...                   'Starting Pokèmon': 'Squirtle',
     ...                   'Poke Ball': {
     ...                       'Squirtle': {'type': 'water', 'currentHP': 40},
     ...                       'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -216,7 +216,7 @@ def display_round_intro(gym_round: int, gym_leader_pokemon: (str, dict[str, Any]
     >>> test_selected_pokemon = ('Squirtle', {'type': 'water', 'currentHP': 32})
     >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
     ...                   'Current Location': (5, 5),
-    ...                   'Starting Pokemon': 'Squirtle',
+    ...                   'Starting Pokèmon': 'Squirtle',
     ...                   'Poke Ball': {
     ...                       'Squirtle': {'type': 'water', 'currentHP': 32},
     ...                       'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -240,9 +240,9 @@ def display_round_intro(gym_round: int, gym_leader_pokemon: (str, dict[str, Any]
           f"(HP: {character['Poke Ball'][selected_pokemon[0]]['currentHP']})\n")
 
 
-def handle_user_choice(user_choice: str, process_result: bool, selected_pokemon: (str, dict[str, Any]),
-                       gym_leader_pokemon: (str, dict[str, Any]), character: dict[str, Any]) \
-        -> tuple:
+def handle_user_choice(user_choice: str, process_result: bool, selected_pokemon: (str, dict),
+                       gym_leader_pokemon: (str, dict), character: dict)\
+                    -> (bool, tuple, bool):
     """
     Ask user to fight, change their pokèmon, or run away.
 
@@ -265,7 +265,7 @@ def handle_user_choice(user_choice: str, process_result: bool, selected_pokemon:
     >>> test_gym_leader_pokemon = ('Weedle', {'type': 'grass', 'currentHP': 30})
     >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
     ...             'Current Location': (5, 5),
-    ...             'Starting Pokemon': 'Squirtle',
+    ...             'Starting Pokèmon': 'Squirtle',
     ...             'Poke Ball': {
     ...                 'Squirtle': {'type': 'water', 'currentHP': 40},
     ...                 'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -294,9 +294,9 @@ def handle_user_choice(user_choice: str, process_result: bool, selected_pokemon:
     return process_result, selected_pokemon, stop_process
 
 
-def check_if_alive_when_lost_the_round(gym_leader_pokemon: (str, dict[str, Any]), character: dict[str, Any],
-                                       selected_pokemon: (str, dict[str, Any]), gym_round: int) \
-        -> tuple:
+def check_if_alive_when_lost_the_round(gym_leader_pokemon: (str, dict), character: dict,
+                                       selected_pokemon: (str, dict), gym_round: int)\
+                                    -> (bool, tuple, int, bool):
     """
     Check if character is still alive when they lost the round.
 
@@ -324,8 +324,8 @@ def check_if_alive_when_lost_the_round(gym_leader_pokemon: (str, dict[str, Any])
     return process_result, selected_pokemon, gym_round, stop_process
 
 
-def win_the_round(current_win_count: int, character: dict[str, Any], gym_badge_earned: bool, gym_round: int) \
-        -> tuple:
+def win_the_round(current_win_count: int, character: dict, gym_badge_earned: bool, gym_round: int)\
+              -> (int, bool, int, tuple):
     """
     Make changes to the gym battle state as the outcome when the user wins.
 
@@ -343,17 +343,17 @@ def win_the_round(current_win_count: int, character: dict[str, Any], gym_badge_e
     return current_win_count, gym_badge_earned, gym_round, gym_leader_pokemon
 
 
-def evolve_pokemon(character: dict[str, Any]) -> None:
+def evolve_pokemon(character: dict) -> None:
     """
     Evolve character's starting pokèmon based on the character's level.
 
     :param character: a dictionary including character's info such as their poke ball and starting pokèmon
-    :precondition: character is a dictionary including 'Poke Ball', 'Starting Pokemon' keys, and other details for them
+    :precondition: character is a dictionary including 'Poke Ball', 'Starting Pokèmon' keys, and other details for them
     :postcondition: handles starting pokèmon evolution according to the character's level
 
     >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 2, 'Potion': 0,
     ...             'Current Location': (5, 5),
-    ...             'Starting Pokemon': 'Squirtle',
+    ...             'Starting Pokèmon': 'Squirtle',
     ...             'Poke Ball': {
     ...                 'Squirtle': {'type': 'water', 'currentHP': 40},
     ...                 'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -365,11 +365,11 @@ def evolve_pokemon(character: dict[str, Any]) -> None:
     >>> evolve_pokemon(test_character)
     <BLANKLINE>
     Squirtle has evolved into Wartortle!
-    >>> test_character['Starting Pokemon']
+    >>> test_character['Starting Pokèmon']
     'Wartortle'
     >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 3, 'Potion': 0,
     ...             'Current Location': (5, 5),
-    ...             'Starting Pokemon': 'Wartortle',
+    ...             'Starting Pokèmon': 'Wartortle',
     ...             'Poke Ball': {
     ...                 'Squirtle': {'type': 'water', 'currentHP': 40},
     ...                 'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -381,7 +381,7 @@ def evolve_pokemon(character: dict[str, Any]) -> None:
     >>> evolve_pokemon(test_character)
     <BLANKLINE>
     Wartortle has evolved into Blastoise!
-    >>> test_character['Starting Pokemon']
+    >>> test_character['Starting Pokèmon']
     'Blastoise'
     """
     evolution_map = {
@@ -393,19 +393,19 @@ def evolve_pokemon(character: dict[str, Any]) -> None:
         'Ivysaur': 'Venusaur',
     }
 
-    current_starting_pokemon_name = character['Starting Pokemon']
+    current_starting_pokemon_name = character['Starting Pokèmon']
     if current_starting_pokemon_name in evolution_map:
         evolved_starting_pokemon_name = evolution_map[current_starting_pokemon_name]
         available_starting_pokemons = starting_pokemon_collection(character['Current Level'])
         if evolved_starting_pokemon_name in available_starting_pokemons:
-            character['Starting Pokemon'] = evolved_starting_pokemon_name
+            character['Starting Pokèmon'] = evolved_starting_pokemon_name
             character['Poke Ball'] = {}
             character['Poke Ball'][evolved_starting_pokemon_name] \
                 = available_starting_pokemons[evolved_starting_pokemon_name]
             print(f"\n{current_starting_pokemon_name} has evolved into {evolved_starting_pokemon_name}!")
 
 
-def level_up(character: dict[str, Any]) -> None:
+def level_up(character: dict) -> None:
     """
     Level up the character.
 
@@ -415,7 +415,7 @@ def level_up(character: dict[str, Any]) -> None:
 
     >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
     ...                   'Current Location': (5, 5),
-    ...                   'Starting Pokemon': 'Squirtle',
+    ...                   'Starting Pokèmon': 'Squirtle',
     ...                   'Poke Ball': {
     ...                       'Squirtle': {'type': 'water', 'currentHP': 40},
     ...                       'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -431,7 +431,7 @@ def level_up(character: dict[str, Any]) -> None:
     <BLANKLINE>
      >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 2, 'Potion': 0,
      ...                  'Current Location': (7, 4),
-     ...                  'Starting Pokemon': 'Wartortle',
+     ...                  'Starting Pokèmon': 'Wartortle',
      ...                  'Poke Ball': {
      ...                      'Wartortle': {'type': 'water', 'currentHP': 65},
      ...                      'Luxray': {'type': 'electric', 'currentHP': 80},
