@@ -5,8 +5,8 @@ from data import starting_pokemon_collection
 from event_option import change_pokemon
 from event_pokemon_attack import get_attacked
 from gym import encounter_gym, level_up, has_six_pokemons
-from prepare_event import take_out_pokemon, select_event_option, set_event_type, describe_event, \
-    proceed_event_option
+from prepare_event import take_out_pokemon, set_event_type, describe_event, \
+    proceed_event_option, select_event_option
 from store import use_potion, encounter_store
 
 
@@ -144,21 +144,44 @@ def validate_move(board: dict[(int, int), bool | str], character: dict[str, Any]
     :return: a tuple of boolean representing whether the move is within the boundaries of the game board
              and a tuple representing the corresponding new position,
              including an integer representing X-coordinate, and an integer representing Y-coordinate
+
+    >>> test_board = {(0, 0): True, (0, 1): True, (0, 2): True, (0, 3): True, (0, 4): True, (0, 5): False,
+    ...          (1, 0): False, (1, 1): True, (1, 2): True, (1, 3): True, (1, 4): True, (1, 5): False,
+    ...          (2, 0): False, (2, 1): True, (2, 2): 'Store', (2, 3): True, (2, 4): True, (2, 5): False,
+    ...          (3, 0): False, (3, 1): True, (3, 2): True, (3, 3): True, (3, 4): True, (3, 5): False,
+    ...          (4, 0): False, (4, 1): True, (4, 2): True, (4, 3): True, (4, 4): True, (4, 5): False,
+    ...          (5, 0): False, (5, 1): True, (5, 2): True, (5, 3): True, (5, 4): True, (5, 5): 'Gym'}
+    >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
+    ...              'Current Location': (0, 0),
+    ...              'Starting Pokemon': 'Squirtle',
+    ...              'Poke Ball': {
+    ...                  'Squirtle': {'type': 'water', 'currentHP': 40},
+    ...                  'Pichu': {'type': 'electric', 'currentHP': 30},
+    ...                  'Shinx': {'type': 'electric', 'currentHP': 30},
+    ...                  'Mareep': {'type': 'electric', 'currentHP': 30},
+    ...                  'Caterpie': {'type': 'grass', 'currentHP': 30},
+    ...                  'Weedle': {'type': 'grass', 'currentHP': 30},
+    ...              }}
+    >>> validate_move(test_board, test_character, 1)
+    (False, None)
+    >>> validate_move(test_board, test_character, 4)
+    (True, (0, 1))
     """
     directions = {1: (-1, -0), 2: (1, 0), 3: (0, -1), 4: (0, 1)}
+    valid_move = False
 
     new_position = None
     if direction in directions:
         dx, dy = directions[direction]
         new_position = (character['Current Location'][0] + dx, character['Current Location'][1] + dy)
+        valid_move = board.get(new_position, False)
+        return valid_move, new_position if valid_move else None
 
-        return board.get(new_position, False), new_position
-
-    return False, new_position
+    return valid_move, new_position
 
 
 def move_character(character: dict[str, Any], new_position: (int, int),
-                   board: dict[(int, int), bool | str], rows: int, columns: int):
+                   board: dict[(int, int), bool | str], rows: int, columns: int) -> None:
     """
     Move character.
 
@@ -242,28 +265,11 @@ def process_by_location_type(character: dict[str, Any],
     return achieved_goal
 
 
-def test_gym():
-    character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
-                 'Current Location': (5, 5),
-                 'Starting Pokemon': 'Squirtle',
-                 'Poke Ball': {
-                     'Squirtle': {'type': 'water', 'currentHP': 40},
-                     'Pichu': {'type': 'electric', 'currentHP': 30},
-                     'Shinx': {'type': 'electric', 'currentHP': 30},
-                     'Mareep': {'type': 'electric', 'currentHP': 30},
-                     'Caterpie': {'type': 'grass', 'currentHP': 30},
-                     'Weedle': {'type': 'grass', 'currentHP': 30},
-                 }}
-    board, rows, columns = make_board(character['Current Level'])
-    process_by_location_type(character, board)
-
-
 def main():
     """
     Drive the program.
     """
     game()
-    # test_gym()
 
 
 if __name__ == "__main__":
