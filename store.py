@@ -1,5 +1,6 @@
 from typing import Any
 
+
 from common import check_input_is_digit
 from constants import POTION_PRICE
 from event_option import level_maximum_hp
@@ -142,5 +143,6 @@ def select_pokemon(pokeball: dict) -> (str, dict):
         user_choice = input("\nSelect pokemon to proceed by entering the pokemon name: ").capitalize()
         if user_choice in pokeball.keys():
             break
+        print("Invalid pokemon!\n")
 
     return user_choice, pokeball[user_choice]
