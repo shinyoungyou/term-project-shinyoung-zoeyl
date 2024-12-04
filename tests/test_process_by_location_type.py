@@ -12,7 +12,7 @@ class TestProcessByLocationType(TestCase):
     def test_process_by_location_type_character_location_is_gym_and_earned_gym_badge_in_level_1(self, _, __):
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
                      'Current Location': (5, 5),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 40},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -36,7 +36,7 @@ class TestProcessByLocationType(TestCase):
     def test_process_by_location_type_character_location_is_gym_and_earned_gym_badge_in_level_2(self, _, __):
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 2, 'Potion': 0,
                      'Current Location': (5, 5),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 40},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -60,7 +60,7 @@ class TestProcessByLocationType(TestCase):
     def test_process_by_location_type_character_location_is_gym_and_earned_gym_badge_in_level_3(self, _, __):
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 3, 'Potion': 0,
                      'Current Location': (5, 5),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 40},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -83,7 +83,7 @@ class TestProcessByLocationType(TestCase):
     def test_process_by_location_type_character_location_is_store_in_level_1(self, _):
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
                      'Current Location': (2, 2),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 40},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -106,7 +106,7 @@ class TestProcessByLocationType(TestCase):
     def test_process_by_location_type_character_location_is_store_in_level_2(self, _):
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 2, 'Potion': 0,
                      'Current Location': (2, 2),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 40},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -129,7 +129,7 @@ class TestProcessByLocationType(TestCase):
     def test_process_by_location_type_character_location_is_store_in_level_3(self, _):
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 3, 'Potion': 0,
                      'Current Location': (2, 2),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 40},
                          'Pichu': {'type': 'electric', 'currentHP': 30},

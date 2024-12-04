@@ -14,7 +14,7 @@ class TestCheckIfAliveWhenLostTheRound(TestCase):
         gym_leader_pokemon = ('Weedle', {'type': 'grass', 'currentHP': 30})
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
                      'Current Location': (5, 5),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 0},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -34,7 +34,7 @@ class TestCheckIfAliveWhenLostTheRound(TestCase):
         gym_leader_pokemon = ('Weedle', {'type': 'grass', 'currentHP': 30})
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
                      'Current Location': (5, 5),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 0},
                          'Pichu': {'type': 'electric', 'currentHP': 0},
@@ -54,7 +54,7 @@ class TestCheckIfAliveWhenLostTheRound(TestCase):
         gym_leader_pokemon = ('Weedle', {'type': 'grass', 'currentHP': 30})
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
                      'Current Location': (5, 5),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 10},
                          'Pichu': {'type': 'electric', 'currentHP': 30},

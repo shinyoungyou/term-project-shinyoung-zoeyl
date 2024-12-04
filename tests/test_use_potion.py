@@ -12,7 +12,7 @@ class TestBuyPotion(TestCase):
         expected_remaining_potion = 1
         character = {'Character Name': 'user1', 'Money': 25, 'Current Level': 1, 'Potion': 2,
                      'Current Location': (5, 5),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 10},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -27,7 +27,7 @@ class TestBuyPotion(TestCase):
         expected_remaining_potion = 2
         character = {'Character Name': 'user1', 'Money': 25, 'Current Level': 1, 'Potion': 2,
                      'Current Location': (5, 5),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 10},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -42,7 +42,7 @@ class TestBuyPotion(TestCase):
         expected_remaining_potion = 0
         character = {'Character Name': 'user1', 'Money': 25, 'Current Level': 1, 'Potion': 0,
                      'Current Location': (5, 5),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 10},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -58,7 +58,7 @@ class TestBuyPotion(TestCase):
         expected = "invalid is not a valid option"
         character = {'Character Name': 'user1', 'Money': 25, 'Current Level': 1, 'Potion': 2,
                      'Current Location': (5, 5),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 10},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -73,7 +73,7 @@ class TestBuyPotion(TestCase):
         expected_restored_hp = 40
         character = {'Character Name': 'user1', 'Money': 25, 'Current Level': 1, 'Potion': 1,
                      'Current Location': (5, 5),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 40},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -88,7 +88,7 @@ class TestBuyPotion(TestCase):
         expected_restored_hp = 40
         character = {'Character Name': 'user1', 'Money': 25, 'Current Level': 1, 'Potion': 1,
                      'Current Location': (5, 5),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 35},
                          'Pichu': {'type': 'electric', 'currentHP': 30},

@@ -19,7 +19,7 @@ class TestBattleWithGymLeader(TestCase):
             'Current Level': 1,
             'Potion': 0,
             'Current Location': (5, 5),
-            'Starting Pokemon': 'Squirtle',
+            'Starting Pokèmon': 'Squirtle',
             'Poke Ball': {
                 'Squirtle': {'type': 'water', 'currentHP': 40},
                 'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -46,7 +46,7 @@ class TestBattleWithGymLeader(TestCase):
             'Current Level': 1,
             'Potion': 0,
             'Current Location': (5, 5),
-            'Starting Pokemon': 'Squirtle',
+            'Starting Pokèmon': 'Squirtle',
             'Poke Ball': {
                 'Squirtle': {'type': 'water', 'currentHP': 10},
                 'Pichu': {'type': 'electric', 'currentHP': 0},

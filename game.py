@@ -27,11 +27,11 @@ def set_up_game() -> (dict, int):
     print("\nWhich pokemon would you like to go together?\nSquirtle(Water) | Charmander(Fire) | Bulbasaur(Grass)")
     user_choice = input("Please type pokemon name: ").capitalize()
     while user_choice not in starting_pokemon:
-        print(f"\n{user_choice} is not included in Starting pokemon")
+        print(f"\n{user_choice} is not included in Starting Pokèmon")
         user_choice = input("what pokemon would you like? ").capitalize()
     print()
     character['Poke Ball'] = {user_choice: starting_pokemon[user_choice]}
-    character['Starting Pokemon'] = user_choice
+    character['Starting Pokèmon'] = user_choice
     return character, 1
 
 
@@ -169,7 +169,7 @@ def validate_move(board: dict, character: dict, direction: int) -> (bool, (int, 
     ...          (5, 0): False, (5, 1): True, (5, 2): True, (5, 3): True, (5, 4): True, (5, 5): 'Gym'}
     >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
     ...              'Current Location': (0, 0),
-    ...              'Starting Pokemon': 'Squirtle',
+    ...              'Starting Pokèmon': 'Squirtle',
     ...              'Poke Ball': {
     ...                  'Squirtle': {'type': 'water', 'currentHP': 40},
     ...                  'Pichu': {'type': 'electric', 'currentHP': 30},

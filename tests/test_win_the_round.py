@@ -12,7 +12,7 @@ class TestWinTheRound(TestCase):
         current_win_count = 0
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
                      'Current Location': (5, 5),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 40},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -32,7 +32,7 @@ class TestWinTheRound(TestCase):
         current_win_count = 1
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
                      'Current Location': (5, 5),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 40},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -52,7 +52,7 @@ class TestWinTheRound(TestCase):
         current_win_count = 1
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
                      'Current Location': (5, 5),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 40},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -72,7 +72,7 @@ class TestWinTheRound(TestCase):
         current_win_count = 0
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 2, 'Potion': 0,
                      'Current Location': (5, 5),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 40},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -92,7 +92,7 @@ class TestWinTheRound(TestCase):
         current_win_count = 1
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 2, 'Potion': 0,
                      'Current Location': (5, 5),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 40},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -112,7 +112,7 @@ class TestWinTheRound(TestCase):
         current_win_count = 2
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 2, 'Potion': 0,
                      'Current Location': (5, 5),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 40},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -132,7 +132,7 @@ class TestWinTheRound(TestCase):
         current_win_count = 0
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 3, 'Potion': 0,
                      'Current Location': (5, 5),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 40},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -152,7 +152,7 @@ class TestWinTheRound(TestCase):
         current_win_count = 1
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 3, 'Potion': 0,
                      'Current Location': (5, 5),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 40},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -172,7 +172,7 @@ class TestWinTheRound(TestCase):
         current_win_count = 2
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 3, 'Potion': 0,
                      'Current Location': (5, 5),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 40},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -192,7 +192,7 @@ class TestWinTheRound(TestCase):
         current_win_count = 3
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 3, 'Potion': 0,
                      'Current Location': (5, 5),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 40},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -212,7 +212,7 @@ class TestWinTheRound(TestCase):
         current_win_count = 3
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 3, 'Potion': 0,
                      'Current Location': (5, 5),
-                     'Starting Pokemon': 'Squirtle',
+                     'Starting Pokèmon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 40},
                          'Pichu': {'type': 'electric', 'currentHP': 30},

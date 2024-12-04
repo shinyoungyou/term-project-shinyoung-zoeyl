@@ -22,7 +22,7 @@ def check_badge_eligibility(character: dict, current_win_count: int, gym_badge_e
 
     >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
     ...             'Current Location': (5, 5),
-    ...             'Starting Pokemon': 'Squirtle',
+    ...             'Starting Pokèmon': 'Squirtle',
     ...             'Poke Ball': {
     ...                 'Squirtle': {'type': 'water', 'currentHP': 40},
     ...                 'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -68,7 +68,7 @@ def has_six_pokemons(character: dict) -> bool:
 
     >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
     ...             'Current Location': (5, 5),
-    ...             'Starting Pokemon': 'Squirtle',
+    ...             'Starting Pokèmon': 'Squirtle',
     ...             'Poke Ball': {
     ...                 'Squirtle': {'type': 'water', 'currentHP': 40},
     ...                 'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -81,7 +81,7 @@ def has_six_pokemons(character: dict) -> bool:
     True
     >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
     ...             'Current Location': (5, 5),
-    ...             'Starting Pokemon': 'Squirtle',
+    ...             'Starting Pokèmon': 'Squirtle',
     ...             'Poke Ball': {
     ...                 'Squirtle': {'type': 'water', 'currentHP': 40},
     ...             }}
@@ -195,7 +195,7 @@ def display_round_intro(gym_round: int, gym_leader_pokemon: (str, dict),
     >>> test_selected_pokemon = ('Squirtle', {'type': 'water', 'currentHP': 40})
     >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
     ...                   'Current Location': (5, 5),
-    ...                   'Starting Pokemon': 'Squirtle',
+    ...                   'Starting Pokèmon': 'Squirtle',
     ...                   'Poke Ball': {
     ...                       'Squirtle': {'type': 'water', 'currentHP': 40},
     ...                       'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -216,7 +216,7 @@ def display_round_intro(gym_round: int, gym_leader_pokemon: (str, dict),
     >>> test_selected_pokemon = ('Squirtle', {'type': 'water', 'currentHP': 32})
     >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
     ...                   'Current Location': (5, 5),
-    ...                   'Starting Pokemon': 'Squirtle',
+    ...                   'Starting Pokèmon': 'Squirtle',
     ...                   'Poke Ball': {
     ...                       'Squirtle': {'type': 'water', 'currentHP': 32},
     ...                       'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -265,7 +265,7 @@ def handle_user_choice(user_choice: str, process_result: bool, selected_pokemon:
     >>> test_gym_leader_pokemon = ('Weedle', {'type': 'grass', 'currentHP': 30})
     >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
     ...             'Current Location': (5, 5),
-    ...             'Starting Pokemon': 'Squirtle',
+    ...             'Starting Pokèmon': 'Squirtle',
     ...             'Poke Ball': {
     ...                 'Squirtle': {'type': 'water', 'currentHP': 40},
     ...                 'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -348,12 +348,12 @@ def evolve_pokemon(character: dict) -> None:
     Evolve character's starting pokèmon based on the character's level.
 
     :param character: a dictionary including character's info such as their poke ball and starting pokèmon
-    :precondition: character is a dictionary including 'Poke Ball', 'Starting Pokemon' keys, and other details for them
+    :precondition: character is a dictionary including 'Poke Ball', 'Starting Pokèmon' keys, and other details for them
     :postcondition: handles starting pokèmon evolution according to the character's level
 
     >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 2, 'Potion': 0,
     ...             'Current Location': (5, 5),
-    ...             'Starting Pokemon': 'Squirtle',
+    ...             'Starting Pokèmon': 'Squirtle',
     ...             'Poke Ball': {
     ...                 'Squirtle': {'type': 'water', 'currentHP': 40},
     ...                 'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -365,11 +365,11 @@ def evolve_pokemon(character: dict) -> None:
     >>> evolve_pokemon(test_character)
     <BLANKLINE>
     Squirtle has evolved into Wartortle!
-    >>> test_character['Starting Pokemon']
+    >>> test_character['Starting Pokèmon']
     'Wartortle'
     >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 3, 'Potion': 0,
     ...             'Current Location': (5, 5),
-    ...             'Starting Pokemon': 'Wartortle',
+    ...             'Starting Pokèmon': 'Wartortle',
     ...             'Poke Ball': {
     ...                 'Squirtle': {'type': 'water', 'currentHP': 40},
     ...                 'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -381,7 +381,7 @@ def evolve_pokemon(character: dict) -> None:
     >>> evolve_pokemon(test_character)
     <BLANKLINE>
     Wartortle has evolved into Blastoise!
-    >>> test_character['Starting Pokemon']
+    >>> test_character['Starting Pokèmon']
     'Blastoise'
     """
     evolution_map = {
@@ -393,12 +393,12 @@ def evolve_pokemon(character: dict) -> None:
         'Ivysaur': 'Venusaur',
     }
 
-    current_starting_pokemon_name = character['Starting Pokemon']
+    current_starting_pokemon_name = character['Starting Pokèmon']
     if current_starting_pokemon_name in evolution_map:
         evolved_starting_pokemon_name = evolution_map[current_starting_pokemon_name]
         available_starting_pokemons = starting_pokemon_collection(character['Current Level'])
         if evolved_starting_pokemon_name in available_starting_pokemons:
-            character['Starting Pokemon'] = evolved_starting_pokemon_name
+            character['Starting Pokèmon'] = evolved_starting_pokemon_name
             character['Poke Ball'] = {}
             character['Poke Ball'][evolved_starting_pokemon_name] \
                 = available_starting_pokemons[evolved_starting_pokemon_name]
@@ -415,7 +415,7 @@ def level_up(character: dict) -> None:
 
     >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
     ...                   'Current Location': (5, 5),
-    ...                   'Starting Pokemon': 'Squirtle',
+    ...                   'Starting Pokèmon': 'Squirtle',
     ...                   'Poke Ball': {
     ...                       'Squirtle': {'type': 'water', 'currentHP': 40},
     ...                       'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -431,7 +431,7 @@ def level_up(character: dict) -> None:
     <BLANKLINE>
      >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 2, 'Potion': 0,
      ...                  'Current Location': (7, 4),
-     ...                  'Starting Pokemon': 'Wartortle',
+     ...                  'Starting Pokèmon': 'Wartortle',
      ...                  'Poke Ball': {
      ...                      'Wartortle': {'type': 'water', 'currentHP': 65},
      ...                      'Luxray': {'type': 'electric', 'currentHP': 80},
