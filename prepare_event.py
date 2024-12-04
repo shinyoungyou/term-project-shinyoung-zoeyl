@@ -5,7 +5,7 @@ import copy
 from event_option import fight, throw_poke_ball
 
 
-def customize_user_options(event_type: str, gym_round: (int or None) = None) -> list:
+def customize_user_options(event_type: str, gym_round: (int | None) = None) -> list:
     """
     Add an option to the user's options tailored to the event type.
 
