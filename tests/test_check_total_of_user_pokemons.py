@@ -25,7 +25,8 @@ class Test(TestCase):
     @patch('event_option.select_release_pokemon')
     @patch('builtins.input', return_value='n')
     @patch('sys.stdout', new_callable=io.StringIO)
-    def test_check_total_of_user_pokemons_user_has_6_pokemon_and_chose_no(self, mock_output, _, mock_select_release_pokemon):
+    def test_check_total_of_user_pokemons_user_has_6_pokemon_and_chose_no(self, mock_output, _,
+                                                                          mock_select_release_pokemon):
         character = {"Poke Ball": {'Geodude': {'type': 'rock', 'currentHP': 30},
                                    'Vanillite': {'type': 'ice', 'currentHP': 30},
                                    'Spheal': {'type': 'ice', 'currentHP': 30},
@@ -65,8 +66,7 @@ class Test(TestCase):
 
     @patch('event_option.select_release_pokemon')
     @patch('builtins.input', side_effect=['u', 'y'])
-    @patch('sys.stdout', new_callable=io.StringIO)
-    def test_check_total_of_user_pokemons_user_does_not_have_6_pokemon(self, mock_output, _,
+    def test_check_total_of_user_pokemons_user_does_not_have_6_pokemon(self, _,
                                                                        mock_select_release_pokemon):
         character = {"Poke Ball": {'Geodude': {'type': 'rock', 'currentHP': 30},
                                    'Vanillite': {'type': 'ice', 'currentHP': 30},

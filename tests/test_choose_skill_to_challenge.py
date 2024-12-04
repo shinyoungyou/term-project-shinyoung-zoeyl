@@ -28,4 +28,3 @@ class Test(TestCase):
         expected = "5 is not a valid choice! Please choose a valid option between 1 and 3.\n"
 
         self.assertIn(expected, the_game_printed_this)
-

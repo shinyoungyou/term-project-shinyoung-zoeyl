@@ -5,7 +5,7 @@ import copy
 from event_option import fight, throw_poke_ball
 
 
-def customize_user_options(event_type: str, gym_round: (int or None) = None) -> list:
+def customize_user_options(event_type: str, gym_round: (int | None) = None) -> list:
     """
     Add an option to the user's options tailored to the event type.
 
@@ -160,7 +160,7 @@ def describe_event(event_type: str, character: dict) -> tuple:
     event_pokemon_info = get_event_pokemon(character)
     if event_type == "wildPokemon":
         print(f"\nA wild {event_pokemon_info[0]} appeared!")
-        print(f"\nEvent pokemon status: {event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
     else:
         print(f"\nYou encountered a {event_type}!\n{event_type} sent out {event_pokemon_info[0]}!\n")
+    print(f"Event pokemon status: {event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
     return event_pokemon_info

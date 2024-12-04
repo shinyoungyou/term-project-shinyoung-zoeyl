@@ -94,7 +94,7 @@ def event_occurred(character: dict) -> None:
         character_pokemon = take_out_pokemon(character['Poke Ball'])
 
         while process_result:
-            print(f"\n{character['Character Name']}'s pokemon status: {character_pokemon[0]}"
+            print(f"{character['Character Name']}'s pokemon status: {character_pokemon[0]}"
                   f"(HP: {character['Poke Ball'][character_pokemon[0]]['currentHP']})\n")
 
             user_choice = select_event_option(event_type)
@@ -110,7 +110,7 @@ def event_occurred(character: dict) -> None:
             if process_result:
                 process_result = get_attacked(event_pokemon_info, event_type, character, character_pokemon)
     else:
-        print("\nNo event is occurred.\n------------------------------------------\n")
+        print("\n\nNo event is occurred\n------------------------------------------\n\n")
 
 
 def get_user_choice(character: dict, board: dict, rows: int, columns: int) -> int:
@@ -247,9 +247,9 @@ def game():
             print("You can't go in that direction!")
 
         if achieved_goal:
-            print("Congratulations! You have successfully finished your journey :)")
+            print("\nCongratulations! You have successfully finished your journey :)")
         elif not is_alive(character):
-            print("GAME OVER: You don't have any Pokémon to continue the adventure")
+            print("\nGAME OVER: You don't have any Pokémon to continue the adventure")
 
 
 def process_by_location_type(character: dict,

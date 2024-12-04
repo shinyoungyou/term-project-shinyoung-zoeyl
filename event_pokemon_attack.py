@@ -31,7 +31,7 @@ def get_attacked(event_pokemon_info: tuple, event_type: str, character: dict, ch
     if get_probability():
         print(f"{event_pokemon_skill['name']} hit!")
         character_pokemon[1]['currentHP'] -= damage
-        print(f"{character_pokemon[0]} took {damage} damage!")
+        print(f"{character_pokemon[0]} took {damage} damage!\n")
     else:
         print(f"{event_pokemon_skill['name']} missed!")
 
@@ -55,7 +55,7 @@ def check_status(character_pokemon: tuple) -> bool:
     """
     if character_pokemon[1]['currentHP'] <= 0:
         character_pokemon[1]['currentHP'] = 0
-        print(f"{character_pokemon[0]} fainted!")
+        print(f"{character_pokemon[0]} fainted!\n")
         status = False
     else:
         status = True
