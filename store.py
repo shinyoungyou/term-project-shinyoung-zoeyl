@@ -5,7 +5,7 @@ from constants import POTION_PRICE
 from event_option import level_maximum_hp
 
 
-def encounter_store(character: dict[str, Any]):
+def encounter_store(character: dict[str, Any]) -> None:
     """
     Give user with options between buy or use potion, or quit the store.
 
@@ -28,7 +28,7 @@ def encounter_store(character: dict[str, Any]):
             print("Invalid option. Please try again.")
 
 
-def buy_potion(character: dict[str, Any]):
+def buy_potion(character: dict[str, Any]) -> None:
     """
     Calculate the change after a purchase.
 
