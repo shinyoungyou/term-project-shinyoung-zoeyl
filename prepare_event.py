@@ -2,6 +2,7 @@ from common import check_input_is_digit
 from data import event_pokemon
 import random
 import copy
+from event_option import fight, throw_poke_ball
 
 
 def customize_user_options(event_type: str, gym_round: (int or None) = None) -> list:
@@ -91,3 +92,75 @@ def select_event_option(event_type: str, gym_round: (int or None) = None) -> str
         if 1 <= user_choice <= len(character_option):
             return character_option[user_choice - 1]
         print(f"\nInvalid choice! Please enter a number between 1 and {len(character_option)}.")
+
+
+def set_event_type() -> str or bool:
+    """
+    Determine what kind of event has occurred.
+
+    :postcondition: choose a random event type
+    :return: a string representing the type of event if an event has occurred
+    :return: a boolean value, false if no event has occurred
+    """
+    event_collection = ("wildPokemon", "Team Rocket", "Strange trainer", False)
+    return random.choices(event_collection, weights=[18, 5, 7, 3], k=1)[0]
+
+
+def proceed_event_option(user_choice: str, character_pokemon: tuple, character: dict,
+                         event_pokemon_info: tuple, event_type: str) -> bool:
+    """
+    Execute the function corresponding to the user's selected option.
+
+    :param user_choice: a string representing the option the user wants to do
+    :param character_pokemon: a tuple containing the user Pokémon's name and a dictionary with its type and current HP
+    :param character: a dictionary containing information about the character's status
+    :param event_pokemon_info: a tuple containing the event Pokémon's name and a dictionary with its type and current HP
+    :param event_type: a string that represents what kind of event occurs
+    :precondition: the user Pokémon must have an HP greater than 0 in the character_pokemon
+    :precondition: the event Pokémon must have an HP greater than 0 in the event_pokemon_info
+    :precondition: character_pokemon represents the status of one of the user's Pokémon in battle
+    :precondition: event_type must be either wild Pokémon, Team Rocket, Gym Leader or Strange trainer
+    :precondition: user_choice must be either "Fight", "Throw Poke Ball" or "Run Away"
+    :postcondition: execute the function corresponding to the user's selected option
+    :postcondition: finish the event if user_choice is "Run Away"
+    :return: a boolean value, false if the event has finished, true otherwise
+
+    >>> d_user_choice = "Run Away"
+    >>> d_character_pokemon = ("Squirtle", {'type': 'water', 'currentHP': 40})
+    >>> d_character = {'Character Name': "zoey", 'Poke Ball': {'Squirtle': {'type': 'water', 'currentHP': 40}}}
+    >>> d_event_pokemon_info = ("Pichu", {'type': 'electric', 'currentHP': 30})
+    >>> d_event_type = "wildPokemon"
+    >>> proceed_event_option(d_user_choice, d_character_pokemon, d_character, d_event_pokemon_info, d_event_type)
+    <BLANKLINE>
+    You escaped from Pichu!
+    <BLANKLINE>
+    False
+    """
+    if user_choice == "Fight":
+        process_result = fight(character_pokemon, event_pokemon_info, character, event_type)
+    elif user_choice == "Throw Poke Ball":
+        process_result = throw_poke_ball(event_pokemon_info, character)
+    else:
+        print(f"\nYou escaped from {event_pokemon_info[0]}!\n")
+        process_result = False
+    return process_result
+
+
+def describe_event(event_type: str, character: dict) -> tuple:
+    """
+    Identify the event that has occurred.
+
+    :param event_type: a string that represents what kind of event occurs
+    :param character: a dictionary containing information about the character's status
+    :precondition: event_type must be either wild Pokémon, Team Rocket or Strange trainer
+    :postcondition: set up information about a random event Pokémon
+    :postcondition: display what event has occurred
+    :return: a tuple containing the event Pokémon's name and a dictionary containing its type and current HP
+    """
+    event_pokemon_info = get_event_pokemon(character)
+    if event_type == "wildPokemon":
+        print(f"\nA wild {event_pokemon_info[0]} appeared!")
+        print(f"\nEvent pokemon status: {event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
+    else:
+        print(f"\nYou encountered a {event_type}!\n{event_type} sent out {event_pokemon_info[0]}!\n")
+    return event_pokemon_info
