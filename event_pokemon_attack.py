@@ -55,7 +55,7 @@ def check_status(character_pokemon: tuple) -> bool:
     """
     if character_pokemon[1]['currentHP'] <= 0:
         character_pokemon[1]['currentHP'] = 0
-        print(f"{character_pokemon[0]} fainted!\n")
+        print(f"{character_pokemon[0]} fainted! You lose the battle:(\n")
         status = False
     else:
         status = True

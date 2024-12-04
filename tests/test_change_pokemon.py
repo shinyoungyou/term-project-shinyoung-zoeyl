@@ -25,7 +25,7 @@ class Test(TestCase):
         change_pokemon(pokeball, character_pokemon)
 
         the_game_printed_this = mock_output.getvalue()
-        expected = '\nSeadra is not included in your Poke Balls or has 0HP\n'
+        expected = '\nSeadra is not included in your Poké Balls or has 0HP\n'
 
         self.assertIn(expected, the_game_printed_this)
 
@@ -37,6 +37,6 @@ class Test(TestCase):
         change_pokemon(pokeball, character_pokemon)
 
         the_game_printed_this = mock_output.getvalue()
-        expected = '\nYou has no pokemon to switch to\n'
+        expected = '\nYou has no Pokémon to switch to\n'
 
         self.assertIn(expected, the_game_printed_this)

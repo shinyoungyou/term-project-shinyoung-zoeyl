@@ -140,7 +140,7 @@ def get_attack_result(character_pokemon_skill: dict, event_pokemon_info: tuple, 
             get_money(character, event_type)
         return False
     else:
-        print(f"Event pokemon status: {event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
+        print(f"Event Pokémon status: {event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
         return True
 
 
@@ -163,14 +163,14 @@ def fight(character_pokemon: tuple, event_pokemon_info: tuple, character: dict, 
     :postcondition: check if the event is completed by the user Pokémon's attack if the skill hit
     :return: a boolean value, true if the event is not finished, false otherwise
     """
-    print(f"\nEvent pokemon status: {event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
+    print(f"\nEvent Pokémon status: {event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
     skill_collection = get_skill_of(character_pokemon[1]['type'])
     character_pokemon_skill = choose_skill_to_challenge(skill_collection, character['Current Level'])
     if get_probability():
         return get_attack_result(character_pokemon_skill, event_pokemon_info, character, event_type)
     else:
         print(f"\n{character_pokemon_skill['name']} missed!\n"
-              f"Event pokemon status: {event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
+              f"Event Pokémon status: {event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
         return True
 
 
@@ -189,18 +189,18 @@ def change_pokemon(pokeball: dict, character_pokemon: tuple):
     :return: a tuple representing information of the Pokémon chosen by the user
     """
     if len(pokeball) == 1:
-        print("\nYou has no pokemon to switch to\n")
+        print("\nYou has no Pokémon to switch to\n")
     else:
-        print("\nYour pokemons' status...")
+        print("\nYour Pokémons' status...")
         for pokemon in pokeball.keys():
             if pokemon != character_pokemon[0]:
                 print(f"{pokemon}(HP: {pokeball[pokemon]['currentHP']})")
 
-        user_choice = input("\nWhich pokemon would you like to switch to (Entering Pokemon name)? ").capitalize()
+        user_choice = input("\nWhich Pokémon would you like to switch to (Entering Pokémon name)? ").capitalize()
         while (user_choice not in pokeball.keys() or pokeball[user_choice]['currentHP'] == 0
                or user_choice == character_pokemon[0]):
-            print(f"\n{user_choice} is not included in your Poke Balls or has 0HP")
-            user_choice = input("Which pokemon would you like (Entering Pokemon name)? ").capitalize()
+            print(f"\n{user_choice} is not included in your Poké Balls or has 0HP")
+            user_choice = input("Which Pokémon would you like (Entering Pokémon name)? ").capitalize()
 
         print(f"\nGood job, {character_pokemon[0]}! Come back!\nGo, {user_choice}")
 
@@ -223,15 +223,15 @@ def select_release_pokemon(character: dict) -> None:
     print("\nYou have...")
     for pokemon in character['Poke Ball'].keys():
         print(f"{pokemon}(HP: {character['Poke Ball'][pokemon]['currentHP']})")
-    print("You can't choose the Starting Pokemon!")
+    print("You can't choose the Starting Pokémon!")
 
-    user_choice_pokemon = input("what pokemon would you release (Entering pokemon name)? ").capitalize()
+    user_choice_pokemon = input("what Pokémon would you release (Entering Pokémon name)? ").capitalize()
     while (user_choice_pokemon not in character['Poke Ball'].keys() or user_choice_pokemon
            == character['Starting Pokemon']):
         print(f"\n{user_choice_pokemon} can't be chosen!")
         user_choice_pokemon = input(
-            "Please choose a pokemon that is in your Poke Ball except your Starting Pokemon "
-            + "(Entering pokemon name): ").capitalize()
+            "Please choose a Pokémon that is in your Poké Ball except your Starting Pokémon "
+            + "(Entering Pokémon name): ").capitalize()
 
     del character['Poke Ball'][user_choice_pokemon]
     print(f"\nGoodbye, {user_choice_pokemon}")
@@ -284,6 +284,6 @@ def throw_poke_ball(event_pokemon_info: tuple, character: dict) -> bool:
                    'currentHP': int(level_maximum_hp(character['Current Level']) / 2)}
             print(f"\nGotcha! {event_pokemon_info[0]} was caught!\n")
     else:
-        print("\nShoot! It was so close!")
+        print("\nShoot! It was so close!\n")
         process_result = get_probability()
     return process_result

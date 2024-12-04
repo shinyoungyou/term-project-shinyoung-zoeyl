@@ -94,12 +94,12 @@ def event_occurred(character: dict) -> None:
         character_pokemon = take_out_pokemon(character['Poke Ball'])
 
         while process_result:
-            print(f"{character['Character Name']}'s pokemon status: {character_pokemon[0]}"
+            print(f"{character['Character Name']}'s Pokémon status: {character_pokemon[0]}"
                   f"(HP: {character['Poke Ball'][character_pokemon[0]]['currentHP']})\n")
 
             user_choice = select_event_option(event_type)
 
-            if user_choice == "Change Pokemon":
+            if user_choice == "Change Pokémon":
                 character_pokemon = change_pokemon(character['Poke Ball'], character_pokemon)
             elif user_choice == "Use Potion":
                 use_potion(character, character_pokemon)
@@ -136,7 +136,7 @@ def get_user_choice(character: dict, board: dict, rows: int, columns: int) -> in
         if 1 <= user_choice <= 4:
             return user_choice
         elif user_choice == 5:
-            print("\nCurrent your pokemons' status is...")
+            print("\nCurrent your Pokémon' status is...")
             for name, info in character['Poke Ball'].items():
                 print(f"{name}(HP: {info['currentHP']})")
             print(f"\nYou have ${character['Money']} and You have {character['Potion']} potion(s)!\n")

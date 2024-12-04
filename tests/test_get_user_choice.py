@@ -40,7 +40,7 @@ class Test(TestCase):
         get_user_choice(character, board, 6, 6)
 
         the_game_printed_this = mock_output.getvalue()
-        expected = "\nCurrent your pokemons' status is...\n"
+        expected = "\nCurrent your Pokémon' status is...\n"
 
         self.assertIn(expected, the_game_printed_this)
 

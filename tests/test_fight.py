@@ -47,6 +47,6 @@ class Test(TestCase):
         mock_get_skill_of.assert_called_once()
 
         the_game_printed_this = mock_output.getvalue()
-        expected = '\nSolar Beam missed!\nEvent pokemon status: Beedrill(HP: 80)\n'
+        expected = '\nSolar Beam missed!\nEvent Pokémon status: Beedrill(HP: 80)\n'
 
         self.assertIn(expected, the_game_printed_this)

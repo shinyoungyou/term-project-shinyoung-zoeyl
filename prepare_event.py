@@ -20,18 +20,18 @@ def customize_user_options(event_type: str, gym_round: (int | None) = None) -> l
     :return: a list containing the options the user can choose
 
     >>> customize_user_options("wildPokemon")
-    ['Fight', 'Change Pokemon', 'Use Potion', 'Throw Poke Ball', 'Run Away']
+    ['Fight', 'Change Pokémon', 'Use Potion', 'Throw Poke Ball', 'Run Away']
     >>> customize_user_options("Gym Leader", 3)
-    ['Fight', 'Change Pokemon', 'Run Away']
+    ['Fight', 'Change Pokémon', 'Run Away']
     """
-    character_option = ["Fight", "Change Pokemon"]
+    character_option = ["Fight", "Change Pokémon"]
     if event_type == 'Gym Leader':
         if gym_round > 2:
             character_option.append("Run Away")
     else:
         character_option.append("Use Potion")
         if event_type == 'wildPokemon':
-            character_option.extend(["Throw Poke Ball", "Run Away"])
+            character_option.extend(["Throw Poké Ball", "Run Away"])
     return character_option
 
 
@@ -120,7 +120,7 @@ def proceed_event_option(user_choice: str, character_pokemon: tuple, character: 
     :precondition: the event Pokémon must have an HP greater than 0 in the event_pokemon_info
     :precondition: character_pokemon represents the status of one of the user's Pokémon in battle
     :precondition: event_type must be either wild Pokémon, Team Rocket, Gym Leader or Strange trainer
-    :precondition: user_choice must be either "Fight", "Throw Poke Ball" or "Run Away"
+    :precondition: user_choice must be either "Fight", "Throw Poké Ball" or "Run Away"
     :postcondition: execute the function corresponding to the user's selected option
     :postcondition: finish the event if user_choice is "Run Away"
     :return: a boolean value, false if the event has finished, true otherwise
@@ -138,7 +138,7 @@ def proceed_event_option(user_choice: str, character_pokemon: tuple, character: 
     """
     if user_choice == "Fight":
         process_result = fight(character_pokemon, event_pokemon_info, character, event_type)
-    elif user_choice == "Throw Poke Ball":
+    elif user_choice == "Throw Poké Ball":
         process_result = throw_poke_ball(event_pokemon_info, character)
     else:
         print(f"\nYou escaped from {event_pokemon_info[0]}!\n")
@@ -162,5 +162,5 @@ def describe_event(event_type: str, character: dict) -> tuple:
         print(f"\nA wild {event_pokemon_info[0]} appeared!")
     else:
         print(f"\nYou encountered a {event_type}!\n{event_type} sent out {event_pokemon_info[0]}!\n")
-    print(f"Event pokemon status: {event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
+    print(f"Event Pokémon status: {event_pokemon_info[0]}(HP: {event_pokemon_info[1]['currentHP']})\n")
     return event_pokemon_info
