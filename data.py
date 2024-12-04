@@ -5,6 +5,11 @@ def starting_pokemon_collection(character_level: int) -> dict:
     :param character_level: an integer that represents user's current level
     :precondition: character_level must be a number between 1 and 3
     :return: a dictionary containing starting Pokémon's information tailored to the character_level
+
+    >>> starting_pokemon_collection(1)  # doctest: +ELLIPSIS
+    {'Squirtle': {'type': 'water', 'currentHP': 40}, 'Charmander': {'type': 'fire', 'currentHP': 40}, ...}
+    >>> starting_pokemon_collection(3)  # doctest: +ELLIPSIS
+    {'Blastoise': {'type': 'water', 'currentHP': 100}, 'Charizard': {'type': 'fire', 'currentHP': 100}, ...}
     """
     level1_starting_pokemon = {'Squirtle': {'type': 'water', 'currentHP': 40},
                                'Charmander': {'type': 'fire', 'currentHP': 40},
@@ -33,6 +38,11 @@ def event_pokemon(character_level: int) -> dict:
     :postcondition: set up collections of event Pokémon information tailored to the user's level
     :postcondition: get a collection tailored to the character_level
     :return: a dictionary containing event Pokémon's information tailored to the character_level
+    
+    >>> event_pokemon(2)  # doctest: +ELLIPSIS
+    {'Pikachu': {'type': 'electric', 'currentHP': 50}, 'Luxio': {'type': 'electric', 'currentHP': 50}, ...}
+    >>> event_pokemon(3)  # doctest: +ELLIPSIS
+    {'Raichu': {'type': 'electric', 'currentHP': 80}, 'Luxray': {'type': 'electric', 'currentHP': 80}, ...}
     """
     level1_pokemon = {'Pichu': {'type': 'electric', 'currentHP': 30},
                       'Shinx': {'type': 'electric', 'currentHP': 30},
