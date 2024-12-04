@@ -1,12 +1,12 @@
 from unittest import TestCase
 from unittest.mock import patch
-from game import proceed_event_option
+from prepare_event import proceed_event_option
 import io
 
 
 class Test(TestCase):
 
-    @patch('game.fight')
+    @patch('prepare_event.fight')
     def test_proceed_event_option_user_choice_is_fight(self, mock_fight):
         mock_fight.return_value = True
 
@@ -21,7 +21,7 @@ class Test(TestCase):
         mock_fight.assert_called_once()
         self.assertTrue(result, True)
 
-    @patch('game.throw_poke_ball')
+    @patch('prepare_event.throw_poke_ball')
     def test_proceed_event_option_user_choice_is_throw_poke_ball(self, mock_throw_poke_ball):
         mock_throw_poke_ball.return_value = False
 

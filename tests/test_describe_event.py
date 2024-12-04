@@ -1,12 +1,12 @@
 from unittest import TestCase
 from unittest.mock import patch
-from game import describe_event
+from prepare_event import describe_event
 import io
 
 
 class Test(TestCase):
 
-    @patch('game.get_event_pokemon')
+    @patch('prepare_event.get_event_pokemon')
     @patch('sys.stdout', new_callable=io.StringIO)
     def test_describe_event_event_type_is_wild_pokemon(self, mock_output, mock_get_event_pokemon):
         mock_get_event_pokemon.return_value = ("Pichu", {'type': 'electric', 'currentHP': 30})
@@ -21,7 +21,7 @@ class Test(TestCase):
 
         self.assertIn(expected, the_game_printed_this)
 
-    @patch('game.get_event_pokemon')
+    @patch('prepare_event.get_event_pokemon')
     @patch('sys.stdout', new_callable=io.StringIO)
     def test_describe_event_event_type_is_team_rocket(self, mock_output, mock_get_event_pokemon):
         mock_get_event_pokemon.return_value = ("Pichu", {'type': 'electric', 'currentHP': 30})
@@ -36,7 +36,7 @@ class Test(TestCase):
 
         self.assertIn(expected, the_game_printed_this)
 
-    @patch('game.get_event_pokemon')
+    @patch('prepare_event.get_event_pokemon')
     @patch('sys.stdout', new_callable=io.StringIO)
     def test_describe_event_event_type_is_strange_trainer(self, mock_output, mock_get_event_pokemon):
         mock_get_event_pokemon.return_value = ("Pichu", {'type': 'electric', 'currentHP': 30})

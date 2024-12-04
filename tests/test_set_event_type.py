@@ -1,5 +1,5 @@
 from unittest import TestCase
-from game import set_event_type
+from prepare_event import set_event_type
 from unittest.mock import patch
 
 
