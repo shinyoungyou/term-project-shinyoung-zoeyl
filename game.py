@@ -265,28 +265,11 @@ def process_by_location_type(character: dict[str, Any],
     return achieved_goal
 
 
-def test_gym():
-    character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
-                 'Current Location': (5, 5),
-                 'Starting Pokemon': 'Squirtle',
-                 'Poke Ball': {
-                     'Squirtle': {'type': 'water', 'currentHP': 40},
-                     'Pichu': {'type': 'electric', 'currentHP': 30},
-                     'Shinx': {'type': 'electric', 'currentHP': 30},
-                     'Mareep': {'type': 'electric', 'currentHP': 30},
-                     'Caterpie': {'type': 'grass', 'currentHP': 30},
-                     'Weedle': {'type': 'grass', 'currentHP': 30},
-                 }}
-    board, rows, columns = make_board(character['Current Level'])
-    process_by_location_type(character, board)
-
-
 def main():
     """
     Drive the program.
     """
     game()
-    # test_gym()
 
 
 if __name__ == "__main__":
