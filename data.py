@@ -5,6 +5,11 @@ def starting_pokemon_collection(character_level: int) -> dict:
     :param character_level: an integer that represents user's current level
     :precondition: character_level must be a number between 1 and 3
     :return: a dictionary containing starting Pokémon's information tailored to the character_level
+
+    >>> starting_pokemon_collection(1)  # doctest: +ELLIPSIS
+    {'Squirtle': {'type': 'water', 'currentHP': 40}, 'Charmander': {'type': 'fire', 'currentHP': 40}, ...}
+    >>> starting_pokemon_collection(3)  # doctest: +ELLIPSIS
+    {'Blastoise': {'type': 'water', 'currentHP': 100}, 'Charizard': {'type': 'fire', 'currentHP': 100}, ...}
     """
     level1_starting_pokemon = {'Squirtle': {'type': 'water', 'currentHP': 40},
                                'Charmander': {'type': 'fire', 'currentHP': 40},
