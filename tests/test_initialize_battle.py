@@ -11,7 +11,7 @@ class TestInitializeBattle(TestCase):
     def test_initialize_battle_in_level_1(self, _, __):
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
                      'Current Location': (5, 5),
-                     'Starting Pokèmon': 'Squirtle',
+                     'Starting Pokémon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 40},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -30,7 +30,7 @@ class TestInitializeBattle(TestCase):
     def test_initialize_battle_in_level_2(self, _, __):
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 2, 'Potion': 0,
                      'Current Location': (7, 4),
-                     'Starting Pokèmon': 'Wartortle',
+                     'Starting Pokémon': 'Wartortle',
                      'Poke Ball': {
                          'Wartortle': {'type': 'water', 'currentHP': 65},
                          'Luxray': {'type': 'electric', 'currentHP': 80},
@@ -49,7 +49,7 @@ class TestInitializeBattle(TestCase):
     def test_initialize_battle_in_level_3(self, _, __):
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 3, 'Potion': 0,
                      'Current Location': (9, 0),
-                     'Starting Pokèmon': 'Blastoise',
+                     'Starting Pokémon': 'Blastoise',
                      'Poke Ball': {
                          'Blastoise': {'type': 'water', 'currentHP': 100},
                          'Luxray': {'type': 'electric', 'currentHP': 80},

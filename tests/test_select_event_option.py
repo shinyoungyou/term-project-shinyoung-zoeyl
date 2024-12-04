@@ -29,20 +29,20 @@ class Test(TestCase):
     @patch('prepare_event.customize_user_options')
     @patch('prepare_event.check_input_is_digit')
     def test_select_event_option_option_number_is_5(self, mock_check_input_is_digit, mock_customize_user_options):
-        mock_customize_user_options.return_value = ["Fight", "Change Pokemon", "Use Potion", "Throw Poke Ball",
+        mock_customize_user_options.return_value = ["Fight", "Change Pokemon", "Use Potion", "Throw Poké Ball",
                                                     "Run Away"]
         mock_check_input_is_digit.return_value = 4
 
         result = select_event_option("wildPokemon")
 
-        self.assertEqual(result, "Throw Poke Ball")
+        self.assertEqual(result, "Throw Poké Ball")
 
     @patch('prepare_event.customize_user_options')
     @patch('prepare_event.check_input_is_digit')
     @patch('sys.stdout', new_callable=io.StringIO)
     def test_select_event_option_user_choice_is_invalid(self, mock_output, mock_check_input_is_digit,
                                                         mock_customize_user_options):
-        mock_customize_user_options.return_value = ["Fight", "Change Pokemon", "Use Potion", "Throw Poke Ball",
+        mock_customize_user_options.return_value = ["Fight", "Change Pokemon", "Use Potion", "Throw Poké Ball",
                                                     "Run Away"]
         mock_check_input_is_digit.side_effect = [7, 3]
 

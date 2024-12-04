@@ -14,7 +14,7 @@ class TestHandleUserChoice(TestCase):
         gym_leader_pokemon = ('Weedle', {'type': 'grass', 'currentHP': 30})
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
                      'Current Location': (5, 5),
-                     'Starting Pokèmon': 'Squirtle',
+                     'Starting Pokémon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 40},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -35,7 +35,7 @@ class TestHandleUserChoice(TestCase):
         gym_leader_pokemon = ('Weedle', {'type': 'grass', 'currentHP': 30})
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
                      'Current Location': (5, 5),
-                     'Starting Pokèmon': 'Squirtle',
+                     'Starting Pokémon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 40},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -56,7 +56,7 @@ class TestHandleUserChoice(TestCase):
         gym_leader_pokemon = ('Weedle', {'type': 'grass', 'currentHP': 30})
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
                      'Current Location': (5, 5),
-                     'Starting Pokèmon': 'Squirtle',
+                     'Starting Pokémon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 40},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -76,7 +76,7 @@ class TestHandleUserChoice(TestCase):
         gym_leader_pokemon = ('Weedle', {'type': 'grass', 'currentHP': 30})
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
                      'Current Location': (5, 5),
-                     'Starting Pokèmon': 'Squirtle',
+                     'Starting Pokémon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 40},
                          'Pichu': {'type': 'electric', 'currentHP': 30},

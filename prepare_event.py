@@ -20,7 +20,7 @@ def customize_user_options(event_type: str, gym_round: (int | None) = None) -> l
     :return: a list containing the options the user can choose
 
     >>> customize_user_options("wildPokemon")
-    ['Fight', 'Change Pokémon', 'Use Potion', 'Throw Poke Ball', 'Run Away']
+    ['Fight', 'Change Pokémon', 'Use Potion', 'Throw Poké Ball', 'Run Away']
     >>> customize_user_options("Gym Leader", 3)
     ['Fight', 'Change Pokémon', 'Run Away']
     """

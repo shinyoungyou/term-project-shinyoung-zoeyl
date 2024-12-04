@@ -27,11 +27,11 @@ def set_up_game() -> (dict, int):
     print("\nWhich pokemon would you like to go together?\nSquirtle(Water) | Charmander(Fire) | Bulbasaur(Grass)")
     user_choice = input("Please type pokemon name: ").capitalize()
     while user_choice not in starting_pokemon:
-        print(f"\n{user_choice} is not included in Starting Pokèmon")
+        print(f"\n{user_choice} is not included in Starting Pokémon")
         user_choice = input("what pokemon would you like? ").capitalize()
     print()
     character['Poke Ball'] = {user_choice: starting_pokemon[user_choice]}
-    character['Starting Pokèmon'] = user_choice
+    character['Starting Pokémon'] = user_choice
     return character, 1
 
 
@@ -43,12 +43,12 @@ def print_instructions() -> None:
 
     >>> print_instructions()
     <BLANKLINE>
-    Welcome to the world of Pokèmon! Embark on an exciting journey to become a Pokèmon Champion.
+    Welcome to the world of Pokémon! Embark on an exciting journey to become a Pokémon Champion.
     <BLANKLINE>
     Important notes to know before you begin:
     - Stores are represented by S on the map.
     - Gyms are represented by G on the map.
-    - You can catch wild pokèmons by throwing pokeball when their HP is less than 11.
+    - You can catch wild pokémons by throwing pokeball when their HP is less than 11.
     - If all six of your Pokémon lose their HP, the game is over.
     - You can only challenge a Gym Leader once you have a full team of six Pokémon.
     - After defeating a Gym Leader, you will earn a Badge, unlocking the next level.
@@ -58,11 +58,11 @@ def print_instructions() -> None:
       - Level 3: Defeat the gym leader four times to earn a badge and complete the mission.
     - The mission is complete when you defeat the final Gym Leader at Level 3.
     """
-    print("\nWelcome to the world of Pokèmon! Embark on an exciting journey to become a Pokèmon Champion.")
+    print("\nWelcome to the world of Pokémon! Embark on an exciting journey to become a Pokémon Champion.")
     print("\nImportant notes to know before you begin:")
     print("- Stores are represented by S on the map.")
     print("- Gyms are represented by G on the map.")
-    print("- You can catch wild pokèmons by throwing pokeball when their HP is less than 11.")
+    print("- You can catch wild pokémons by throwing pokeball when their HP is less than 11.")
     print("- If all six of your Pokémon lose their HP, the game is over.")
     print("- You can only challenge a Gym Leader once you have a full team of six Pokémon.")
     print("- After defeating a Gym Leader, you will earn a Badge, unlocking the next level.")
@@ -169,7 +169,7 @@ def validate_move(board: dict, character: dict, direction: int) -> (bool, (int, 
     ...          (5, 0): False, (5, 1): True, (5, 2): True, (5, 3): True, (5, 4): True, (5, 5): 'Gym'}
     >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
     ...              'Current Location': (0, 0),
-    ...              'Starting Pokèmon': 'Squirtle',
+    ...              'Starting Pokémon': 'Squirtle',
     ...              'Poke Ball': {
     ...                  'Squirtle': {'type': 'water', 'currentHP': 40},
     ...                  'Pichu': {'type': 'electric', 'currentHP': 30},

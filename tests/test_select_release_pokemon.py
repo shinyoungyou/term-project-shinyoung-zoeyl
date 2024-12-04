@@ -13,7 +13,7 @@ class Test(TestCase):
                                    'Spheal': {'type': 'ice', 'currentHP': 30},
                                    'Swinub': {'type': 'ice', 'currentHP': 30},
                                    'Magby': {'type': 'fire', 'currentHP': 30},
-                                   'Charmander': {'type': 'fire', 'currentHP': 40}}, 'Starting Pokèmon': 'Charmander'}
+                                   'Charmander': {'type': 'fire', 'currentHP': 40}}, 'Starting Pokémon': 'Charmander'}
 
         select_release_pokemon(character)
         expected = {'Charmander': {'currentHP': 40, 'type': 'fire'},
@@ -32,7 +32,7 @@ class Test(TestCase):
                                    'Spheal': {'type': 'ice', 'currentHP': 30},
                                    'Swinub': {'type': 'ice', 'currentHP': 30},
                                    'Magby': {'type': 'fire', 'currentHP': 30},
-                                   'Charmander': {'type': 'fire', 'currentHP': 40}}, 'Starting Pokèmon': 'Charmander'}
+                                   'Charmander': {'type': 'fire', 'currentHP': 40}}, 'Starting Pokémon': 'Charmander'}
 
         select_release_pokemon(character)
 
@@ -49,7 +49,7 @@ class Test(TestCase):
                                    'Spheal': {'type': 'ice', 'currentHP': 30},
                                    'Swinub': {'type': 'ice', 'currentHP': 30},
                                    'Magby': {'type': 'fire', 'currentHP': 30},
-                                   'Charmander': {'type': 'fire', 'currentHP': 40}}, 'Starting Pokèmon': 'Charmander'}
+                                   'Charmander': {'type': 'fire', 'currentHP': 40}}, 'Starting Pokémon': 'Charmander'}
 
         select_release_pokemon(character)
 

@@ -11,7 +11,7 @@ class Test(TestCase):
     def test_set_up_game_when_user_input_is_wrong(self, mock_output, _):
         set_up_game()
         the_game_printed_this = mock_output.getvalue()
-        expected = 'Pokemon is not included in Starting Pokèmon\n'
+        expected = 'Pokemon is not included in Starting Pokémon\n'
         self.assertIn(expected, the_game_printed_this)
 
     @patch('builtins.input', side_effect=['Zoey', 'Charmander'])
@@ -84,6 +84,6 @@ class Test(TestCase):
     @patch('builtins.input', side_effect=['Zoey', 'Charmander'])
     def test_set_up_game_character_starting_pokemon_value_is_user_input(self, _):
         result = set_up_game()
-        actual = result[0]["Starting Pokèmon"]
+        actual = result[0]["Starting Pokémon"]
         expected = "Charmander"
         self.assertEqual(expected, actual)

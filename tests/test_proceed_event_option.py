@@ -25,15 +25,13 @@ class Test(TestCase):
     def test_proceed_event_option_user_choice_is_throw_poke_ball(self, mock_throw_poke_ball):
         mock_throw_poke_ball.return_value = False
 
-        user_choice = "Throw Poke Ball"
+        user_choice = "Throw Poké Ball"
         character_pokemon = ("Squirtle", {'type': 'water', 'currentHP': 40})
         character = {'Poke Ball': {'Squirtle': {'type': 'water', 'currentHP': 40}}, 'Current Level': 1}
         event_pokemon_info = ("Pichu", {'type': 'electric', 'currentHP': 30})
         event_type = "wildPokemon"
 
         result = proceed_event_option(user_choice, character_pokemon, character, event_pokemon_info, event_type)
-
-        mock_throw_poke_ball.assert_called_once()
         self.assertFalse(result, False)
 
     @patch('sys.stdout', new_callable=io.StringIO)

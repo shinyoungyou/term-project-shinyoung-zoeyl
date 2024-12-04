@@ -11,7 +11,7 @@ class TestLevelUp(TestCase):
     def test_level_up_to_2(self, mock_output):
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
                      'Current Location': (5, 5),
-                     'Starting Pokèmon': 'Squirtle',
+                     'Starting Pokémon': 'Squirtle',
                      'Poke Ball': {
                          'Squirtle': {'type': 'water', 'currentHP': 40},
                          'Pichu': {'type': 'electric', 'currentHP': 30},
@@ -29,7 +29,7 @@ class TestLevelUp(TestCase):
     def test_level_up_to_3(self, mock_output):
         character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 2, 'Potion': 0,
                      'Current Location': (7, 4),
-                     'Starting Pokèmon': 'Wartortle',
+                     'Starting Pokémon': 'Wartortle',
                      'Poke Ball': {
                          'Wartortle': {'type': 'water', 'currentHP': 65},
                          'Luxray': {'type': 'electric', 'currentHP': 80},
