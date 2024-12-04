@@ -161,7 +161,7 @@ def initialize_battle(character: dict) -> (int, int, int, tuple, tuple):
     """
     Initiate the gym battle.
 
-    :param character: a dictionary including character's details such as their pokémons
+    :param character: a dictionary including character's details such as their pokémon
     :precondition: character is a dictionary which has 'Poke Ball' key, and other character's details
     :postcondition: sets up the initial state for a gym battle
     :return: a tuple representing the initial state for a gym battle

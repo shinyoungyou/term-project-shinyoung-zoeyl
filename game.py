@@ -48,7 +48,7 @@ def print_instructions() -> None:
     Important notes to know before you begin:
     - Stores are represented by S on the map.
     - Gyms are represented by G on the map.
-    - You can catch wild pokémons by throwing pokeball when their HP is less than 11.
+    - You can catch wild pokémon by throwing pokeball when their HP is less than 11.
     - If all six of your Pokémon lose their HP, the game is over.
     - You can only challenge a Gym Leader once you have a full team of six Pokémon.
     - After defeating a Gym Leader, you will earn a Badge, unlocking the next level.

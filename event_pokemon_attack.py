@@ -50,7 +50,8 @@ def check_status(character_pokemon: tuple) -> bool:
     >>> check_status(('Marshtomp', {'type': 'water', 'currentHP': 50}))
     True
     >>> check_status(('Totodile', {'type': 'water', 'currentHP': 0}))
-    Totodile fainted!
+    Totodile fainted! You lose the battle:(
+    <BLANKLINE>
     False
     """
     if character_pokemon[1]['currentHP'] <= 0:
