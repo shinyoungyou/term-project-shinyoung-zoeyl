@@ -10,8 +10,29 @@ Shinyoung You, Zoey Lee
 
 ## Your student number:
 A01411168, A01405148
+
 ## Your GitHub name:
 shinyoungyou, ZoeyLee66
 
 ## Any important comments you'd like to make about your work:
 Hello Chris!
+
+
+| Required Element                         | module (line)             |
+|------------------------------------------|---------------------------|
+| immutable data structures                |                           |         
+| mutable data structures                  | data (122)                |         
+| exceptions and exception handling        |                           |         
+| minimised scope                          |                           |         
+| atomic, independent,  reusable functions | common (4)                |         
+| flat code                                | game (201)                |         
+| comprehensions                           |                           |         
+| selection using if-statements            |                           |           
+| repetition with for/while-loop           | store (41)                |         
+| membership operator                      |                           |         
+| range function                           | board (68)                |         
+| a function from itertools                | board (42)                |         
+| random module                            | event_option (40)         |         
+| function annotations                     | event_pokemon_attack (65) |         
+| doctest/unit tests (see pdf)             |                           |         
+| f-strings, format(), or old formatting   | store (54)                |         
