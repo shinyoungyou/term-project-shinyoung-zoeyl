@@ -5,8 +5,8 @@ from data import starting_pokemon_collection
 from event_option import change_pokemon
 from event_pokemon_attack import get_attacked
 from gym import encounter_gym, level_up, has_six_pokemons
-from prepare_event import take_out_pokemon, select_event_option, set_event_type, describe_event, \
-    proceed_event_option
+from prepare_event import take_out_pokemon, set_event_type, describe_event, \
+    proceed_event_option, select_event_option
 from store import use_potion, encounter_store
 
 
