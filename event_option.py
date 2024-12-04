@@ -236,8 +236,8 @@ def select_release_pokemon(character: dict) -> None:
             "Please choose a pokemon that is in your Poke Ball except your Starting Pokemon "
             + "(Entering pokemon name): ").capitalize()
 
-        del character['Poke Ball'][user_choice_pokemon]
-        print(f"\nGoodbye, {user_choice_pokemon}")
+    del character['Poke Ball'][user_choice_pokemon]
+    print(f"\nGoodbye, {user_choice_pokemon}")
 
 
 def check_total_of_user_pokemons(character: dict, event_pokemon_info: tuple) -> bool:
