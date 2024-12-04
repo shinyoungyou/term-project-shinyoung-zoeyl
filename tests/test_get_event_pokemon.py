@@ -15,7 +15,7 @@ class Test(TestCase):
         self.assertEqual(result, expected)
 
     @patch('random.choice', side_effect=[[('Slowking', {'type': 'water', 'currentHP': 80})],
-                                          [('Typhlosion', {'type': 'fire', 'currentHP': 80})]])
+                                         [('Typhlosion', {'type': 'fire', 'currentHP': 80})]])
     def test_get_event_pokemon_overlap_with_user_pokemon(self, _):
         character = {'Current Level': 3, 'Poke Ball': {'Venusaur': {'type': 'grass', 'currentHP': 100},
                                                        'Slowking': {'type': 'water', 'currentHP': 80}}}
