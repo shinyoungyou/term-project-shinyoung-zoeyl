@@ -29,7 +29,7 @@ Hello Chris!
 | comprehensions                           |                           |         
 | selection using if-statements            |                           |           
 | repetition with for/while-loop           | store (41)                |         
-| membership operator                      |                           |         
+| membership operator                      | gym (354)                 |         
 | range function                           | board (68)                |         
 | a function from itertools                | board (42)                |         
 | random module                            | event_option (40)         |         
