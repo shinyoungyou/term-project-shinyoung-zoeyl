@@ -24,7 +24,7 @@ def get_attacked(event_pokemon_info: tuple, event_type: str, character: dict, ch
     skill_collection = get_skill_of(event_pokemon_info[1]['type'])
     event_pokemon_skill = random.choices(list(skill_collection), k=1)[0]
     damage = int(make_damage_stronger(event_type, character['Current Level']) *
-                 random.choices(range(event_pokemon_skill['damage'][0], event_pokemon_skill['damage'][1] + 1)))
+                 random.randrange(event_pokemon_skill['damage'][0], event_pokemon_skill['damage'][1] + 1))
 
     print(f"{event_pokemon_info[0]} used {event_pokemon_skill['name']}!\n")
 

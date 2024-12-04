@@ -10,8 +10,9 @@ class Test(TestCase):
     @patch('event_pokemon_attack.make_damage_stronger')
     @patch('event_pokemon_attack.get_probability')
     @patch('event_pokemon_attack.check_status')
-    @patch('random.choices', side_effect=[[{'name': 'Tackle', 'damage': (1, 3)}], 2])
-    def test_get_attacked_skill_hit(self, _, mock_check_status, mock_get_probability, mock_make_damage_stronger,
+    @patch('random.choices', return_value=[{'name': 'Tackle', 'damage': (1, 3)}])
+    @patch('random.randrange', return_value=2)
+    def test_get_attacked_skill_hit(self, _, __, mock_check_status, mock_get_probability, mock_make_damage_stronger,
                                     mock_get_skill_of):
 
         mock_get_probability.return_value = True
