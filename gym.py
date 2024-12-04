@@ -7,7 +7,7 @@ from prepare_event import select_event_option, take_out_pokemon, get_event_pokem
 from event_pokemon_attack import get_attacked
 
 
-def check_badge_eligibility(character: dict[str, Any], current_win_count: int, gym_badge_earned: bool) -> bool:
+def check_badge_eligibility(character: dict, current_win_count: int, gym_badge_earned: bool) -> bool:
     """
     Check if the character is eligible to earn a gym badge.
 
@@ -57,7 +57,7 @@ def check_badge_eligibility(character: dict[str, Any], current_win_count: int, g
     return gym_badge_earned
 
 
-def has_six_pokemons(character: dict[str, Any]) -> bool:
+def has_six_pokemons(character: dict) -> bool:
     """
     Check if the character has six Pokèmons.
 
@@ -96,7 +96,7 @@ def has_six_pokemons(character: dict[str, Any]) -> bool:
     return not more
 
 
-def encounter_gym(character: dict[str, Any]) -> bool:
+def encounter_gym(character: dict) -> bool:
     """
     Ask user to choose whether to challenge or quit.
 
@@ -123,7 +123,7 @@ def encounter_gym(character: dict[str, Any]) -> bool:
     return gym_badge_earned
 
 
-def battle_with_gym_leader(character: dict[str, Any], gym_badge_earned: bool) -> bool:
+def battle_with_gym_leader(character: dict, gym_badge_earned: bool) -> bool:
     """
     Handle the gym battle between the user and the gym leader.
 
@@ -176,8 +176,8 @@ def initialize_battle(character: dict) -> tuple:
     return current_win_count, prev_round, gym_round, selected_pokemon, gym_leader_pokemon
 
 
-def display_round_intro(gym_round: int, gym_leader_pokemon: (str, dict[str, Any]),
-                        selected_pokemon: (str, dict[str, Any]), character: dict[str, Any]) -> None:
+def display_round_intro(gym_round: int, gym_leader_pokemon: (str, dict),
+                        selected_pokemon: (str, dict), character: dict) -> None:
     """
     Display the status of gym leader pokèmon and selected pokèmon.
 
@@ -240,8 +240,8 @@ def display_round_intro(gym_round: int, gym_leader_pokemon: (str, dict[str, Any]
           f"(HP: {character['Poke Ball'][selected_pokemon[0]]['currentHP']})\n")
 
 
-def handle_user_choice(user_choice: str, process_result: bool, selected_pokemon: (str, dict[str, Any]),
-                       gym_leader_pokemon: (str, dict[str, Any]), character: dict[str, Any])\
+def handle_user_choice(user_choice: str, process_result: bool, selected_pokemon: (str, dict),
+                       gym_leader_pokemon: (str, dict), character: dict)\
                     -> tuple:
     """
     Ask user to fight, change their pokèmon, or run away.
@@ -294,8 +294,8 @@ def handle_user_choice(user_choice: str, process_result: bool, selected_pokemon:
     return process_result, selected_pokemon, stop_process
 
 
-def check_if_alive_when_lost_the_round(gym_leader_pokemon: (str, dict[str, Any]), character: dict[str, Any],
-                                       selected_pokemon: (str, dict[str, Any]), gym_round: int)\
+def check_if_alive_when_lost_the_round(gym_leader_pokemon: (str, dict), character: dict,
+                                       selected_pokemon: (str, dict), gym_round: int)\
                                     -> tuple:
     """
     Check if character is still alive when they lost the round.
@@ -324,7 +324,7 @@ def check_if_alive_when_lost_the_round(gym_leader_pokemon: (str, dict[str, Any])
     return process_result, selected_pokemon, gym_round, stop_process
 
 
-def win_the_round(current_win_count: int, character: dict[str, Any], gym_badge_earned: bool, gym_round: int)\
+def win_the_round(current_win_count: int, character: dict, gym_badge_earned: bool, gym_round: int)\
               -> tuple:
     """
     Make changes to the gym battle state as the outcome when the user wins.
@@ -343,7 +343,7 @@ def win_the_round(current_win_count: int, character: dict[str, Any], gym_badge_e
     return current_win_count, gym_badge_earned, gym_round, gym_leader_pokemon
 
 
-def evolve_pokemon(character: dict[str, Any]) -> None:
+def evolve_pokemon(character: dict) -> None:
     """
     Evolve character's starting pokèmon based on the character's level.
 
@@ -405,7 +405,7 @@ def evolve_pokemon(character: dict[str, Any]) -> None:
             print(f"\n{current_starting_pokemon_name} has evolved into {evolved_starting_pokemon_name}!")
 
 
-def level_up(character: dict[str, Any]) -> None:
+def level_up(character: dict) -> None:
     """
     Level up the character.
 

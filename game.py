@@ -36,7 +36,7 @@ def set_up_game() -> (dict, int):
     return character, 1
 
 
-def print_instructions():
+def print_instructions() -> None:
     """
     Print the game instructions.
 
@@ -62,7 +62,7 @@ def print_instructions():
     print("\nImportant notes to know before you begin:")
     print("- Stores are represented by S on the map.")
     print("- Gyms are represented by G on the map.")
-    # print("- You can catch wild pokèmons by throwing pokeball when their HP is less than 11.")
+    print("- You can catch wild pokèmons by throwing pokeball when their HP is less than 11.")
     print("- If all six of your Pokémon lose their HP, the game is over.")
     print("- You can only challenge a Gym Leader once you have a full team of six Pokémon.")
     print("- After defeating a Gym Leader, you will earn a Badge, unlocking the next level.")
@@ -145,7 +145,7 @@ def get_user_choice(character: dict, board: dict, rows: int, columns: int) -> in
             print("\nPlease choose a valid direction!")
 
 
-def validate_move(board: dict[(int, int), bool | str], character: dict[str, Any], direction: int) -> (bool, (int, int)):
+def validate_move(board: dict, character: dict, direction: int) -> (bool, (int, int)):
     """
     Validate user move.
 
@@ -196,8 +196,8 @@ def validate_move(board: dict[(int, int), bool | str], character: dict[str, Any]
     return valid_move, new_position
 
 
-def move_character(character: dict[str, Any], new_position: (int, int),
-                   board: dict[(int, int), bool | str], rows: int, columns: int) -> None:
+def move_character(character: dict, new_position: (int, int),
+                   board: dict, rows: int, columns: int) -> None:
     """
     Move character.
 
@@ -252,8 +252,8 @@ def game():
             print("GAME OVER: You don't have any Pokémon to continue the adventure")
 
 
-def process_by_location_type(character: dict[str, Any],
-                             board: dict[(int, int), bool | str]) -> bool:
+def process_by_location_type(character: dict,
+                             board: dict) -> bool:
     """
     Process actions when character's location is gym or store.
 
