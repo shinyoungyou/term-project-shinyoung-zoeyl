@@ -234,7 +234,7 @@ def game():
         if achieved_goal:
             print("Congratulations! You have successfully finished your journey :)")
         elif not is_alive(character):
-            print("GAME OVER")
+            print("GAME OVER: You don't have any Pokémon to continue the adventure")
 
 
 def process_by_location_type(character: dict[str, Any],
