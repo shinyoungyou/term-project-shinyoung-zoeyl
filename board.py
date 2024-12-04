@@ -109,6 +109,6 @@ def check_if_current_location_is_special(board: dict[(int, int), bool | str], ch
     """
     is_special_location = False
     current_location = board[character["Current Location"]]
-    if current_location == "Store" or current_location == "Gym":
+    if current_location in ("Store", "Gym"):
         is_special_location = True
     return is_special_location
