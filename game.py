@@ -10,7 +10,7 @@ from prepare_event import take_out_pokemon, set_event_type, describe_event, \
 from store import use_potion, encounter_store
 
 
-def set_up_game() -> dict:
+def set_up_game() -> (dict, int):
     """
     Set up the character's information.
 

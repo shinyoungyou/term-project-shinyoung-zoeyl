@@ -235,8 +235,8 @@ def handle_user_choice(user_choice: str, process_result: bool, selected_pokemon:
     ... test_gym_leader_pokemon, test_character)
     <BLANKLINE>
     Gym Leader: Running away, huh? I guess today's not your day. Come back when you're ready to battle!
-    >>> stop_process = updated_state[2]
-    >>> stop_process
+    >>> test_stop_process = updated_state[2]
+    >>> test_stop_process
     True
     """
     stop_process = False
