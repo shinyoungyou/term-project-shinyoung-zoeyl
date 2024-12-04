@@ -65,4 +65,3 @@ class TestIsAlive(TestCase):
                      'Weedle': {'type': 'grass', 'currentHP': 10}}}
         actual = is_alive(character)
         self.assertEqual(expected, actual)
-

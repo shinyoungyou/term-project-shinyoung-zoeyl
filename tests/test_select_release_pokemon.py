@@ -57,4 +57,3 @@ class Test(TestCase):
         expected = "\nFlaaffy can't be chosen!\n"
 
         self.assertIn(expected, the_game_printed_this)
-

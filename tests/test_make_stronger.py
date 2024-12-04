@@ -1,5 +1,5 @@
 from unittest import TestCase
-from event_option import get_probability, make_stronger
+from event_option import make_stronger
 
 
 class Test(TestCase):
