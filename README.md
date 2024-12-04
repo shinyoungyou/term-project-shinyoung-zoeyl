@@ -22,12 +22,12 @@ Hello Chris!
 |------------------------------------------|---------------------------|
 | immutable data structures                |                           |         
 | mutable data structures                  | data (122)                |         
-| exceptions and exception handling        |                           |         
+| exceptions and exception handling        | common (16)               |         
 | minimised scope                          |                           |         
 | atomic, independent,  reusable functions | common (4)                |         
 | flat code                                | game (201)                |         
-| comprehensions                           |                           |         
-| selection using if-statements            |                           |           
+| comprehensions                           | board (42)                |         
+| selection using if-statements            | prepare (139)             |           
 | repetition with for/while-loop           | store (41)                |         
 | membership operator                      | gym (354)                 |         
 | range function                           | board (68)                |         
