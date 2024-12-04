@@ -14,7 +14,6 @@ class Test(TestCase):
     @patch('random.randrange', return_value=2)
     def test_get_attacked_skill_hit(self, _, __, mock_check_status, mock_get_probability, mock_make_damage_stronger,
                                     mock_get_skill_of):
-
         mock_get_probability.return_value = True
         mock_get_skill_of.return_value = [{'name': 'Tackle', 'damage': (1, 3)}, {'name': 'Water Gun', 'damage': (4, 5)},
                                           {'name': 'Aqua Jet', 'damage': (6, 7)}]

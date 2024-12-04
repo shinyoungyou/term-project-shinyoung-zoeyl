@@ -1,7 +1,6 @@
 from unittest import TestCase
 from unittest.mock import patch
 
-
 from game import process_by_location_type
 
 

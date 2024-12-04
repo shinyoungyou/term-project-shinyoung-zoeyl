@@ -12,7 +12,6 @@ class Test(TestCase):
     @patch('event_option.get_attack_result')
     def test_fight_when_skill_hit_and_defeated_pokemon(self, mock_get_attack_result, mock_get_probability,
                                                        mock_choose_skill_to_challenge, mock_get_skill_of):
-
         mock_get_attack_result.return_value = False
         mock_get_probability.return_value = True
 
@@ -34,7 +33,6 @@ class Test(TestCase):
     @patch('sys.stdout', new_callable=io.StringIO)
     def test_fight_when_skill_did_not_hit(self, mock_output, mock_get_attack_result, mock_get_probability,
                                           mock_choose_skill_to_challenge, mock_get_skill_of):
-
         mock_get_probability.return_value = False
         mock_choose_skill_to_challenge.return_value = {'name': 'Solar Beam', 'damage': (6, 7)}
 

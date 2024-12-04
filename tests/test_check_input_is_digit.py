@@ -2,7 +2,6 @@ import io
 from unittest import TestCase
 from unittest.mock import patch
 
-
 from common import check_input_is_digit
 
 

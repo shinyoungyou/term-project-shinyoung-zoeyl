@@ -1,6 +1,5 @@
 from unittest import TestCase
 
-
 from store import check_potion
 
 

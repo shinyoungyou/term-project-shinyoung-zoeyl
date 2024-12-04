@@ -1,6 +1,5 @@
 from unittest import TestCase
 
-
 from gym import check_badge_eligibility
 
 

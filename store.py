@@ -1,6 +1,5 @@
 from typing import Any
 
-
 from common import check_input_is_digit
 from constants import POTION_PRICE
 from event_option import level_maximum_hp

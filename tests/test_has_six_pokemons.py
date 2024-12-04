@@ -1,6 +1,5 @@
 from unittest import TestCase
 
-
 from gym import has_six_pokemons
 
 

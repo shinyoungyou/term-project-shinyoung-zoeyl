@@ -1,6 +1,5 @@
 from unittest import TestCase
 
-
 from game import move_character
 
 

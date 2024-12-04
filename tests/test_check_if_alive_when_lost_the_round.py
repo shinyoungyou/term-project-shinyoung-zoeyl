@@ -1,7 +1,6 @@
 from unittest import TestCase
 from unittest.mock import patch
 
-
 from gym import check_if_alive_when_lost_the_round
 
 

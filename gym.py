@@ -241,8 +241,8 @@ def display_round_intro(gym_round: int, gym_leader_pokemon: (str, dict[str, Any]
 
 
 def handle_user_choice(user_choice: str, process_result: bool, selected_pokemon: (str, dict[str, Any]),
-                       gym_leader_pokemon: (str, dict[str, Any]), character: dict[str, Any])\
-                    -> tuple:
+                       gym_leader_pokemon: (str, dict[str, Any]), character: dict[str, Any]) \
+        -> tuple:
     """
     Ask user to fight, change their pokèmon, or run away.
 
@@ -295,8 +295,8 @@ def handle_user_choice(user_choice: str, process_result: bool, selected_pokemon:
 
 
 def check_if_alive_when_lost_the_round(gym_leader_pokemon: (str, dict[str, Any]), character: dict[str, Any],
-                                       selected_pokemon: (str, dict[str, Any]), gym_round: int)\
-                                    -> tuple:
+                                       selected_pokemon: (str, dict[str, Any]), gym_round: int) \
+        -> tuple:
     """
     Check if character is still alive when they lost the round.
 
@@ -324,8 +324,8 @@ def check_if_alive_when_lost_the_round(gym_leader_pokemon: (str, dict[str, Any])
     return process_result, selected_pokemon, gym_round, stop_process
 
 
-def win_the_round(current_win_count: int, character: dict[str, Any], gym_badge_earned: bool, gym_round: int)\
-              -> tuple:
+def win_the_round(current_win_count: int, character: dict[str, Any], gym_badge_earned: bool, gym_round: int) \
+        -> tuple:
     """
     Make changes to the gym battle state as the outcome when the user wins.
 

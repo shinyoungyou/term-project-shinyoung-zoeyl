@@ -2,7 +2,6 @@ import io
 from unittest import TestCase
 from unittest.mock import patch
 
-
 from gym import display_round_intro
 
 

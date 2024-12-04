@@ -57,7 +57,6 @@ class Test(TestCase):
     @patch('sys.stdout', new_callable=io.StringIO)
     def test_throw_poke_ball_event_pokemon_hp_more_than_10(self, mock_output, mock_get_probability,
                                                            mock_level_maximum_hp, mock_check_total_of_user_pokemons):
-
         event_pokemon_info = ('Luxray', {'type': 'electric', 'currentHP': 40})
         character = {'Poke Ball': {'Metapod': {'type': 'grass', 'currentHP': 50}}, 'Current Level': 2}
 
