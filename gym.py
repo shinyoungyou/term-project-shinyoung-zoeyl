@@ -190,6 +190,49 @@ def display_round_intro(gym_round: int, gym_leader_pokemon: (str, dict[str, Any]
     :precondition: selected_pokemon is a tuple including a string and a dictionary
     :precondition: character is a dictionary which has 'Character Name', 'Poke Ball' keys and other character's details
     :postcondition: prints the gym round and the status of gym leader pokèmon and selected pokèmon
+
+    >>> test_gym_leader_pokemon = ('Pidove', {'type': 'flying', 'currentHP': 30})
+    >>> test_selected_pokemon = ('Squirtle', {'type': 'water', 'currentHP': 40})
+    >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
+    ...                   'Current Location': (5, 5),
+    ...                   'Starting Pokemon': 'Squirtle',
+    ...                   'Poke Ball': {
+    ...                       'Squirtle': {'type': 'water', 'currentHP': 40},
+    ...                       'Pichu': {'type': 'electric', 'currentHP': 30},
+    ...                       'Shinx': {'type': 'electric', 'currentHP': 30},
+    ...                       'Mareep': {'type': 'electric', 'currentHP': 30},
+    ...                       'Caterpie': {'type': 'grass', 'currentHP': 30},
+    ...                       'Weedle': {'type': 'grass', 'currentHP': 30},
+    ...                   }}
+    >>> display_round_intro(1, test_gym_leader_pokemon, test_selected_pokemon, test_character)
+    <BLANKLINE>
+    ❗️Round 1 ❗
+    <BLANKLINE>
+    Event pokemon status: Pidove(HP: 30)
+    <BLANKLINE>
+    user1's pokemon status: Squirtle(HP: 40)
+    <BLANKLINE>
+    >>> test_gym_leader_pokemon = ('Pidove', {'type': 'flying', 'currentHP': 25})
+    >>> test_selected_pokemon = ('Squirtle', {'type': 'water', 'currentHP': 32})
+    >>> test_character = {'Character Name': 'user1', 'Money': 30, 'Current Level': 1, 'Potion': 0,
+    ...                   'Current Location': (5, 5),
+    ...                   'Starting Pokemon': 'Squirtle',
+    ...                   'Poke Ball': {
+    ...                       'Squirtle': {'type': 'water', 'currentHP': 32},
+    ...                       'Pichu': {'type': 'electric', 'currentHP': 30},
+    ...                       'Shinx': {'type': 'electric', 'currentHP': 30},
+    ...                       'Mareep': {'type': 'electric', 'currentHP': 30},
+    ...                       'Caterpie': {'type': 'grass', 'currentHP': 30},
+    ...                       'Weedle': {'type': 'grass', 'currentHP': 30},
+    ...                   }}
+    >>> display_round_intro(2, test_gym_leader_pokemon, test_selected_pokemon, test_character)
+    <BLANKLINE>
+    ❗️Round 2 ❗
+    <BLANKLINE>
+    Event pokemon status: Pidove(HP: 25)
+    <BLANKLINE>
+    user1's pokemon status: Squirtle(HP: 32)
+    <BLANKLINE>
     """
     print(f"\n❗️Round {gym_round} ❗\n")
     print(f"Event pokemon status: {gym_leader_pokemon[0]}(HP: {gym_leader_pokemon[1]['currentHP']})\n")
