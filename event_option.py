@@ -194,16 +194,9 @@ def change_pokemon(pokeball: dict, character_pokemon: tuple):
         print("\nYou has no Pokémon to switch to or Your Pokémon's HP are all 0!\n")
     else:
         print("\nYour Pokémons' status...")
-        available_pokemon = [
-            pokemon for pokemon in pokeball.keys()
-            if pokemon != character_pokemon[0] and pokeball[pokemon]['currentHP'] > 0
-        ]
-
-        if not available_pokemon:
-            print("\nNo other Pokémon is available for switching (All have 0HP).\n")
-            return character_pokemon
-        for pokemon in available_pokemon:
-            print(f"{pokemon}(HP: {pokeball[pokemon]['currentHP']})")
+        for pokemon in pokeball.keys():
+            if pokemon != character_pokemon[0]:
+                print(f"{pokemon}(HP: {pokeball[pokemon]['currentHP']})")
 
         user_choice = input("\nWhich Pokémon would you like to switch to (Entering Pokémon name)? ").capitalize()
         while (user_choice not in pokeball.keys() or pokeball[user_choice]['currentHP'] == 0
