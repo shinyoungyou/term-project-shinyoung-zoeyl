@@ -183,13 +183,15 @@ def change_pokemon(pokeball: dict, character_pokemon: tuple):
     :precondition: pokeball should contain Pokémon's name, and their type and current hp
     :precondition: the user Pokémon must have an HP greater than 0 in the character_pokemon
     :precondition: character_pokemon represents the status of one of the user's Pokémon in battle
+    :postcondition: Check if the user has only one Pokémon, or if all other Pokémon have 0 HP
     :postcondition: display the user's Pokémon that can be switched
     :postcondition: get the user's choice of which Pokémon to switch to
     :postcondition: update character_pokemon's information to reflect the Pokémon the user chose
     :return: a tuple representing information of the Pokémon chosen by the user
     """
-    if len(pokeball) == 1:
-        print("\nYou has no Pokémon to switch to\n")
+    if len(pokeball) == 1 or all(pokemon_info['currentHP'] == 0 for pokemon, pokemon_info in pokeball.items() if
+                                 pokemon != character_pokemon[0]):
+        print("\nYou has no Pokémon to switch to or Your Pokémon's HP are all 0!\n")
     else:
         print("\nYour Pokémons' status...")
         for pokemon in pokeball.keys():
