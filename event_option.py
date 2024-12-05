@@ -192,9 +192,16 @@ def change_pokemon(pokeball: dict, character_pokemon: tuple):
         print("\nYou has no Pokémon to switch to\n")
     else:
         print("\nYour Pokémons' status...")
-        for pokemon in pokeball.keys():
-            if pokemon != character_pokemon[0]:
-                print(f"{pokemon}(HP: {pokeball[pokemon]['currentHP']})")
+        available_pokemon = [
+            pokemon for pokemon in pokeball.keys()
+            if pokemon != character_pokemon[0] and pokeball[pokemon]['currentHP'] > 0
+        ]
+
+        if not available_pokemon:
+            print("\nNo other Pokémon is available for switching (All have 0HP).\n")
+            return character_pokemon
+        for pokemon in available_pokemon:
+            print(f"{pokemon}(HP: {pokeball[pokemon]['currentHP']})")
 
         user_choice = input("\nWhich Pokémon would you like to switch to (Entering Pokémon name)? ").capitalize()
         while (user_choice not in pokeball.keys() or pokeball[user_choice]['currentHP'] == 0
@@ -224,8 +231,7 @@ def select_release_pokemon(character: dict) -> None:
     for pokemon in character['Poke Ball'].keys():
         print(f"{pokemon}(HP: {character['Poke Ball'][pokemon]['currentHP']})")
     print("You can't choose the Starting Pokémon!")
-
-    user_choice_pokemon = input("what Pokémon would you release (Entering Pokémon name)? ").capitalize()
+    user_choice_pokemon = input("What Pokémon would you release (Entering Pokémon name)? ").capitalize()
     while (user_choice_pokemon not in character['Poke Ball'].keys() or user_choice_pokemon
            == character['Starting Pokémon']):
         print(f"\n{user_choice_pokemon} can't be chosen!")
