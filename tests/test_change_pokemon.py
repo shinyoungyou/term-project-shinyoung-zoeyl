@@ -29,6 +29,20 @@ class Test(TestCase):
 
         self.assertIn(expected, the_game_printed_this)
 
+    @patch('builtins.input', side_effect=['Luxio', 'Charmander'])
+    @patch('sys.stdout', new_callable=io.StringIO)
+    def test_change_pokemon_user_chose_pokemon_it_has_0hp(self, mock_output, _):
+        pokeball = {'Metapod': {'type': 'grass', 'currentHP': 50}, 'Luxio': {'type': 'electric', 'currentHP': 0},
+                    'Charmander': {'type': 'fire', 'currentHP': 20}}
+        character_pokemon = ('Metapod', {'type': 'grass', 'currentHP': 50})
+
+        change_pokemon(pokeball, character_pokemon)
+
+        the_game_printed_this = mock_output.getvalue()
+        expected = '\nLuxio is not included in your Poké Balls or has 0HP\n'
+
+        self.assertIn(expected, the_game_printed_this)
+
     @patch('sys.stdout', new_callable=io.StringIO)
     def test_change_pokemon_user_has_one_pokemon(self, mock_output):
         pokeball = {'Metapod': {'type': 'grass', 'currentHP': 50}}
@@ -37,22 +51,20 @@ class Test(TestCase):
         change_pokemon(pokeball, character_pokemon)
 
         the_game_printed_this = mock_output.getvalue()
-        expected = '\nYou has no Pokémon to switch to\n'
+        expected = "\nYou has no Pokémon to switch to or Your Pokémon's HP are all 0!\n"
 
         self.assertIn(expected, the_game_printed_this)
 
-    @patch('builtins.input', return_value='Metapod')
     @patch('sys.stdout', new_callable=io.StringIO)
-    def test_change_pokemon_only_current_pokemon_has_hp(self, mock_output, _):
-        pokeball = {
-            'Metapod': {'type': 'grass', 'currentHP': 50},
-            'Luxio': {'type': 'electric', 'currentHP': 0},
-            'Charmander': {'type': 'fire', 'currentHP': 0}
-        }
+    def test_change_pokemon_all_other_pokemon_have_0hp(self, mock_output):
+        pokeball = {'Metapod': {'type': 'grass', 'currentHP': 50},
+                    'Luxio': {'type': 'electric', 'currentHP': 0},
+                    'Charmander': {'type': 'fire', 'currentHP': 0}}
         character_pokemon = ('Metapod', {'type': 'grass', 'currentHP': 50})
 
         change_pokemon(pokeball, character_pokemon)
 
         the_game_printed_this = mock_output.getvalue()
-        expected = "\nNo other Pokémon is available for switching (All have 0HP).\n"
+        expected = "\nYou has no Pokémon to switch to or Your Pokémon's HP are all 0!\n"
+
         self.assertIn(expected, the_game_printed_this)
