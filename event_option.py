@@ -191,7 +191,7 @@ def change_pokemon(pokeball: dict, character_pokemon: tuple):
     """
     if len(pokeball) == 1 or all(pokemon_info['currentHP'] == 0 for pokemon, pokemon_info in pokeball.items() if
                                  pokemon != character_pokemon[0]):
-        print("\nYou has no Pokémon to switch to or Your Pokémon's HP are all 0!\n")
+        print("\nYou has no Pokémon to switch to or other Pokémons' HP are all 0!\n")
     else:
         print("\nYour Pokémons' status...")
         for pokemon in pokeball.keys():

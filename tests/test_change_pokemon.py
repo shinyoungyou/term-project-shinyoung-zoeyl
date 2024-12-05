@@ -51,7 +51,7 @@ class Test(TestCase):
         change_pokemon(pokeball, character_pokemon)
 
         the_game_printed_this = mock_output.getvalue()
-        expected = "\nYou has no Pokémon to switch to or Your Pokémon's HP are all 0!\n"
+        expected = "\nYou has no Pokémon to switch to or other Pokémons' HP are all 0!\n"
 
         self.assertIn(expected, the_game_printed_this)
 
@@ -65,6 +65,6 @@ class Test(TestCase):
         change_pokemon(pokeball, character_pokemon)
 
         the_game_printed_this = mock_output.getvalue()
-        expected = "\nYou has no Pokémon to switch to or Your Pokémon's HP are all 0!\n"
+        expected = "\nYou has no Pokémon to switch to or other Pokémons' HP are all 0!\n"
 
         self.assertIn(expected, the_game_printed_this)
